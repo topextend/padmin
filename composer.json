@@ -23,7 +23,7 @@
         "php": ">=7.1.0",
         "topthink/framework": "^6.0.0",
         "topthink/think-orm": "^2.0",
-        "topextend/think-library": "^3.4",
+        "topextend/think-library": "^3.6",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^1.0",
         "topextend/ip2region": "^1.0",
