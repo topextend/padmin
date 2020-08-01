@@ -5,17 +5,32 @@
  Source Server Type    : MySQL
  Source Server Version : 50726
  Source Host           : localhost:3306
- Source Schema         : thinkadmin
+ Source Schema         : www.padmin.com
 
  Target Server Type    : MySQL
  Target Server Version : 50726
  File Encoding         : 65001
 
- Date: 08/07/2020 19:42:02
+ Date: 01/08/2020 14:48:45
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for la_hooks
+-- ----------------------------
+DROP TABLE IF EXISTS `la_hooks`;
+CREATE TABLE `la_hooks`  (
+  `id` int(10) UNSIGNED NOT NULL COMMENT '主键',
+  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子名称',
+  `mark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '钩子标识',
+  `list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 \'，\'分割',
+  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '描述',
+  `addtime` int(11) NULL DEFAULT NULL COMMENT '创建时间',
+  `updatetime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '钩子状态：0=停用；1=启用；'
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '钩子列表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for la_system_auth
@@ -62,7 +77,8 @@ CREATE TABLE `la_system_config`  (
 -- Records of la_system_config
 -- ----------------------------
 INSERT INTO `la_system_config` VALUES ('base', 'site_name', 'Ladmin');
-INSERT INTO `la_system_config` VALUES ('base', 'site_icon', 'https://v6.thinkadmin.top/upload/f47b8fe06e38ae99/08e8398da45583b9.png');
+INSERT INTO `la_system_config` VALUES ('base', 'xpath', 'admin');
+INSERT INTO `la_system_config` VALUES ('base', 'site_icon', '');
 INSERT INTO `la_system_config` VALUES ('base', 'site_copy', '©版权所有 2014-2020 牧滨电商');
 INSERT INTO `la_system_config` VALUES ('base', 'app_name', 'Ladmin');
 INSERT INTO `la_system_config` VALUES ('base', 'app_version', 'V1.0');
@@ -116,7 +132,7 @@ CREATE TABLE `la_system_menu`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_system_menu_node`(`node`) USING BTREE,
   INDEX `idx_system_menu_status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 67 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-菜单' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-菜单' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of la_system_menu
@@ -130,6 +146,9 @@ INSERT INTO `la_system_menu` VALUES (6, 2, '系统任务管理', 'layui-icon lay
 INSERT INTO `la_system_menu` VALUES (7, 2, '系统日志管理', 'layui-icon layui-icon-form', '', 'admin/oplog/index', '', '_self', 2, 1, '2019-02-18 12:56:56');
 INSERT INTO `la_system_menu` VALUES (8, 3, '系统用户管理', 'layui-icon layui-icon-username', '', 'admin/user/index', '', '_self', 1, 1, '2018-09-06 11:10:42');
 INSERT INTO `la_system_menu` VALUES (9, 3, '访问权限管理', 'layui-icon layui-icon-vercode', '', 'admin/auth/index', '', '_self', 2, 1, '2018-09-06 15:17:14');
+INSERT INTO `la_system_menu` VALUES (10, 0, '应用中心', '', '', '#', '', '_self', 0, 1, '2020-07-31 17:51:51');
+INSERT INTO `la_system_menu` VALUES (11, 10, '插件设置', '', '', '#', '', '_self', 0, 1, '2020-07-31 17:52:06');
+INSERT INTO `la_system_menu` VALUES (12, 11, '插件列表', 'layui-icon layui-icon-app', '', 'admin/plugs/index', '', '_self', 0, 1, '2020-07-31 17:53:30');
 
 -- ----------------------------
 -- Table structure for la_system_oplog
@@ -144,7 +163,7 @@ CREATE TABLE `la_system_oplog`  (
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作人用户名',
   `create_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-日志' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for la_system_queue
@@ -206,6 +225,6 @@ CREATE TABLE `la_system_user`  (
 -- ----------------------------
 -- Records of la_system_user
 -- ----------------------------
-INSERT INTO `la_system_user` VALUES (10000, 'admin', '21232f297a57a5a743894a0e4a801fc3', '系统管理员', '', '', '', '', '', '127.0.0.1', '2020-07-08 19:31:56', 1061, '', 1, 0, 0, '2015-11-13 15:14:22');
+INSERT INTO `la_system_user` VALUES (10000, 'admin', '21232f297a57a5a743894a0e4a801fc3', '系统管理员', '', '', '', '', '', '127.0.0.1', '2020-08-01 14:03:51', 1064, '', 1, 0, 0, '2015-11-13 15:14:22');
 
 SET FOREIGN_KEY_CHECKS = 1;

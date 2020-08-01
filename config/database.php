@@ -4,13 +4,13 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-08 16:50:35
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-24 22:25:49
+// |LastEditTime : 2020-07-30 21:50:47
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
 // |Description  : Database confiure
 // |----------------------------------------------------------------------
-// |FilePath     : \www.ladmin.com\config\database.php
+// |FilePath     : \www.padmin.com\config\database.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
             // 服务器地址
             'hostname'          => env('database.hostname', '127.0.0.1'),
             // 数据库名
-            'database'          => env('database.database', 'www.ladmin.com'),
+            'database'          => env('database.database', 'www.padmin.com'),
             // 用户名
             'username'          => env('database.username', 'root'),
             // 密码

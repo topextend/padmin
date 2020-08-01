@@ -2,30 +2,27 @@
 // -----------------------------------------------------------------------
 // |Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-08 16:50:35
+// |Date         : 2020-07-30 22:28:08
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-30 21:59:12
+// |LastEditTime : 2020-07-30 22:28:46
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Index of Index
+// |Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\index\controller\Index.php
+// |FilePath     : \www.padmin.com\addons\test\config.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
-namespace app\index\controller;
 
-use think\admin\Controller;
-/**
- * index模块首页
- * Class Index
- * @package app\index\controller
- */
-class Index extends Controller
-{
-    public function index()
-    {
-        $this->redirect(sysuri('admin/login/index'));
-    }
-}
+return [
+    'display' => [
+        'title' => '是否显示:',
+        'type' => 'radio',
+        'options' => [
+            '1' => '显示',
+            '0' => '不显示'
+        ],
+        'value' => '1'
+    ]
+];
