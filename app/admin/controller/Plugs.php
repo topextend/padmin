@@ -4,13 +4,13 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 23:11:20
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-01 12:33:39
+// |LastEditTime : 2020-08-01 17:55:36
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
 // |Description  : Class Addons Of Admin
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\admin\controller\Plugs.php
+// |FilePath     : \padmin\app\admin\controller\Plugs.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
@@ -51,7 +51,7 @@ class Plugs extends Controller
         $list = [];
         foreach ($object_list as $object) {
             $addon_info = $object->info;
-            $info = $this->app->db->name('hooks')->where(['name' => $addon_info['name']]);
+            $info = $this->app->db->name(Config::get('addons.database.table'))->where(['name' => $addon_info['name']]);
             $addon_info['is_install'] = empty($info) ? 0 : 1;
             $list[] = $addon_info;
         }
