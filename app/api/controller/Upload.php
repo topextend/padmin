@@ -58,7 +58,7 @@ class Upload extends Controller
     public function state()
     {
         [$this->name, $this->safe] = [input('name', null), $this->getSafe()];
-        $data = ['uptype' => $this->getType(), 'xkey' => input('xkey'), 'safe' => intval($this->safe)];
+        $data = ['uptype' => $this->getType(), 'xkey' => input('xkey'), 'safe' => intval($this->safe), 'size' => input('size'), 'type' => input('type'), 'name' => input('name'), "xext" => input('xext')];
         if ($info = Storage::instance($data['uptype'])->info($data['xkey'], $this->safe, $this->name)) {
             $data['url'] = $info['url'];
             $this->success('文件已经上传', $data, 200);
@@ -77,6 +77,16 @@ class Upload extends Controller
             $data['OSSAccessKeyId'] = $token['keyid'];
             $data['server'] = AliossStorage::instance()->upload();
         }
+        $postdata = [
+            'upload_type'  => $data['uptype'], 
+            'original_name'=> $data['name'], 
+            'file_size'    => $data['size'], 
+            'mime_type'    => $data['type'], 
+            'file_ext'     => $data['xext'], 
+            'url'          => $data['url'], 
+            'path_url'     => $data['xkey']
+        ];
+        $result = $this->app->db->name('SystemUploadfile')->save($postdata);
         $this->success('获取授权参数', $data, 404);
     }
 
@@ -84,7 +94,6 @@ class Upload extends Controller
      * 文件上传入口
      * @login true
      * @return \think\response\Json
-     * @throws \think\Exception
      * @throws \think\admin\Exception
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException

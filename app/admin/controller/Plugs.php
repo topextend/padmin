@@ -17,8 +17,6 @@
 namespace app\admin\controller;
 
 use think\facade\Config;
-use think\Container;
-
 use think\admin\Controller;
 /**
  * 插件配置管理
@@ -45,6 +43,11 @@ class Plugs extends Controller
         return $this->fetch();
     }
 
+    /**
+     * 获取插件列表
+     *
+     * @return void
+     */
     public function getAddonsList()
     {
         $object_list = $this->getUninstalledList();
@@ -55,11 +58,12 @@ class Plugs extends Controller
             $addon_info['is_install'] = empty($info) ? 0 : 1;
             $list[] = $addon_info;
         }
-        
         return $list;
     }
     /**
-     * 获取插件
+     * 获取未安装插件列表
+     *
+     * @return void
      */
     public function getUninstalledList()
     {
