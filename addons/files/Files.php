@@ -4,30 +4,30 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 22:25:39
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-01 21:07:04
+// |LastEditTime : 2020-08-13 23:17:40
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
 // |Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\addons\friendlink\FriendLink.php
+// |FilePath     : \www.padmin.com\addons\files\Files.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
-namespace addons\friendlink;
+namespace addons\files;
 
 use think\admin\Addons;
 
 /**
  * 插件测试
  */
-class FriendLink extends Addons
+class Files extends Addons
 {
     // 该插件的基础信息
     public $info = [
-        'name' => 'friendlink',	// 插件标识
-        'title' => '友情链接',	// 插件名称
-        'description' => '友情链接插件',	// 插件简介
+        'name' => 'files',	// 插件标识
+        'title' => '上传文件管理',	// 插件名称
+        'description' => '管理所有上传到本地的文件',	// 插件简介
         'status' => 1,	// 状态
         'author' => 'Jarmin',
         'email'  => 'edshop@qq.com',
@@ -40,6 +40,8 @@ class FriendLink extends Addons
      */
     public function install()
     {
+        // 获取插件信息
+        $content = $this->info;
         return true;
     }
 
@@ -53,11 +55,20 @@ class FriendLink extends Addons
     }
 
     /**
-     * 实现的testhook钩子方法
+     * 实现的file_load_hook钩子方法
      * @return mixed
      */
-    public function friendhook($param)
+    public function fileshook($param)
     {
-        return $this->fetch('/info');
+        $postdata = [
+            'upload_type'  => $param['info']['uptype'], 
+            'original_name'=> $param['info']['name'], 
+            'file_size'    => $param['info']['size'], 
+            'mime_type'    => $param['info']['type'], 
+            'file_ext'     => $param['info']['xext'], 
+            'url'          => $param['info']['url'], 
+            'path_url'     => $param['info']['xkey']
+        ];
+        $result = $this->app->db->name('SystemUploadfile')->save($postdata);
     }
 }

@@ -76,17 +76,8 @@ class Upload extends Controller
             $data['signature'] = $token['signature'];
             $data['OSSAccessKeyId'] = $token['keyid'];
             $data['server'] = AliossStorage::instance()->upload();
-        }
-        $postdata = [
-            'upload_type'  => $data['uptype'], 
-            'original_name'=> $data['name'], 
-            'file_size'    => $data['size'], 
-            'mime_type'    => $data['type'], 
-            'file_ext'     => $data['xext'], 
-            'url'          => $data['url'], 
-            'path_url'     => $data['xkey']
-        ];
-        $result = $this->app->db->name('SystemUploadfile')->save($postdata);
+        }        
+        hook('fileshook',['info'=>$data]);
         $this->success('获取授权参数', $data, 404);
     }
 

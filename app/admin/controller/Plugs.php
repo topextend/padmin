@@ -45,12 +45,11 @@ class Plugs extends Controller
 
     /**
      * 获取插件列表
-     *
      * @return void
      */
     public function getAddonsList()
     {
-        $object_list = get_addon_list();
+        $object_list = get_addons_list();
         $list = [];
         foreach ($object_list as $object) {
             $addon_info = $object;
@@ -59,5 +58,54 @@ class Plugs extends Controller
             $list[] = $addon_info;
         }
         return $list;
+    }
+
+    /**
+     * 插件安装
+     * @auth true
+     */
+    public function install($name = "")
+    {
+        // 过滤插件名称
+        $plug_name = trim($name);
+        if ($plug_name == '') $this->error('插件不存在！');
+        $plugin_class = "addons\\{$plug_name}\\{$plug_name}";
+        if (!class_exists($plugin_class)) $this->error ('插件不存在！');
+        // 执行插件安装
+        $result = (new $plugin_class(app()))->install();
+        if ($result === false)
+        {
+            $this->error('插件安装失败');
+        }
+        $this->success('插件安装成功');
+    }
+    
+    /**
+     * 插件卸载
+     * @auth true
+     */
+    public function uninstall($name = "")
+    {
+        // 过滤插件名称
+        $plug_name = trim($name);
+        if ($plug_name == '') $this->error('插件不存在！');
+        $plugin_class = "addons\\{$plug_name}\\{$plug_name}";
+        if (!class_exists($plugin_class)) $this->error ('插件不存在！');
+        // 执行插件卸载
+        $result = (new $plugin_class(app()))->uninstall();
+        if ($result === false)
+        {
+            $this->error('插件卸载失败');
+        }
+        $this->success('插件卸载成功');
+    }
+
+    /**
+     * 插件配置
+     * @auth true
+     */
+    public function config($name = "")
+    {
+        //
     }
 }

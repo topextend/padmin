@@ -83,8 +83,6 @@ class File extends Controller
                 @unlink($path .  $value['path_url']);
                 // 删除目录
                 @rmdir($path . $dir[0]);
-                // 清除用户头像缓存
-                $this->app->session->set('user.headimg',NULL);
             }
         }
     }
