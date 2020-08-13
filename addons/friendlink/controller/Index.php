@@ -22,6 +22,8 @@ use think\admin\service\MenuService;
 
 /**
  * 友情链接
+ * @auth true
+ * @menu true
  * Class Index
  * @package app\admin\controller
  */

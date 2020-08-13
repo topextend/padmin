@@ -16,8 +16,23 @@
 // -----------------------------------------------------------------------
 namespace addons\plugin\controller;
 
+/**
+ * ≤‚ ‘
+ * Class Index
+ * @package app\admin\controller
+ */
 class Index
 {
+    /**
+     * ≤‚ ‘¡–±Ì“≥
+     * @auth true
+     * @menu true
+     * @login true
+     * @throws \ReflectionException
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
     public function link()
     {
         echo 'hello link';
