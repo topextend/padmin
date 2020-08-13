@@ -31,14 +31,14 @@
                     <i class="layui-icon layui-icon-spread-left"></i>
                 </a>
             </li>
-            {foreach $menus as $one}
-            <li class="layui-nav-item">
-                <a data-menu-node="m-{$one.id}" data-open="{$one.url}">
-                    {notempty name='one.icon'}<span class='{$one.icon} padding-right-5'></span>{/notempty}
-                    <span>{$one.title|default=''}</span>
-                </a>
-            </li>
-            {/foreach}
+            <!-- {foreach $menus as $one} -->
+                <li class="layui-nav-item">
+                    <a data-menu-node="m-{$one.id}" data-open="{$one.url}">
+                        <!-- {notempty name='one.icon'} --><span class='{$one.icon} padding-right-5'></span><!-- {/notempty} -->
+                        <span>{$one.title|default=''}</span>
+                    </a>
+                </li>
+            <!-- {/foreach} -->
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li lay-unselect class="layui-nav-item"><a data-reload><i class="layui-icon layui-icon-refresh-3"></i></a></li>
@@ -47,10 +47,10 @@
                 <dl class="layui-nav-child">
                     <dd lay-unselect><a data-modal="{:url('admin/index/info',['id'=>session('user.id')])}"><i class="layui-icon layui-icon-set-fill margin-right-5"></i> 基本资料</a></dd>
                     <dd lay-unselect><a data-modal="{:url('admin/index/pass',['id'=>session('user.id')])}"><i class="layui-icon layui-icon-component margin-right-5"></i> 安全设置</a></dd>
-                    {if session('user.username') eq 'admin'}
-                    <dd lay-unselect><a data-load="{:url('api/plugs/push')}"><i class="layui-icon layui-icon-template-1 margin-right-5"></i> 缓存加速</a></dd>
-                    <dd lay-unselect><a data-load="{:url('api/plugs/clear')}"><i class="layui-icon layui-icon-fonts-clear margin-right-5"></i> 清理缓存</a></dd>
-                    {/if}
+                    <!-- {if session('user.username') eq 'admin'} -->
+                        <dd lay-unselect><a data-load="{:url('api/plugs/push')}"><i class="layui-icon layui-icon-template-1 margin-right-5"></i> 缓存加速</a></dd>
+                        <dd lay-unselect><a data-load="{:url('api/plugs/clear')}"><i class="layui-icon layui-icon-fonts-clear margin-right-5"></i> 清理缓存</a></dd>
+                    <!-- {/if} -->
                     <dd lay-unselect><a data-load="{:url('admin/login/out')}" data-confirm="确定要退出登录吗？"><i class="layui-icon layui-icon-release margin-right-5"></i> 退出登录</a></dd>
                 </dl>
                 <a class="layui-elip">
@@ -69,35 +69,39 @@
     <!-- 左则菜单 开始 -->
     <div class="layui-side layui-bg-black notselect">
         <div class="layui-side-scroll">
-            {foreach $menus as $one}{notempty name='one.sub'}
-            <ul class="layui-nav layui-nav-tree layui-hide" data-menu-layout="m-{$one.id}">
-                {foreach $one.sub as $two}{empty name='two.sub'}
-                <li class="layui-nav-item">
-                    <a data-target-tips="{$two.title}" data-menu-node="m-{$one.id}-{$two.id}" data-open="{$two.url}">
-                        <span class='{$two.icon|default="layui-icon layui-icon-link"}'></span>
-                        <span class="nav-text padding-left-5">{$two.title|default=''}</span>
-                    </a>
-                </li>
-                {else}
-                <li class="layui-nav-item" data-submenu-layout='m-{$one.id}-{$two.id}'>
-                    <a data-target-tips="{$two.title}" style="background:#393D49">
-                        <span class='nav-icon layui-hide {$two.icon|default="layui-icon layui-icon-triangle-d"}'></span>
-                        <span class="nav-text padding-left-5">{$two.title|default=''}</span>
-                    </a>
-                    <dl class="layui-nav-child">
-                        {foreach $two.sub as $thr}
-                        <dd>
-                            <a data-target-tips="{$thr.title}" data-open="{$thr.url}" data-menu-node="m-{$one.id}-{$two.id}-{$thr.id}">
-                                <span class='nav-icon padding-left-5 {$thr.icon|default="layui-icon layui-icon-link"}'></span>
-                                <span class="nav-text padding-left-5">{$thr.title|default=''}</span>
-                            </a>
-                        </dd>
-                        {/foreach}
-                    </dl>
-                </li>
-                {/empty}{/foreach}
-            </ul>
-            {/notempty}{/foreach}
+            <!-- {foreach $menus as $one} -->
+                <!-- {notempty name='one.sub'} -->
+                    <ul class="layui-nav layui-nav-tree layui-hide" data-menu-layout="m-{$one.id}">
+                        <!-- {foreach $one.sub as $two} -->
+                            <!-- {empty name='two.sub'} -->
+                                <li class="layui-nav-item">
+                                    <a data-target-tips="{$two.title}" data-menu-node="m-{$one.id}-{$two.id}" data-open="{$two.url}">
+                                        <span class='{$two.icon|default="layui-icon layui-icon-link"}'></span>
+                                        <span class="nav-text padding-left-5">{$two.title|default=''}</span>
+                                    </a>
+                                </li>
+                            <!-- {else} -->
+                                <li class="layui-nav-item" data-submenu-layout='m-{$one.id}-{$two.id}'>
+                                    <a data-target-tips="{$two.title}" style="background:#393D49">
+                                        <span class='nav-icon layui-hide {$two.icon|default="layui-icon layui-icon-triangle-d"}'></span>
+                                        <span class="nav-text padding-left-5">{$two.title|default=''}</span>
+                                    </a>
+                                    <dl class="layui-nav-child">
+                                        <!-- {foreach $two.sub as $thr} -->
+                                            <dd>
+                                                <a data-target-tips="{$thr.title}" data-open="{$thr.url}" data-menu-node="m-{$one.id}-{$two.id}-{$thr.id}">
+                                                    <span class='nav-icon padding-left-5 {$thr.icon|default="layui-icon layui-icon-link"}'></span>
+                                                    <span class="nav-text padding-left-5">{$thr.title|default=''}</span>
+                                                </a>
+                                            </dd>
+                                        <!-- {/foreach} -->
+                                    </dl>
+                                </li>
+                            <!-- {/empty} -->
+                        <!-- {/foreach} -->
+                    </ul>
+                <!-- {/notempty} -->
+            <!-- {/foreach} -->
         </div>
     </div>
     <!-- 左则菜单 结束 -->

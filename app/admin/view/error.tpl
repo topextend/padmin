@@ -1,5 +1,4 @@
 <?php
-
 if (!function_exists('parse_padding')) {
     function parse_padding($source)
     {
@@ -7,7 +6,6 @@ if (!function_exists('parse_padding')) {
         return 40 + ($length - 1) * 8;
     }
 }
-
 if (!function_exists('parse_class')) {
     function parse_class($name)
     {
@@ -15,14 +13,12 @@ if (!function_exists('parse_class')) {
         return '<abbr title="' . $name . '">' . end($names) . '</abbr>';
     }
 }
-
 if (!function_exists('parse_file')) {
     function parse_file($file, $line)
     {
         return '<a class="toggle" title="' . "{$file} line {$line}" . '">' . basename($file) . " line {$line}" . '</a>';
     }
 }
-
 if (!function_exists('parse_args')) {
     function parse_args($args)
     {
@@ -428,7 +424,6 @@ if (!function_exists('echo_value')) {
         <div class="info"><h1><?php echo htmlentities($message); ?></h1></div>
     </div>
 <?php } ?>
-
 <?php if (!empty($datas)) { ?>
     <div class="exception-var">
         <h2>Exception Datas</h2>
@@ -451,7 +446,6 @@ if (!function_exists('echo_value')) {
         <?php } ?>
     </div>
 <?php } ?>
-
 <?php if (!empty($tables)) { ?>
     <div class="exception-var">
         <h2>Environment Variables</h2>
@@ -474,7 +468,6 @@ if (!function_exists('echo_value')) {
         <?php } ?>
     </div>
 <?php } ?>
-
 <?php if (\think\facade\App::isDebug()) { ?>
     <script>
         function $(selector, node) {

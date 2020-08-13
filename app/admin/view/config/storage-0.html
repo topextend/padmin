@@ -3,15 +3,15 @@
         <span class="color-green font-w7">链接类型</span><br><span class="nowrap color-desc">LinkType</span>
     </label>
     <div class="layui-input-block">
-        {foreach ['none'=>'简洁链接','full'=>'完整链接'] as $k=>$v}
+        <!-- {foreach ['none'=>'简洁链接','full'=>'完整链接'] as $k=>$v} -->
         <label class="think-radio notselect">
-            {if sysconf('storage.link_type') eq $k}
-            <input checked type="radio" name="storage.link_type" value="{$k}" lay-ignore> {$v}
-            {else}
-            <input type="radio" name="storage.link_type" value="{$k}" lay-ignore> {$v}
-            {/if}
+            <!-- {if sysconf('storage.link_type') eq $k} -->
+                <input checked type="radio" name="storage.link_type" value="{$k}" lay-ignore> {$v}
+            <!-- {else} -->
+                <input type="radio" name="storage.link_type" value="{$k}" lay-ignore> {$v}
+            <!-- {/if} -->
         </label>
-        {/foreach}
+        <!-- {/foreach} -->
         <p class="help-block">类型为“简洁链接”时链接将只返回 hash 地址，而“完整链接”将携带参数保留文件名称</p>
     </div>
 </div>
