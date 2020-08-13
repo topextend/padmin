@@ -1,0 +1,64 @@
+{extend name='main'}
+{block name="content"}
+<link rel="stylesheet" href="__ROOT__/static/plugs/layui/css/template.css?v=1.4.0 pro-1" media="all">
+<style type="text/css">
+    .jy-circle {
+        width: 130px;
+        height: 130px;
+        border: 3px solid #eee;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 130px;
+        font-size: 26px;
+    }
+</style>
+<div class="layui-fluid layadmin-maillist-fluid">
+    <div class="layui-row layui-col-space15">
+        <!-- {foreach $addons_list as $key=>$vo} -->
+            <div class="layui-col-md4 layui-col-sm6">
+                <div class="layadmin-contact-box"> 
+                    <div class="layui-col-md4 layui-col-sm6">
+                        <a href="javascript:;" style="color: #333;text-decoration: none;cursor:default;">
+                            <div class="layadmin-text-center">
+                                <div class="layadmin-maillist-img layadmin-font-blod jy-circle">{$vo.name}</div>
+                            </div>
+                        </a>
+                    </div>            
+                    <div class="layui-col-md8 layadmin-padding-left20 layui-col-sm6">
+                        <a href="javascript:;" style="color: #333;text-decoration: none;cursor:default;">
+                        <h3 class="layadmin-title">
+                            <strong>{$vo.title}({$vo.version})</strong>
+                        </h3>
+                        <p class="layadmin-textimg">
+                            <i class="layui-icon layui-icon-username"></i>
+                            作者：{$vo.author}
+                            <br>
+                            <i class="layui-icon layui-icon-email"></i>
+                            Email：{$vo.email}
+                        </p>
+                        </a>
+                        <div class="layadmin-address">
+                            <a href="javascript:;" style="color: #333;text-decoration: none;cursor:default;word-wrap:break-word;">
+                                <strong>插件介绍：</strong>
+                                <br>
+                                {$vo.description}
+                                <br>
+                            </a>
+                        </div>
+                        <!--{if auth("install")}-->
+                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'danger' : 'disabled'} layui-btn-radius" data-confirm="确定要安装该插件吗？" data-action="{:url('install')}" data-value="name#{$vo.name}">安装插件</a>
+                        <!--{/if}-->
+                        <!--{if auth("uninstall")}-->
+                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'disabled' : 'warm'} layui-btn-radius" data-confirm="确定要卸载该插件吗？" data-action="{:url('uninstall')}" data-value="name#{$vo.name}">卸载插件</a>
+                        <!--{/if}-->
+                        <!--{if auth("config")}-->
+                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'disabled' : 'normal'} layui-btn-radius" data-title="配置插件" data-modal='{:url("config")}?name={$vo.name}'>配置插件</a>
+                        <!--{/if}-->
+                    </div>
+                </div>
+            </div>
+        <!-- {/foreach} -->
+        <!-- {empty name='addons_list'} --><span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}<!-- {/empty} -->
+    </div>
+</div>
+{/block}
