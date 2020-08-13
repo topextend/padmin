@@ -25,8 +25,7 @@
         "topthink/think-orm": "^2.0",
         "topextend/think-library": "^3.6",
         "topthink/think-view": "^1.0",
-        "topextend/ip2region": "^1.0",
-        "topextend/think-addons": "^1.0"
+        "topextend/ip2region": "^1.0"
     },
     "require-dev": {
         "symfony/var-dumper": "^4.2",
@@ -41,8 +40,7 @@
         }
     },
     "config": {
-        "preferred-install": "dist",
-        "optimize-autoloader":true
+        "preferred-install": "dist"
     },
     "scripts": {
         "post-autoload-dump": [

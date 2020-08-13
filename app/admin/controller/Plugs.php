@@ -50,30 +50,14 @@ class Plugs extends Controller
      */
     public function getAddonsList()
     {
-        $object_list = $this->getUninstalledList();
+        $object_list = get_addon_list();
         $list = [];
         foreach ($object_list as $object) {
-            $addon_info = $object->info;
+            $addon_info = $object;
             $info = $this->app->db->name(Config::get('addons.database.table'))->where(['name' => $addon_info['name']]);
             $addon_info['is_install'] = empty($info) ? 0 : 1;
             $list[] = $addon_info;
         }
         return $list;
-    }
-    /**
-     * 获取未安装插件列表
-     *
-     * @return void
-     */
-    public function getUninstalledList()
-    {
-        $dir_list = get_dir(Config::get('addons.path'));
-        foreach ($dir_list as $key => $v) {
-            $class = "\\" . Config::get('addons.dir') . "\\" . $v . "\\" .ucfirst($v);
-            if (!isset(self::$instance[$class])) {
-                self::$instance[$class] = new $class(app());
-            }
-        }
-        return self::$instance;
     }
 }
