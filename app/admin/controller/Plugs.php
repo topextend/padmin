@@ -53,8 +53,9 @@ class Plugs extends Controller
         $list = [];
         foreach ($object_list as $object) {
             $addon_info = $object;
-            $info = $this->app->db->name(Config::get('addons.database.table'))->where(['name' => $addon_info['name']]);
-            $addon_info['is_install'] = empty($info) ? 0 : 1;
+            $info = $this->app->db->name(Config::get('addons.database.table'))->where(['name' => $addon_info['name']])->find();
+            $addon_info['is_install'] = is_null($info['is_install']) ? 0 : $info['is_install'];
+            $addon_info['is_config'] = is_null($info['is_config']) ? 0 : $info['is_config'];
             $list[] = $addon_info;
         }
         return $list;

@@ -46,13 +46,15 @@
                             </a>
                         </div>
                         <!--{if auth("install")}-->
-                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'danger' : 'disabled'} layui-btn-radius" data-confirm="确定要安装该插件吗？" data-action="{:url('install')}" data-value="name#{$vo.name}">安装插件</a>
+                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 0 ? 'danger' : 'disabled'} layui-btn-radius" data-confirm="确定要安装该插件吗？" data-action="{:url('install')}" data-value="name#{$vo.name}">安装插件</a>
                         <!--{/if}-->
                         <!--{if auth("uninstall")}-->
-                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'disabled' : 'warm'} layui-btn-radius" data-confirm="确定要卸载该插件吗？" data-action="{:url('uninstall')}" data-value="name#{$vo.name}">卸载插件</a>
-                        <!--{/if}-->
+                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 0 ? 'disabled' : 'warm'} layui-btn-radius" data-confirm="确定要卸载该插件吗？" data-action="{:url('uninstall')}" data-value="name#{$vo.name}">卸载插件</a>
+                        <!--{/if}-->                        
                         <!--{if auth("config")}-->
-                            <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 1 ? 'disabled' : 'normal'} layui-btn-radius" data-title="配置插件" data-modal='{:url("config")}?name={$vo.name}'>配置插件</a>
+                            <!--{if $vo.is_config != 0}-->
+                                <a class="layui-btn layui-btn-sm layui-btn-{$vo.is_install == 0 ? 'disabled' : 'normal'} layui-btn-radius" data-title="配置插件" data-modal='{:url("config")}?name={$vo.name}'>配置插件</a>
+                            <!--{/if}-->
                         <!--{/if}-->
                     </div>
                 </div>

@@ -42,6 +42,9 @@ class Files extends Addons
     {
         // 获取插件信息
         $content = $this->info;
+        $content['is_install'] = 1;
+        $content['mark'] = 'fileshook';
+        $result = $this->app->db->name('hooks')->save($content);
         return true;
     }
 
