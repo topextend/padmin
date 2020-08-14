@@ -1,7 +1,7 @@
 {extend name='../app/admin/view/main.html'}
 {block name="button"}
     <!-- {if auth("remove")} -->
-    <button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除文件吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除文件</button>
+    <button data-action="{:addons_url('Index/remove')}" data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除文件吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除文件</button>
     <!-- {/if} -->
 {/block}
 {block name="content"}
@@ -42,7 +42,7 @@
                         </td>
                         <td class='text-left nowrap'>
                             <!-- {if auth("remove")} -->
-                            <a data-dbclick class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要删除该文件吗？" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                            <a data-dbclick class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要删除该文件吗？" data-action="{:addons_url('Index/remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
                             <!-- {/if} -->
                         </td>
                     </tr>
