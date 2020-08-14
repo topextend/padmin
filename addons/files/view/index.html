@@ -1,4 +1,4 @@
-{extend name='main'}
+{extend name='../app/admin/view/main.html'}
 {block name="button"}
     <!-- {if auth("remove")} -->
     <button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除文件吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除文件</button>

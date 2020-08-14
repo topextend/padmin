@@ -4,21 +4,19 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 22:33:03
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-02 02:25:18
+// |LastEditTime : 2020-08-14 16:46:17
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
 // |Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\addons\friendlink\controller\Index.php
+// |FilePath     : \padmin\addons\friendlink\controller\Index.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace addons\friendlink\controller;
 
 use think\admin\Controller;
-use think\admin\service\AdminService;
-use think\admin\service\MenuService;
 
 /**
  * 友情链接
@@ -38,8 +36,8 @@ class Index extends Controller
     /**
      * 绑定模板路径
      */
-    public $template_index = '../addons/friendlink/view/index/index.html';
-    public $template_form  = '../addons/friendlink/view/index/form.html';
+    public $template_index = '../addons/friendlink/view/index.html';
+    public $template_form  = '../addons/friendlink/view/form.html';
     
     /**
      * 友情链接列表页
@@ -53,15 +51,9 @@ class Index extends Controller
      */
     public function index()
     {
-        $this->login = AdminService::instance()->apply(true)->isLogin();
-        $this->menus = MenuService::instance()->getTree();
-        if (empty($this->menus) && empty($this->login)) {
-            $this->redirect(sysuri('admin/login/index'));
-        } else {
-            $this->title = '友情链接';
-            $query = $this->_query($this->table)->dateBetween('create_at');
-            $query->equal('status')->order('sort desc,id desc')->page(true, true, false, 0, $this->template_index);
-        }
+        $this->title = '友情链接';
+        $query = $this->_query($this->table)->dateBetween('create_at');
+        $query->equal('status')->order('sort desc,id desc')->page(true, true, false, 0, $this->template_index);
     }
 
     /**

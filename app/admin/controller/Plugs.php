@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 23:11:20
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-01 17:55:36
+// |LastEditTime : 2020-08-14 16:52:00
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -70,10 +70,8 @@ class Plugs extends Controller
         // 过滤插件名称
         $plug_name = trim($name);
         if ($plug_name == '') $this->error('插件不存在！');
-        $plugin_class = "addons\\{$plug_name}\\{$plug_name}";
-        if (!class_exists($plugin_class)) $this->error ('插件不存在！');
         // 执行插件安装
-        $result = (new $plugin_class(app()))->install();
+        $result = get_addons_instance($plug_name)->install();
         if ($result === false)
         {
             $this->error('插件安装失败');
@@ -90,23 +88,12 @@ class Plugs extends Controller
         // 过滤插件名称
         $plug_name = trim($name);
         if ($plug_name == '') $this->error('插件不存在！');
-        $plugin_class = "addons\\{$plug_name}\\{$plug_name}";
-        if (!class_exists($plugin_class)) $this->error ('插件不存在！');
         // 执行插件卸载
-        $result = (new $plugin_class(app()))->uninstall();
+        $result = get_addons_instance($plug_name)->uninstall();
         if ($result === false)
         {
             $this->error('插件卸载失败');
         }
         $this->success('插件卸载成功');
-    }
-
-    /**
-     * 插件配置
-     * @auth true
-     */
-    public function config($name = "")
-    {
-        //
     }
 }

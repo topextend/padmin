@@ -1,0 +1,2 @@
+INSERT INTO `la_system_menu` VALUES (15, 1, '站务管理', '', '', '#', '', '_self', 0, 1, '2020-08-12 21:06:12');
+INSERT INTO `la_system_menu` VALUES (16, 15, '友情链接', 'layui-icon layui-icon-link', '', 'addons/friendlink/index', '', '_self', 0, 1, '2020-08-12 21:06:39');

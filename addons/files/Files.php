@@ -4,13 +4,13 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 22:25:39
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-13 23:17:40
+// |LastEditTime : 2020-08-14 16:45:46
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |Description  : Clss Files
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\addons\files\Files.php
+// |FilePath     : \padmin\addons\files\Files.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
@@ -40,11 +40,24 @@ class Files extends Addons
      */
     public function install()
     {
-        // 获取插件信息
-        $content = $this->info;
-        $content['is_install'] = 1;
-        $content['mark'] = 'fileshook';
+        // 创建文件管理表
+        $sql = importsql($this->info['name']);
+        if ($sql === false)
+        {
+            return false;
+        }
+        $content['name']        = $this->info['name'];
+        $content['description'] = $this->info['description'];
+        $content['is_install']  = 1;
+        $content['is_config']   = 0;
+        $content['status']      = 1;
+        $content['mark']        = 'fileshook';
+        $content['list']        = $this->info['name'];
         $result = $this->app->db->name('hooks')->save($content);
+        if (!$result)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -54,6 +67,16 @@ class Files extends Addons
      */
     public function uninstall()
     {
+        $sql = uninstallsql($this->info['name']);
+        if ($sql === false)
+        {
+            return false;
+        }
+        $result = $this->app->db->name('hooks')->where(['name' => $this->info['name']])->delete();
+        if (!$result)
+        {
+            return false;
+        }
         return true;
     }
 
