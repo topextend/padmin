@@ -3,15 +3,15 @@
 
  Source Server         : 本地数据库
  Source Server Type    : MySQL
- Source Server Version : 50726
+ Source Server Version : 80012
  Source Host           : localhost:3306
- Source Schema         : www.padmin.com
+ Source Schema         : www_padmin_com
 
  Target Server Type    : MySQL
- Target Server Version : 50726
+ Target Server Version : 80012
  File Encoding         : 65001
 
- Date: 01/08/2020 14:48:45
+ Date: 14/08/2020 17:03:08
 */
 
 SET NAMES utf8mb4;
@@ -22,15 +22,22 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `la_hooks`;
 CREATE TABLE `la_hooks`  (
-  `id` int(10) UNSIGNED NOT NULL COMMENT '主键',
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
   `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子名称',
   `mark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '钩子标识',
   `list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 \'，\'分割',
   `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '描述',
-  `addtime` int(11) NULL DEFAULT NULL COMMENT '创建时间',
-  `updatetime` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '钩子状态：0=停用；1=启用；'
+  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '钩子状态：0=停用；1=启用；',
+  `is_install` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '安装状态：0=未安装；1=已安装',
+  `is_config` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配置状态：0=无配置；1=有配置',
+  `create_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `update_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '钩子列表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of la_hooks
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_auth
@@ -46,7 +53,11 @@ CREATE TABLE `la_system_auth`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_system_auth_title`(`title`) USING BTREE,
   INDEX `idx_system_auth_status`(`status`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-权限' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-权限' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of la_system_auth
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_auth_node
@@ -59,7 +70,11 @@ CREATE TABLE `la_system_auth_node`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_system_auth_auth`(`auth`) USING BTREE,
   INDEX `idx_system_auth_node`(`node`(191)) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-授权' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-授权' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of la_system_auth_node
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_config
@@ -77,7 +92,6 @@ CREATE TABLE `la_system_config`  (
 -- Records of la_system_config
 -- ----------------------------
 INSERT INTO `la_system_config` VALUES ('base', 'site_name', 'Ladmin');
-INSERT INTO `la_system_config` VALUES ('base', 'xpath', 'admin');
 INSERT INTO `la_system_config` VALUES ('base', 'site_icon', '');
 INSERT INTO `la_system_config` VALUES ('base', 'site_copy', '©版权所有 2014-2020 牧滨电商');
 INSERT INTO `la_system_config` VALUES ('base', 'app_name', 'Ladmin');
@@ -111,7 +125,11 @@ CREATE TABLE `la_system_data`  (
   `value` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '配置值',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_system_data_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-数据' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-数据' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of la_system_data
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_menu
@@ -146,9 +164,9 @@ INSERT INTO `la_system_menu` VALUES (6, 2, '系统任务管理', 'layui-icon lay
 INSERT INTO `la_system_menu` VALUES (7, 2, '系统日志管理', 'layui-icon layui-icon-form', '', 'admin/oplog/index', '', '_self', 2, 1, '2019-02-18 12:56:56');
 INSERT INTO `la_system_menu` VALUES (8, 3, '系统用户管理', 'layui-icon layui-icon-username', '', 'admin/user/index', '', '_self', 1, 1, '2018-09-06 11:10:42');
 INSERT INTO `la_system_menu` VALUES (9, 3, '访问权限管理', 'layui-icon layui-icon-vercode', '', 'admin/auth/index', '', '_self', 2, 1, '2018-09-06 15:17:14');
-INSERT INTO `la_system_menu` VALUES (10, 0, '应用中心', '', '', '#', '', '_self', 0, 1, '2020-07-31 17:51:51');
-INSERT INTO `la_system_menu` VALUES (11, 10, '插件设置', '', '', '#', '', '_self', 0, 1, '2020-07-31 17:52:06');
-INSERT INTO `la_system_menu` VALUES (12, 11, '插件列表', 'layui-icon layui-icon-app', '', 'admin/plugs/index', '', '_self', 0, 1, '2020-07-31 17:53:30');
+INSERT INTO `la_system_menu` VALUES (10, 0, '应用中心', '', '', '#', '', '_self', 0, 1, '2020-08-05 22:17:26');
+INSERT INTO `la_system_menu` VALUES (11, 10, '插件配置', '', '', '#', '', '_self', 0, 1, '2020-08-05 22:17:37');
+INSERT INTO `la_system_menu` VALUES (12, 11, '插件管理', 'layui-icon layui-icon-app', '', 'admin/plugs/index', '', '_self', 0, 1, '2020-08-05 22:22:29');
 
 -- ----------------------------
 -- Table structure for la_system_oplog
@@ -163,7 +181,11 @@ CREATE TABLE `la_system_oplog`  (
   `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作人用户名',
   `create_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-日志' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-日志' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of la_system_oplog
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_queue
@@ -192,7 +214,11 @@ CREATE TABLE `la_system_queue`  (
   INDEX `idx_system_queue_rscript`(`rscript`) USING BTREE,
   INDEX `idx_system_queue_create_at`(`create_at`) USING BTREE,
   INDEX `idx_system_queue_exec_time`(`exec_time`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-任务' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-任务' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of la_system_queue
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for la_system_user
@@ -225,6 +251,6 @@ CREATE TABLE `la_system_user`  (
 -- ----------------------------
 -- Records of la_system_user
 -- ----------------------------
-INSERT INTO `la_system_user` VALUES (10000, 'admin', '21232f297a57a5a743894a0e4a801fc3', '系统管理员', '', '', '', '', '', '127.0.0.1', '2020-08-01 14:03:51', 1064, '', 1, 0, 0, '2015-11-13 15:14:22');
+INSERT INTO `la_system_user` VALUES (10000, 'admin', '21232f297a57a5a743894a0e4a801fc3', '系统管理员', '', '', '', '', '18160999922', '127.0.0.1', '2020-08-14 16:15:28', 1086, '', 1, 0, 0, '2015-11-13 15:14:22');
 
 SET FOREIGN_KEY_CHECKS = 1;
