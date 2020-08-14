@@ -1,5 +1,5 @@
 INSERT INTO `la_system_menu` VALUES (13, 1, '文件管理', '', '', '#', '', '_self', 0, 1, '2020-08-06 11:40:20');
-INSERT INTO `la_system_menu` VALUES (14, 13, '上传文件管理', 'fa fa-shekel', '', 'addons/file/index', '', '_self', 0, 1, '2020-08-06 11:40:33');
+INSERT INTO `la_system_menu` VALUES (14, 13, '上传文件管理', 'fa fa-shekel', '', 'addons/files/index', '', '_self', 0, 1, '2020-08-06 11:40:33');
 CREATE TABLE `la_system_uploadfile`  (
   `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `upload_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'local' COMMENT '存储位置',
