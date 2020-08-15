@@ -54,8 +54,8 @@ class Plugs extends Controller
         foreach ($object_list as $object) {
             $addon_info = $object;
             $info = $this->app->db->name(Config::get('addons.database.table'))->where(['name' => $addon_info['name']])->find();
-            $addon_info['is_install'] = is_null($info['is_install']) ? 0 : $info['is_install'];
-            $addon_info['is_config'] = is_null($info['is_config']) ? 0 : $info['is_config'];
+            $addon_info['is_install'] = !empty($info) ? $info['is_install'] : 0;
+            $addon_info['is_config']  = !empty($info) ? $info['is_config'] : 0;
             $list[] = $addon_info;
         }
         return $list;
@@ -90,6 +90,8 @@ class Plugs extends Controller
         if ($plug_name == '') $this->error('插件不存在！');
         // 执行插件卸载
         $result = get_addons_instance($plug_name)->uninstall();
+        // 清除缓存
+        \think\facade\Cache::clear();
         if ($result === false)
         {
             $this->error('插件卸载失败');
