@@ -4,13 +4,13 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 22:25:39
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 22:21:34
+// |LastEditTime : 2020-08-15 18:13:46
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |Description  : Friendlink Class
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\addons\friendlink\FriendLink.php
+// |FilePath     : \padmin\addons\friendlink\Friendlink.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
@@ -40,6 +40,23 @@ class Friendlink extends Addons
      */
     public function install()
     {
+        $sql = importsql($this->info['name']);
+        if ($sql === false)
+        {
+            return false;
+        }
+        $content['name']        = $this->info['name'];
+        $content['description'] = $this->info['description'];
+        $content['is_install']  = 1;
+        $content['is_config']   = 0;
+        $content['status']      = 1;
+        $content['mark']        = 'fileshook';
+        $content['list']        = $this->info['name'];
+        $result = $this->app->db->name('hooks')->save($content);
+        if (!$result)
+        {
+            return false;
+        }
         return true;
     }
 
@@ -49,6 +66,16 @@ class Friendlink extends Addons
      */
     public function uninstall()
     {
+        $sql = uninstallsql($this->info['name']);
+        if ($sql === false)
+        {
+            return false;
+        }
+        $result = $this->app->db->name('hooks')->where(['name' => $this->info['name']])->delete();
+        if (!$result)
+        {
+            return false;
+        }
         return true;
     }
 

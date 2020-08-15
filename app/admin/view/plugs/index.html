@@ -60,7 +60,7 @@
                 </div>
             </div>
         <!-- {/foreach} -->
-        <!-- {empty name='addons_list'} --><span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}<!-- {/empty} -->
+        {empty name='addons_list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
     </div>
 </div>
 {/block}

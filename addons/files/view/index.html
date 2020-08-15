@@ -1,6 +1,6 @@
 {extend name='../app/admin/view/main.html'}
 {block name="button"}
-    <!-- {if auth("remove")} -->
+    <!-- {if auth("addons/files/index/remove")} -->
     <button data-action="{:addons_url('Index/remove')}" data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除文件吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除文件</button>
     <!-- {/if} -->
 {/block}
@@ -41,7 +41,7 @@
                             日期：{$vo.create_at|format_datetime|str_replace=' ','<br><span class="color-desc">时间：',###|raw}</span>
                         </td>
                         <td class='text-left nowrap'>
-                            <!-- {if auth("remove")} -->
+                            <!-- {if auth("addons/files/index/remove")} -->
                             <a data-dbclick class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要删除该文件吗？" data-action="{:addons_url('Index/remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
                             <!-- {/if} -->
                         </td>
@@ -50,6 +50,6 @@
             </tbody>
         <!-- {/notempty} -->
     </table>
-    <!-- {empty name='list'} --><span class="notdata">没有记录哦</span><!-- {else} -->{$pagehtml|raw|default=''}<!-- {/empty} -->
+    {empty name='list'}<span class="notdata">没有记录哦</span><!-- {else} -->{$pagehtml|raw|default=''}{/empty}
 </div>
 {/block}

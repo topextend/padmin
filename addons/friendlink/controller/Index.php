@@ -4,11 +4,11 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-30 22:33:03
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 16:46:17
+// |LastEditTime : 2020-08-15 18:13:34
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |Description  : Friendlink Controller 
 // |----------------------------------------------------------------------
 // |FilePath     : \padmin\addons\friendlink\controller\Index.php
 // |----------------------------------------------------------------------
@@ -68,12 +68,24 @@ class Index extends Controller
     }
 
     /**
+     * 编辑友情链接
+     * @auth true
+     * @return void
+     */
+    public function edit()
+    {
+        $this->_applyFormToken();
+        $this->_form($this->table, $this->template_form);
+    }
+
+    /**
      * 删除友情链接
      * @auth true
      * @return void
      */
     public function remove()
     {
-        //
+        $this->_applyFormToken();
+        $this->_delete($this->table);
     }
 }
