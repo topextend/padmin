@@ -1,0 +1,32 @@
+
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">品牌名称</span>
+            <span class="color-desc margin-left-5">Goods Brand Name</span>
+            <label class="layui-input relative block label-required-null">
+                <input autofocus required placeholder="请输入品牌名称" class="layui-input inline-block padding-0 border-0" style="width:auto;background:none" value="{$vo.brand_name|default=''}" name="brand_name">
+            </label>
+        </div>
+        <div class="layui-form-item relative block">
+            <label class="layui-form-item relative block" style="width: 84%;">
+                <span class="color-green font-w7">品牌图片</span>
+                <span class="color-desc margin-left-5">Goods Brand Jpeg</span>
+                <input class="layui-input" required pattern="^http" placeholder="请上传品牌图片或图标" value="{$vo.brand_logo|default=''}" name="brand_logo">
+            </label>
+            <a class="layui-col-xs2 input-right-icon layui-btn" style="top:24px;width:auto;" data-file="btn" data-type="ico,png,jpg" data-field="brand_logo">            
+                <i class="layui-icon layui-icon-upload"></i>上传图片</a>
+        </div>
+        <label class="layui-form-item block relative">
+            <span class="color-green font-w7">品牌简介</span><span class="color-desc margin-left-5">Goods Brand Description</span>
+            <textarea placeholder="请输入品牌简介" class="layui-textarea" name="brand_desc">{$vo.brand_desc|default=""}</textarea>
+        </label>
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <input type='hidden' value='{$vo.user_id|default=session("user.id")}' name='user_id'>
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+        </div>
+    </div>
+</form>
