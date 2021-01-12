@@ -18,28 +18,6 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for la_hooks
--- ----------------------------
-DROP TABLE IF EXISTS `la_hooks`;
-CREATE TABLE `la_hooks`  (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子名称',
-  `mark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '钩子标识',
-  `list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '钩子挂载的插件 \'，\'分割',
-  `description` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '描述',
-  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '钩子状态：0=停用；1=启用；',
-  `is_install` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '安装状态：0=未安装；1=已安装',
-  `is_config` tinyint(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '配置状态：0=无配置；1=有配置',
-  `create_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-  `update_at` timestamp(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '钩子列表' ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of la_hooks
--- ----------------------------
-
--- ----------------------------
 -- Table structure for la_system_auth
 -- ----------------------------
 DROP TABLE IF EXISTS `la_system_auth`;
@@ -83,7 +61,7 @@ DROP TABLE IF EXISTS `la_system_config`;
 CREATE TABLE `la_system_config`  (
   `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '分类',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '配置名',
-  `value` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '配置值',
+  `value` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '配置值',
   INDEX `idx_system_config_type`(`type`) USING BTREE,
   INDEX `idx_system_config_name`(`name`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-配置' ROW_FORMAT = Dynamic;
@@ -148,7 +126,6 @@ CREATE TABLE `la_system_menu`  (
   `status` tinyint(1) UNSIGNED NULL DEFAULT 1 COMMENT '状态(0:禁用,1:启用)',
   `create_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_system_menu_node`(`node`) USING BTREE,
   INDEX `idx_system_menu_status`(`status`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-菜单' ROW_FORMAT = Dynamic;
 
@@ -243,9 +220,9 @@ CREATE TABLE `la_system_user`  (
   `is_deleted` tinyint(1) NULL DEFAULT 0 COMMENT '删除(1删除,0未删)',
   `create_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_system_user_status`(`status`) USING BTREE,
   INDEX `idx_system_user_username`(`username`) USING BTREE,
-  INDEX `idx_system_user_deleted`(`is_deleted`) USING BTREE,
-  INDEX `idx_system_user_status`(`status`) USING BTREE
+  INDEX `idx_system_user_deleted`(`is_deleted`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10001 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统-用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
