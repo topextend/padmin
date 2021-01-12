@@ -2,32 +2,46 @@
 // -----------------------------------------------------------------------
 // |Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-01-12 17:11:48
+// |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-12 19:42:32
+// |LastEditTime : 2021-01-12 21:56:16
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Class Index
+// |Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\goods\controller\Index.php
+// |FilePath     : \www.padmin.com\app\goods\service\GoodService.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
-namespace app\goods\controller;
+namespace app\goods\service;
 
-use think\admin\Controller;
+use think\admin\Service;
 
 /**
- * 商品管理
- * Class Index
- * @package app\goods\controller
+ * 商品数据服务
+ * Class GoodService
+ * @package app\goods\service
  */
-class Index extends Controller
+class GoodService extends Service
 {
     /**
-     * 绑定数据表
-     * @var string
+     * 获取店铺类型
+     * @return array
      */
-    private $table = 'Goods';
+    public function getGoodsCatsType(string $table, string $value): array
+    {
+        $map = ['status' => 1];
+        $query = $this->app->db->name($table);
+        return $query->where($map)->order('sort desc,id desc')->column('id,'.$value);
+    }
+    
+    /**
+     * 最大分类级别
+     * @return integer
+     */
+    public function getCateLevel(): int
+    {
+        return 3;
+    }
 }

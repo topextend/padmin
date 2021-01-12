@@ -1,0 +1,71 @@
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">        
+        <label class="layui-form-item relative block">
+            <span class="color-green font-w7 label-required-prev">上级分类</span>
+            <span class="color-desc margin-left-5">Category Parent</span>
+            <select name='pid' class='layui-select' lay-search>
+                {foreach $goods_cats as $cat}
+                {eq name='cat.id' value='$vo.pid|default=0'}
+                <option selected value='{$cat.id}'>{$cat.spl|raw}{$cat.cat_name}</option>
+                {else}
+                <option value='{$cat.id}'>{$cat.spl|raw}{$cat.cat_name}</option>
+                {/eq}{/foreach}
+            </select>
+            <span class="help-block"><b>必选，</b>请选择上级分类或顶级分类（目前最多支持{$cateLevel|default=0}级分类）</span>
+        </label>
+        <div class="layui-form-item relative block">
+            <label class="layui-form-item relative block" style="width: 84%;">
+                <span class="color-green font-w7">分类图片</span>
+                <span class="color-desc margin-left-5">Goods Cat Logo</span>
+                <input class="layui-input" pattern="^http" placeholder="请上传商品分类LOGO" value="{$vo.cat_logo|default=''}" name="cat_logo">
+            </label>
+            <a class="layui-col-xs2 input-right-icon layui-btn" style="top:24px;width:auto;" data-file="btn" data-type="ico,png,jpg" data-field="cat_logo">            
+                <i class="layui-icon layui-icon-upload"></i>上传图片</a>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">分类名称</span>
+            <span class="color-desc margin-left-5">Goods Cat Name</span>
+            <label class="layui-input relative block label-required-null">
+                <input autofocus required placeholder="请输入分类名称" class="layui-input inline-block padding-0 border-0" style="width:auto;background:none" value="{$vo.cat_name|default=''}" name="cat_name">
+            </label>
+            <span class="help-block">名称即分类简称，中英文均支持。</span>
+        </div>
+        <!-- {notempty name='vo.spt'} -->
+        <!-- {if $vo.spt == $cateLevel} -->
+        <div class="layui-form-item">
+            <span class="color-green font-w7">绑定类型</span>
+            <span class="color-desc margin-left-5">Bind Goods Type Name</span>
+            <label class="layui-input-block">
+                <select name='type_id' class='layui-select' lay-search>
+                    <option value="0">请选择类型</option>
+                    <!-- {foreach $goods_type as $type} -->
+                        <!-- {eq name='type.id' value='$vo.type_id|default=0'} -->
+                            <option selected value='{$type.id}'>{$type.type_name}</option>
+                        <!-- {else} -->
+                            <option value='{$type.id}'>{$type.type_name}</option>
+                        <!-- {/eq} -->
+                    <!-- {/foreach} -->
+                </select>
+            </label>
+            <span class="help-block">必选，请选择该分类要绑定的商品类型。</span>
+        </div>
+        <!-- {/if} -->
+        <!-- {/notempty} -->
+        <label class="layui-form-item block relative">
+            <span class="color-green font-w7">分类简介</span><span class="color-desc margin-left-5">Goods Cat Description</span>
+            <textarea placeholder="请输入分类简介" class="layui-textarea" name="cat_desc">{$vo.cat_desc|default=""}</textarea>
+        </label>
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+        </div>
+    </div>
+</form>
+{block name='script'}
+<script>
+    /*! 表单初始化 */
+    window.form.render();
+</script>
+{/block}

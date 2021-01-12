@@ -1,0 +1,26 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">仓库名称</label>
+            <div class="layui-input-inline">
+                <input name="whouse_name" value="{:input('get.whouse_name')}" placeholder="请输入仓库名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">负责人名称</label>
+            <div class="layui-input-inline">
+                <input name="whouse_user_name" value="{:input('get.whouse_user_name')}" placeholder="请选择仓库负责人名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">创建时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="create_at" value="{:input('get.create_at')}" placeholder="请选择操作时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+</fieldset>
