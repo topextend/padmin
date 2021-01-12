@@ -20,6 +20,7 @@ use think\admin\Controller;
 use think\admin\extend\DataExtend;
 use think\admin\service\AdminService;
 use think\admin\service\MenuService;
+use think\admin\service\NodeService;
 
 /**
  * 系统菜单管理
@@ -32,7 +33,7 @@ class Menu extends Controller
      * 当前操作数据库
      * @var string
      */
-    protected $table = 'SystemMenu';
+    private $table = 'SystemMenu';
 
     /**
      * 系统菜单管理
@@ -52,11 +53,11 @@ class Menu extends Controller
      * 列表数据处理
      * @param array $data
      */
-    protected function _index_page_filter(&$data)
+    protected function _index_page_filter(array &$data)
     {
         foreach ($data as &$vo) {
-            if ($vo['url'] !== '#') {
-                $vo['url'] = trim(url($vo['url']) . (empty($vo['params']) ? '' : "?{$vo['params']}"), '/\\');
+            if ($vo['url'] !== '#' && !preg_match('#^https?://#', $vo['url'])) {
+                $vo['url'] = trim(url($vo['url']) . ($vo['params'] ? "?{$vo['params']}" : ''), '\\/');
             }
             $vo['ids'] = join(',', DataExtend::getArrSubIds($data, $vo['id']));
         }
@@ -94,23 +95,42 @@ class Menu extends Controller
      * @param array $vo
      * @throws \ReflectionException
      */
-    protected function _form_filter(&$vo)
+    protected function _form_filter(array &$vo)
     {
         if ($this->request->isGet()) {
-            // 清理权限节点
-            AdminService::instance()->clearCache();
-            // 选择自己的上级菜单
-            $vo['pid'] = $vo['pid'] ?? input('pid', '0');
-            // 读取系统功能节点
-            $this->nodes = MenuService::instance()->getList();
-            // 列出可选上级菜单
-            $menus = $this->app->db->name($this->table)->order('sort desc,id asc')->column('id,pid,icon,url,title,params', 'id');
-            $this->menus = DataExtend::arr2table(array_merge($menus, [['id' => '0', 'pid' => '-1', 'url' => '#', 'title' => '顶部菜单']]));
-            if (isset($vo['id'])) foreach ($this->menus as $key => $menu) if ($menu['id'] === $vo['id']) $vo = $menu;
-            foreach ($this->menus as $key => $menu) {
-                if ($menu['spt'] >= 3 || $menu['url'] !== '#') unset($this->menus[$key]);
-                if (isset($vo['spt']) && $vo['spt'] <= $menu['spt']) unset($this->menus[$key]);
+            /* 清理权限节点 */
+            if ($this->app->isDebug()) {
+                AdminService::instance()->clearCache();
             }
+            /* 选择自己的上级菜单 */
+            $vo['pid'] = $vo['pid'] ?? input('pid', '0');
+            /* 读取系统功能节点 */
+            $this->auths = [];
+            $this->nodes = MenuService::instance()->getList();
+            foreach (NodeService::instance()->getMethods() as $node => $item) {
+                if ($item['isauth'] && substr_count($node, '/') >= 2) {
+                    $this->auths[] = ['node' => $node, 'title' => $item['title']];
+                }
+            }
+            /* 列出可选上级菜单 */
+            $menus = $this->app->db->name($this->table)->order('sort desc,id asc')->column('id,pid,icon,url,node,title,params', 'id');
+            $this->menus = DataExtend::arr2table(array_merge($menus, [['id' => '0', 'pid' => '-1', 'url' => '#', 'title' => '顶部菜单']]));
+            if (isset($vo['id'])) foreach ($this->menus as $menu) if ($menu['id'] === $vo['id']) $vo = $menu;
+            foreach ($this->menus as $key => $menu) if ($menu['spt'] >= 3 || $menu['url'] !== '#') unset($this->menus[$key]);
+            if (isset($vo['spt']) && isset($vo['spc']) && in_array($vo['spt'], [1, 2]) && $vo['spc'] > 0) {
+                foreach ($this->menus as $key => $menu) if ($vo['spt'] <= $menu['spt']) unset($this->menus[$key]);
+            }
+        }
+    }
+
+    /**
+     * 菜单编辑成功后刷新页面
+     * @param bool $state
+     */
+    protected function _form_result(bool $state)
+    {
+        if ($state) {
+            $this->success('系统菜单修改成功！', 'javascript:location.reload()');
         }
     }
 
@@ -138,4 +158,53 @@ class Menu extends Controller
         $this->_applyFormToken();
         $this->_delete($this->table);
     }
+
+    /**
+     * 表单结果处理
+     * @param bool $result
+     */
+    protected function _add_form_result(bool $result)
+    {
+        if ($result) {
+            $id = $this->app->db->name($this->table)->getLastInsID();
+            sysoplog('系统菜单管理', "添加系统菜单[{$id}]成功");
+        }
+    }
+
+    /**
+     * 表单结果处理
+     * @param boolean $result
+     */
+    protected function _edit_form_result(bool $result)
+    {
+        if ($result) {
+            $id = input('id') ?: 0;
+            sysoplog('系统菜单管理', "修改系统菜单[{$id}]成功");
+        }
+    }
+
+    /**
+     * 状态结果处理
+     * @param boolean $result
+     */
+    protected function _state_save_result(bool $result)
+    {
+        if ($result) {
+            [$id, $state] = [input('id'), input('status')];
+            sysoplog('系统菜单管理', ($state ? '激活' : '禁用') . "系统菜单[{$id}]成功");
+        }
+    }
+
+    /**
+     * 删除结果处理
+     * @param boolean $result
+     */
+    protected function _remove_delete_result(bool $result)
+    {
+        if ($result) {
+            $id = input('id') ?: 0;
+            sysoplog('系统菜单管理', "删除系统菜单[{$id}]成功");
+        }
+    }
+
 }

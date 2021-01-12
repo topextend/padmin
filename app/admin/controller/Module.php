@@ -58,10 +58,14 @@ class Module extends Controller
     {
         $data = $this->_vali(['name.require' => '模块名称不能为空！']);
         $modules = ModuleService::instance()->online();
+        $locals = ModuleService::instance()->getModules();
         if (isset($modules[$data['name']])) {
             $this->module = $modules[$data['name']];
-            foreach ($this->module['changes'] as $key => &$change) {
-                $change['datetime'] = preg_replace("|^(\d{4})\.(\d{2})\.(\d{2}).*?$|", '$1年$2月$3日', $key);
+            $this->current = $locals[$data['name']] ?? [];
+            $pattern = "|^(\d{4})\.(\d{2})\.(\d{2})\.(\d+)$|";
+            $this->module['change'] = array_reverse($this->module['change']);
+            foreach ($this->module['change'] as $version => &$change) {
+                $change = ['content' => $change, 'version' => preg_replace($pattern, '$1年$2月$3日 第 $4 次更新', $version)];
             }
             $this->fetch();
         } else {

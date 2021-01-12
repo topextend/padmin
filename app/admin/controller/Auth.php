@@ -30,7 +30,7 @@ class Auth extends Controller
      * 绑定数据表
      * @var string
      */
-    public $table = 'SystemAuth';
+    private $table = 'SystemAuth';
 
     /**
      * 系统权限管理
@@ -99,8 +99,9 @@ class Auth extends Controller
     {
         $map = $this->_vali(['auth.require#id' => '权限ID不能为空！']);
         if (input('action') === 'get') {
+            if ($this->app->isDebug()) AdminService::instance()->clearCache();
             $checkeds = $this->app->db->name('SystemAuthNode')->where($map)->column('node');
-            $this->success('获取权限节点成功！', AdminService::instance()->clearCache()->getTree($checkeds));
+            $this->success('获取权限节点成功！', AdminService::instance()->getTree($checkeds));
         } elseif (input('action') === 'save') {
             [$post, $data] = [$this->request->post(), []];
             foreach ($post['nodes'] ?? [] as $node) {
@@ -108,6 +109,7 @@ class Auth extends Controller
             }
             $this->app->db->name('SystemAuthNode')->where($map)->delete();
             $this->app->db->name('SystemAuthNode')->insertAll($data);
+            sysoplog('系统权限管理', "配置系统权限[{$map['auth']}]授权成功");
             $this->success('权限授权修改成功！', 'javascript:history.back()');
         } else {
             $this->title = '权限配置节点';
@@ -127,15 +129,52 @@ class Auth extends Controller
     }
 
     /**
+     * 表单结果处理
+     * @param bool $result
+     */
+    protected function _add_form_result(bool $result)
+    {
+        if ($result) {
+            $id = $this->app->db->name($this->table)->getLastInsID();
+            sysoplog('系统权限管理', "添加系统权限[{$id}]成功");
+        }
+    }
+
+    /**
+     * 表单结果处理
+     * @param boolean $result
+     */
+    protected function _edit_form_result(bool $result)
+    {
+        if ($result) {
+            $id = input('id') ?: 0;
+            sysoplog('系统权限管理', "修改系统权限[{$id}]成功");
+        }
+    }
+
+    /**
+     * 状态结果处理
+     * @param boolean $result
+     */
+    protected function _state_save_result(bool $result)
+    {
+        if ($result) {
+            [$id, $state] = [input('id'), input('status')];
+            sysoplog('系统权限管理', ($state ? '激活' : '禁用') . "系统权限[{$id}]成功");
+        }
+    }
+
+    /**
      * 删除结果处理
      * @param boolean $result
      * @throws \think\db\exception\DbException
      */
-    protected function _remove_delete_result($result)
+    protected function _remove_delete_result(bool $result)
     {
         if ($result) {
             $map = $this->_vali(['auth.require#id' => '权限ID不能为空！']);
             $this->app->db->name('SystemAuthNode')->where($map)->delete();
+            sysoplog('系统权限管理', "删除系统权限[{$map['auth']}]及授权配置");
             $this->success("权限删除成功！");
         } else {
             $this->error("权限删除失败，请稍候再试！");

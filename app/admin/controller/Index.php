@@ -36,8 +36,13 @@ class Index extends Controller
      */
     public function index()
     {
-        $this->login = AdminService::instance()->apply(true)->isLogin();
+        /*! 根据运行模式刷新权限 */
+        AdminService::instance()->apply($this->app->isDebug());
+        /*! 读取当前用户权限菜单树 */
         $this->menus = MenuService::instance()->getTree();
+        /*! 判断当前用户的登录状态 */
+        $this->login = AdminService::instance()->isLogin();
+        /*! 菜单为空且未登录跳转到登录页 */
         if (empty($this->menus) && empty($this->login)) {
             $this->redirect(sysuri('admin/login/index'));
         } else {
@@ -60,7 +65,7 @@ class Index extends Controller
         if (AdminService::instance()->getUserId() === intval($id)) {
             $this->_form('SystemUser', 'admin@user/form', 'id', [], ['id' => $id]);
         } else {
-            $this->error('只能修改登录用户的资料！');
+            $this->error('只能修改自己的资料！');
         }
     }
 
@@ -93,6 +98,7 @@ class Index extends Controller
                 $this->error('旧密码验证失败，请重新输入！');
             }
             if (data_save('SystemUser', ['id' => $user['id'], 'password' => md5($data['password'])])) {
+                sysoplog('系统用户管理', "修改用户[{$user['id']}]密码成功");
                 $this->success('密码修改成功，下次请使用新密码登录！', '');
             } else {
                 $this->error('密码修改失败，请稍候再试！');

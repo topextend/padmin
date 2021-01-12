@@ -17,13 +17,13 @@
             <label class="layui-form-label">使用状态</label>
             <div class="layui-input-inline">
                 <select class="layui-select" name="status">
-                    {foreach [''=>'-- 全部状态 --','0'=>'已禁用的权限','1'=>'使用中的权限'] as $k=>$v}
+                    <option value=''>-- 全部状态 --</option>
+                    {foreach ['已禁用的权限','已激活的权限'] as $k=>$v}
                     {if input('get.status') eq $k.""}
                     <option selected value="{$k}">{$v}</option>
                     {else}
                     <option value="{$k}">{$v}</option>
-                    {/if}
-                    {/foreach}
+                    {/if}{/foreach}
                 </select>
             </div>
         </div>
@@ -37,5 +37,5 @@
             <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
         </div>
     </form>
+    <script>form.render()</script>
 </fieldset>
-<script>form.render()</script>

@@ -17,8 +17,8 @@
 namespace app\api\controller;
 
 use think\admin\Controller;
-use think\admin\service\InstallService;
 use think\admin\service\ModuleService;
+use think\admin\service\SystemService;
 
 /**
  * 安装服务端支持
@@ -27,6 +27,17 @@ use think\admin\service\ModuleService;
  */
 class Update extends Controller
 {
+
+    /**
+     * 访问环境拦截
+     */
+    protected function initialize()
+    {
+        if (!SystemService::instance()->checkRunMode('dev')) {
+            $this->error('只允许访问本地或官方代码！');
+        }
+    }
+
     /**
      * 读取文件内容
      */
@@ -50,7 +61,7 @@ class Update extends Controller
      */
     public function node()
     {
-        $this->success('获取文件列表成功！', InstallService::instance()->getList(
+        $this->success('获取文件列表成功！', ModuleService::instance()->getChanges(
             json_decode($this->request->post('rules', '[]', ''), true),
             json_decode($this->request->post('ignore', '[]', ''), true)
         ));

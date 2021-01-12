@@ -62,7 +62,7 @@ class Login extends Controller
             if (!CaptchaService::instance()->check($data['verify'], $data['uniqid'])) {
                 $this->error('图形验证码验证失败，请重新输入!');
             }
-            // 用户信息验证
+            /*! 用户信息验证 */
             $map = ['username' => $data['username'], 'is_deleted' => '0'];
             $user = $this->app->db->name('SystemUser')->where($map)->order('id desc')->find();
             if (empty($user)) {
@@ -83,7 +83,7 @@ class Login extends Controller
                 'login_at'  => $this->app->db->raw('now()'),
                 'login_num' => $this->app->db->raw('login_num+1'),
             ]);
-            sysoplog('用户登录', '登录系统后台成功');
+            sysoplog('系统用户登录', '登录系统后台成功');
             $this->success('登录成功', sysuri('admin/index/index'));
         }
     }

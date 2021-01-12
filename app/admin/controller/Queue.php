@@ -33,7 +33,7 @@ class Queue extends Controller
      * 绑定数据表
      * @var string
      */
-    protected $table = 'SystemQueue';
+    private $table = 'SystemQueue';
 
     /**
      * 系统任务管理
@@ -45,19 +45,13 @@ class Queue extends Controller
      */
     public function index()
     {
-        // 检查进程状态
-        if (AdminService::instance()->isSuper()) try {
-            $this->process = ProcessService::instance();
-            if ($this->process->iswin() || empty($_SERVER['USER'])) {
-                $this->command = $this->process->think('xadmin:queue start');
+        if (AdminService::instance()->isSuper()) {
+            $process = ProcessService::instance();
+            if ($process->iswin() || empty($_SERVER['USER'])) {
+                $this->command = $process->think('xadmin:queue start');
             } else {
-                $this->command = "sudo -u {$_SERVER['USER']} {$this->process->think('xadmin:queue start')}";
+                $this->command = "sudo -u {$_SERVER['USER']} {$process->think('xadmin:queue start')}";
             }
-            $this->message = $this->app->console->call('xadmin:queue', ['status'])->fetch();
-            $this->listen = preg_match('/process.*?\d+.*?running/', $this->message, $attr);
-        } catch (\Exception $exception) {
-            $this->listen = false;
-            $this->message = $exception->getMessage();
         }
         // 任务状态统计
         $this->total = ['dos' => 0, 'pre' => 0, 'oks' => 0, 'ers' => 0];
@@ -97,7 +91,7 @@ class Queue extends Controller
      * 重启任务结果处理
      * @param boolean $state
      */
-    protected function _redo_save_result($state)
+    protected function _redo_save_result(bool $state)
     {
         if ($state) {
             $this->success('重启任务成功！');
@@ -105,63 +99,12 @@ class Queue extends Controller
     }
 
     /**
-     * WIN创建监听进程
+     * 清理运行数据
      * @auth true
      */
-    public function start()
+    public function clean()
     {
-        try {
-            $message = nl2br($this->app->console->call('xadmin:queue', ['start'])->fetch());
-            if (stripos($message, 'daemons started successfully for pid')) {
-                $this->success('任务监听主进程启动成功！');
-            } elseif (stripos($message, 'daemons already exist for pid')) {
-                $this->success('任务监听主进程已经存在！');
-            } else {
-                $this->error($message);
-            }
-        } catch (HttpResponseException $exception) {
-            throw $exception;
-        } catch (\Exception $exception) {
-            $this->error($exception->getMessage());
-        }
-    }
-
-    /**
-     * WIN停止监听进程
-     * @auth true
-     */
-    public function stop()
-    {
-        try {
-            $message = nl2br($this->app->console->call('xadmin:queue', ['stop'])->fetch());
-            if (stripos($message, 'sent end signal to process')) {
-                $this->success('停止任务监听主进程成功！');
-            } elseif (stripos($message, 'processes to stop')) {
-                $this->success('没有找到需要停止的进程！');
-            } else {
-                $this->error($message);
-            }
-        } catch (HttpResponseException $exception) {
-            throw $exception;
-        } catch (\Exception $exception) {
-            $this->error($exception->getMessage());
-        }
-    }
-
-    /**
-     * 创建记录清理任务
-     * @auth true
-     */
-    public function clear()
-    {
-        try {
-            QueueService::instance()->addCleanQueue();
-            $this->success('创建清理任务成功！');
-        } catch (HttpResponseException $exception) {
-            throw $exception;
-        } catch (\Exception $exception) {
-            $this->error($exception->getMessage());
-        }
+        $this->_queue('定时清理系统运行数据', "xadmin:queue clean", 0, [], 0, 3600);
     }
 
     /**

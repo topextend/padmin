@@ -2,10 +2,11 @@ define(['md5'], function (SparkMD5, allowMime) {
     allowMime = JSON.parse('{$exts|raw}');
     return function (element, callable, option) {
         /*! 初始化变量 */
-        option = {element: $(element), exts: [], mimes: [], files: {}, cache: {}, load: 0, count: {total: 0, uploaded: 0}};
-        option.safe = option.element.data('safe') ? 1 : 0, option.field = option.element.data('field') || 'file';
-        option.hload = option.element.data('hide-load') ? 1 : 0, option.input = $('[name="_field_"]'.replace('_field_', option.field));
-        option.uptype = option.safe ? 'local' : option.element.attr('data-uptype') || '', option.multiple = option.element.attr('data-multiple') > 0;
+        option = {element: $(element), exts: [], mimes: [], files: {}, cache: {}, load: 0};
+        option.count = {total: 0, uploaded: 0}, option.size = option.element.data('size') || 0;
+        option.safe = option.element.data('safe') ? 1 : 0, option.hload = option.element.data('hide-load') ? 1 : 0;
+        option.field = option.element.data('field') || 'file', option.input = $('[name="_field_"]'.replace('_field_', option.field));
+        option.uptype = option.safe ? 'local' : option.element.attr('data-uptype') || '', option.multiple = option.element.data('multiple') > 0;
         /*! 文件选择筛选 */
         $((option.element.data('type') || '').split(',')).map(function (i, ext) {
             if (allowMime[ext]) option.exts.push(ext), option.mimes.push(allowMime[ext]);
@@ -13,14 +14,17 @@ define(['md5'], function (SparkMD5, allowMime) {
         /*! 初始化上传组件 */
         option.uploader = layui.upload.render({
             auto: false, elem: element, accept: 'file', multiple: option.multiple,
-            exts: option.exts.join('|'), acceptMime: option.mimes.join(','), choose: function (obj) {
-                for (var i in (option.files = obj.pushFile())) {
+            exts: option.exts.join('|'), acceptMime: option.mimes.join(','), choose: function (object, index) {
+                for (index in (option.files = object.pushFile())) {
+                    if (option.size > 0 && option.files[index].size > option.size) {
+                        return delete option.files[index], $.msg.tips('文件大小超出上传限制！');
+                    }
                     option.load = option.hload || $.msg.loading('上传进度 <span data-upload-progress>0%</span>');
-                    option.count.total++, option.files[i].index = i, option.cache[i] = option.files[i], delete option.files[i];
-                    md5file(option.cache[i]).then(function (file) {
+                    option.count.total++, option.files[index].index = index, option.cache[index] = option.files[index], delete option.files[index];
+                    md5file(option.cache[index]).then(function (file) {
                         option.element.triggerHandler('upload.hash', file);
                         jQuery.ajax("{:url('api/upload/state')}", {
-                            data: {xkey: file.xkey, type: file.type, xext: file.xext, size: file.size, uptype: option.uptype, safe: option.safe, name: file.name}, method: 'post', success: function (ret) {                                
+                            data: {xkey: file.xkey, uptype: option.uptype, safe: option.safe, name: file.name}, method: 'post', success: function (ret) {
                                 file.xurl = ret.data.url;
                                 if (parseInt(ret.code) === 404) {
                                     option.uploader.config.url = ret.data.server;
@@ -30,13 +34,21 @@ define(['md5'], function (SparkMD5, allowMime) {
                                     if (ret.data.uptype === 'qiniu') {
                                         option.uploader.config.data.token = ret.data.token;
                                     } else if (ret.data.uptype === 'alioss') {
-                                        option.uploader.config.data.policy = ret.data.policy;
-                                        option.uploader.config.data.signature = ret.data.signature;
-                                        option.uploader.config.data.OSSAccessKeyId = ret.data.OSSAccessKeyId;
-                                        option.uploader.config.data.success_action_status = 200;
+                                        option.uploader.config.data['policy'] = ret.data.policy;
+                                        option.uploader.config.data['signature'] = ret.data.signature;
+                                        option.uploader.config.data['OSSAccessKeyId'] = ret.data.OSSAccessKeyId;
+                                        option.uploader.config.data['success_action_status'] = 200;
+                                        option.uploader.config.data['Content-Disposition'] = 'inline;filename=' + encodeURIComponent(file.name);
+                                    } else if (ret.data.uptype === 'txcos') {
+                                        option.uploader.config.data['policy'] = ret.data.policy;
+                                        option.uploader.config.data['q-ak'] = ret.data['q-ak'];
+                                        option.uploader.config.data['q-key-time'] = ret.data['q-key-time'];
+                                        option.uploader.config.data['q-signature'] = ret.data['q-signature'];
+                                        option.uploader.config.data['q-sign-algorithm'] = ret.data['q-sign-algorithm'];
+                                        option.uploader.config.data['success_action_status'] = 200;
                                         option.uploader.config.data['Content-Disposition'] = 'inline;filename=' + encodeURIComponent(file.name);
                                     }
-                                    obj.upload(file.index, file);
+                                    object.upload(file.index, file);
                                 } else if (parseInt(ret.code) === 200) {
                                     option.uploader.config.done({uploaded: true, url: file.xurl}, file.index);
                                 } else {

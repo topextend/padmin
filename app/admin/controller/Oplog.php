@@ -17,6 +17,7 @@
 namespace app\admin\controller;
 
 use think\admin\Controller;
+use think\admin\service\AdminService;
 
 /**
  * 系统日志管理
@@ -29,7 +30,7 @@ class Oplog extends Controller
      * 绑定数据表
      * @var string
      */
-    public $table = 'SystemOplog';
+    private $table = 'SystemOplog';
 
     /**
      * 系统日志管理
@@ -42,8 +43,15 @@ class Oplog extends Controller
     public function index()
     {
         $this->title = '系统日志管理';
-        $query = $this->_query($this->table)->like('action,node,content,username,geoip');
-        $query->dateBetween('create_at')->order('id desc')->page();
+        $this->isSupper = AdminService::instance()->isSuper();
+        $this->actions = $this->app->db->name($this->table)->distinct(true)->column('action');
+        $query = $this->_query($this->table)->order('id desc');
+        $query->like('action,node,content,username,geoip')->dateBetween('create_at');
+        if (input('output') === 'json') {
+            $this->success('获取数据成功', $query->page(true, false));
+        } else {
+            $query->page();
+        }
     }
 
     /**
@@ -52,7 +60,7 @@ class Oplog extends Controller
      * @param array $data
      * @throws \Exception
      */
-    protected function _index_page_filter(&$data)
+    protected function _index_page_filter(array &$data)
     {
         $ip = new \Ip2Region();
         foreach ($data as &$vo) {
@@ -69,6 +77,7 @@ class Oplog extends Controller
     public function clear()
     {
         if ($this->app->db->name($this->table)->whereRaw('1=1')->delete() !== false) {
+            sysoplog('系统运维管理', '成功清理所有日志数据');
             $this->success('日志清理成功！');
         } else {
             $this->error('日志清理失败，请稍候再试！');
