@@ -1,0 +1,9 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+    <!-- {if auth("category")} -->
+        <button data-open='{:url("category")}' class='layui-btn layui-btn-sm layui-btn-primary'>发布商品</button>
+    <!-- {/if} -->
+    <!-- {if auth("remove")} -->
+        <a data-confirm="确定要删除这些商品信息吗？" data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
+    <!-- {/if} -->
+{/block}

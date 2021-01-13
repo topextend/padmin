@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:12:45
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-12 21:55:00
+// |LastEditTime : 2021-01-13 15:43:25
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -97,7 +97,7 @@ class Category extends Controller
         if ($this->request->isGet()) {
             $data['pid'] = intval($data['pid'] ?? input('pid', '0'));
             $data['spt'] = intval($data['spt'] ?? input('spt', '0'));
-            $this->goods_type = GoodService::instance()->getGoodsCatsType('GoodsType', 'id, type_name');
+            $this->goods_type = GoodService::instance()->getGoodsValue('GoodsType', 'id, type_name');
             $cates = $this->app->db->name($this->table)->order('sort desc,id desc')->select()->toArray();
             $this->goods_cats = DataExtend::arr2table(array_merge($cates, [['id' => '0', 'pid' => '-1', 'cat_name' => '顶级分类']]));
             if (isset($data['id'])) foreach ($this->goods_cats as $key => $cat) if ($cat['id'] === $data['id']) $data = $cat;

@@ -1,0 +1,109 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+    <a onClick="javascript:window.history.back();return false;" class="layui-btn layui-btn-sm layui-btn-primary">返回</a>
+{/block}
+{block name="content"}
+{include file='index/formstyle'}
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品分类</b></label>
+            <div class="layui-input-block">
+                <span class="select_cats">{$select_cats|raw}</span>
+                <a data-open='{:url("category")}' class="BTN_outerWrapper BTN_textPrimary BTN_small BTN_outerWrapperLink"><span>修改分类</span></a>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品属性</b></label>
+            <div class="layui-input-block">
+                <div class="propertys-warmtip">
+                    <div class="tips" style="line-height: 38px;display: inline-block;">请准确填写属性，有利于商品在搜索和推荐中露出，错误填写可能面临商品下架或流量损失!</div>
+                    <span class="important-tips">(注：带<i class="layui-icon">&#xe67a;</i>为重要属性)</span>
+                </div>
+                <div class="goods-propertys">
+                    <div class="propertys">
+                        <div class="property-list">
+                            <div class="mui-form-group" style="display: flex;">
+                                <label class="mui-form-group-label label-required-prev">品牌</label>
+                                <label class="layui-input-block" style="margin-left: 20px;">
+                                    <select name='brand_id' class='layui-select' lay-search>
+                                        <option value="0">请选择</option>
+                                        <!-- {notempty name='goods_brand'} -->
+                                        <!-- {foreach $goods_brand as $brand} -->
+                                            <!-- {eq name='brand.id' value='$vo.brand_id|default=0'} -->
+                                                <option selected value='{$brand.id}'>{$brand.brand_name}</option>
+                                            <!-- {else} -->
+                                                <option value='{$brand.id}'>{$brand.brand_name}</option>
+                                            <!-- {/eq} -->
+                                        <!-- {/foreach} -->
+                                        <!-- {/notempty} -->
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="property-list">
+                            <div class="mui-form-group" style="display: flex;">
+                                <label class="mui-form-group-label label-required-prev">仓库</label>
+                                <label class="layui-input-block" style="margin-left: 20px;">
+                                    <select name='whouse_id' class='layui-select' lay-search>
+                                        <option value="0">请选择</option>
+                                        <!-- {notempty name='goods_whouses'} -->
+                                        <!-- {foreach $goods_whouses as $whouse} -->
+                                            <!-- {eq name='whouse.id' value='$vo.whouse_id|default=0'} -->
+                                                <option selected value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                            <!-- {else} -->
+                                                <option value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                            <!-- {/eq} -->
+                                        <!-- {/foreach} -->
+                                        <!-- {/notempty} -->
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="property-list">
+                            <div class="mui-form-group" style="display: flex;">
+                                <label class="mui-form-group-label label-required-prev">商品货号</label>
+                                <label class="layui-input-block" style="margin-left: 20px;">
+                                    <input name="goods_sn" value='{$vo.goods_sn|default=""}' class="layui-input" style="height: 30px;width: 195.6px;">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="property-list">
+                            <div class="mui-form-group" style="display: flex;">
+                                <label class="mui-form-group-label">商品重量</label>
+                                <label class="layui-input-block" style="margin-left: 20px;">
+                                    <input name="goods_weight" value='{$vo.goods_weight|default=""}' class="layui-input" style="height: 30px;width: 165px;">
+                                </label>
+                                <div class="IPT_appendCell IPT_prependAppendCell">kg</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品图片</b></label>
+            <div class="layui-input-block">
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <th class="text-left">轮播图</th>
+                    </tr>
+                    <tr>
+                        <td class="text-left">
+                            <input name="goods_img" type="hidden" value="{$vo.goods_img|default=''}">
+                            <script>$('[name="goods_img"]').uploadMultipleImage();</script>
+                        </td>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+{/block}
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

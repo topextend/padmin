@@ -1,0 +1,86 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+    <button data-open='{:url("index")}' class='layui-btn layui-btn-sm layui-btn-primary'>返回</button>
+{/block}
+{block name="content"}
+{include file='index/formstyle'}
+<div class="soft-cate-tip"><i class="lebel">发布须知：</i>准确选择类目有利于商品曝光，促进转化；若错放类目将会导致流量降权或下架整改。</div>
+<div class="select-box">
+    <div class="wrap">
+        <ul class="first"></ul>
+        <ul class="second"></ul>
+        <ul class="third"></ul>
+    </div>
+</div>
+<div class="bottom-container">
+    <div class="new-out-body">
+        <div class="new-category-show"><span class="label">您当前选择的商品类别是：</span><i id="selectedSort"></i></div>
+    </div>
+</div>
+<div class="bottom">
+    <button id="releaseBtn" disabled class="BTN_outerWrapper BTN_primary BTN_medium BTN_outerWrapperBtn BTN_disabled" type="button"><span>确认发布该类商品</span></button>
+</div>
+{/block}
+{block name='script'}
+<script>
+    var dataJson = JSON.parse('{$cats|raw}');
+    var l1 = 0,
+        l2 = 0;
+    var cname1, cname2, cname3;
+    var cid1, cid2, cid3;
+    var arrow = " <font>&gt;</font> ";
+    // 初始化默认数据
+	$('ul', $('.select-box')).html('');
+	fillData();
+    
+    $('ul.first', $('.select-box')).on('click', 'li', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        $('ul.third').html('');
+        fillData($(this).index());
+        l1 = $(this).index();
+        cname1 = $(this).text();
+        cid1 = $(this).attr('val');
+        $('#selectedSort').html(cname1);
+    });
+    $('ul.second', $('.select-box')).on('click', 'li', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        fillData(l1, $(this).index());
+        l2 = $(this).index();
+        cname2 = $(this).text();
+        cid2 = $(this).attr('val');
+        $('#selectedSort').html(cname1+arrow+cname2);
+    });
+    $('ul.third', $('.select-box')).on('click', 'li', function() {
+        $(this).addClass('selected').siblings().removeClass('selected');
+        cname3 = $(this).text();
+        cid3 = $(this).attr('val');
+        $('#selectedSort').html(cname1+arrow+cname2+arrow+cname3);
+        $('#releaseBtn').removeAttr("disabled");
+        $('#releaseBtn').removeClass("BTN_disabled");
+        $('#select_cat').html(cname1+arrow+cname2+arrow+cname3);
+    });
+
+    /*点击下一步*/
+    $("#releaseBtn").click(function() {
+        $.form.href("{:url('add')}?cat_id="+cid3, this);
+    });
+    
+    function fillData(l1, l2) {
+        var temp_html = "";
+        if (typeof(dataJson.option) != 'undefined' && arguments.length == 0) {
+            $.each(dataJson.option, function(i, pro) {
+                temp_html += '<li val="' + pro.id + '">' + pro.cat_name + '</li>';
+            });
+        } else if (typeof(dataJson.option[l1].child) != 'undefined' && arguments.length == 1) {
+            $.each(dataJson.option[l1].child, function(i, pro) {
+                temp_html += '<li val="' + pro.id + '">' + pro.cat_name + '</li>';
+            });
+        } else if (typeof(dataJson.option[l1].child[l2].child) != 'undefined' && arguments.length == 2) {
+            $.each(dataJson.option[l1].child[l2].child, function(i, pro) {
+                temp_html += '<li val="' + pro.id + '">' + pro.cat_name + '</li>';
+            });
+        }
+        $('.select-box ul:eq(' + arguments.length + ')').html(temp_html);
+    }
+</script>
+{/block}
