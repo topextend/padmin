@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2020-07-08 16:50:35
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-30 21:50:47
+// |LastEditTime : 2021-01-12 22:15:44
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -36,13 +36,13 @@ return [
             // 数据库类型
             'type'              => env('database.type', 'mysql'),
             // 服务器地址
-            'hostname'          => env('database.hostname', '127.0.0.1'),
+            'hostname'          => env('database.hostname', 'www.ladmin.cn'),
             // 数据库名
-            'database'          => env('database.database', 'www.padmin.com'),
+            'database'          => env('database.database', 'www_padmin_cn'),
             // 用户名
-            'username'          => env('database.username', 'root'),
+            'username'          => env('database.username', 'www_padmin_cn'),
             // 密码
-            'password'          => env('database.password', 'root'),
+            'password'          => env('database.password', 'mubin.com'),
             // 端口
             'hostport'          => env('database.hostport', '3306'),
             // 数据库连接参数
