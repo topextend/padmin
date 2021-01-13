@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 15:57:27
+// |LastEditTime : 2021-01-13 22:10:31
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -100,5 +100,20 @@ class GoodService extends Service
         $cat_2 = $this->getParentAttr($cat_3['pid']);
         $cat_1 = $this->getParentAttr($cat_2['pid']);
         return $cat_1['cat_name'] . "<font>&gt;</font>" . $cat_2['cat_name'] ."<font>&gt;</font>" . $cat_3['cat_name'];
+    }
+
+    /**
+     * 重组属性数组
+     * @return arrary
+     */
+    public function attrStr2Attr(string $str, string $id) : array 
+    {
+        $attr = explode(',', $str);
+        foreach ($attr as $key =>$value)
+        {
+            $attrs[$key]['attr_id']    = $id;
+            $attrs[$key]['attr_value'] = $value;
+        }
+        return $attrs;
     }
 }
