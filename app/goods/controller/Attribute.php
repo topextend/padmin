@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 22:39:51
+// |LastEditTime : 2021-01-17 18:51:20
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -78,9 +78,10 @@ class Attribute extends Controller
         if ($this->request->isGet()) {
             $data['type_id']   = $data['type_id'] ?? input('type_id', '0');
             $this->goods_type  = GoodService::instance()->getGoodsValue('GoodsType','type_name');
-            $this->attr_values = implode(',', $this->app->db->name('GoodsAttrValue')->where(['attr_id' => $data['attr_id']])->column('attr_value'));
+            if (!empty($data['attr_id'])) $this->attr_values = implode(',', $this->app->db->name('GoodsAttrValue')->where(['attr_id' => $data['attr_id']])->column('attr_value'));
         } elseif ($this->request->isPost()) {
-            if (isset($data['attr_id']) && $data['attr_id'] > 0) {
+            if (isset($data['type_id']) && $data['type_id'] > 0) {
+                unset($data['type_id']);
                 unset($data['attr_name']);
             } else {
                 // 检查登录属性是否出现重复
@@ -90,7 +91,7 @@ class Attribute extends Controller
                 }
             }
         }
-    }    
+    }
     
     /**
      * 创建属性成功后保存数据
