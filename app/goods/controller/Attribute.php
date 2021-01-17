@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-17 18:51:20
+// |LastEditTime : 2021-01-17 22:03:40
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -30,7 +30,8 @@ class Attribute extends Controller
      * 绑定数据表
      * @var string
      */
-    private $table = 'GoodsAttr';
+    private $table      = 'GoodsAttr';
+    private $attr_value = 'GoodsAttrValue';
     
     /**
      * 商品属性列表
@@ -60,7 +61,7 @@ class Attribute extends Controller
      */
     public function add()
     {
-        $this->title = '添加商品属性';
+        $this->title = '添加类型属性';
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
     }
@@ -78,7 +79,7 @@ class Attribute extends Controller
         if ($this->request->isGet()) {
             $data['type_id']   = $data['type_id'] ?? input('type_id', '0');
             $this->goods_type  = GoodService::instance()->getGoodsValue('GoodsType','type_name');
-            if (!empty($data['attr_id'])) $this->attr_values = implode(',', $this->app->db->name('GoodsAttrValue')->where(['attr_id' => $data['attr_id']])->column('attr_value'));
+            if (!empty($data['attr_id'])) $this->attr_values = implode(',', $this->app->db->name($this->attr_value)->where(['attr_id' => $data['attr_id']])->column('attr_value'));
         } elseif ($this->request->isPost()) {
             if (isset($data['type_id']) && $data['type_id'] > 0) {
                 unset($data['type_id']);
@@ -110,7 +111,7 @@ class Attribute extends Controller
                     foreach ($data['attr_values'] as $v)
                     {
                         //存入数据库
-                        $this->app->db->name('GoodsAttrValue')->save($v);
+                        $this->app->db->name($this->attr_value)->save($v);
                     }
                 }
             }
@@ -126,9 +127,25 @@ class Attribute extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑商品属性';
+        $this->title = '编辑类型属性值';
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
+    }
+
+    /**
+     * 编辑商品属性
+     * @auth true
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function edit1()
+    {
+        $this->title = '编辑类型属性值';
+        $this->attr_id = input('attr_id', 0);
+        $query = $this->_query($this->attr_value);
+        // 列表排序并显示
+        $query->where(['attr_id'=>$this->attr_id])->page();
     }
     
     /**

@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 16:00:02
+// |LastEditTime : 2021-01-17 19:45:48
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -58,9 +58,9 @@ class Index extends Controller
      */
     public function category()
     {
-        $this->title = '选择商品分类';
-        $this->_applyFormToken();
-        $this->_form($this->table, 'category');
+        $this->title = '选择商品分类';        
+        $this->cats  = GoodService::instance()->getJosnCats();
+        $this->fetch('category');
     }
     
     /**
@@ -88,7 +88,6 @@ class Index extends Controller
     protected function _form_filter(&$vo)
     {
         if ($this->request->isGet()) {
-            $this->cats               = GoodService::instance()->getJosnCats();
             if (!empty(input('cat_id')))
             {
                 $this->goods_brand    = GoodService::instance()->getGoodsValue('GoodsBrand', 'brand_name');

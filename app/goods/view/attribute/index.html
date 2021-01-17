@@ -5,7 +5,7 @@
     <a data-open='{:url("type/index")}' class="layui-btn layui-btn-sm layui-btn-primary">返回</a>
     <!-- {/notempty} -->
     <!-- {if auth("add")} -->
-        <button data-modal='{:url("add")}?type_id={$type_id}' data-title="添加属性" class='layui-btn layui-btn-sm layui-btn-primary'>添加属性</button>
+        <button data-modal='{:url("add")}?type_id={$type_id}' data-title="添加类型属性" class='layui-btn layui-btn-sm layui-btn-primary'>添加属性</button>
     <!-- {/if} -->
     <!-- {if auth("remove")} -->
         <a data-confirm="确定要删除这些属性信息吗？" data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
@@ -49,7 +49,7 @@
                         </td>
                         <td class='text-left nowrap'>
                             <!--{if auth("edit")}-->
-                                <a class="layui-btn layui-btn-xs" data-title="编辑商品属性" data-modal='{:url("edit")}?attr_id={$vo.attr_id}'>编 辑</a>
+                                <a class="layui-btn layui-btn-xs" data-title="编辑{$vo.attr_name}属性" data-modal='{:url("edit")}?attr_id={$vo.attr_id}'>编 辑</a>
                             <!--{/if}-->
                             <!-- {if $vo.status eq 1 and auth("state")} -->
                                 <a class="layui-btn layui-btn-warm layui-btn-xs" data-confirm="确定禁用该商品属性吗？" data-action='{:url("state")}' data-value="attr_id#{$vo.attr_id};status#0" data-csrf="{:systoken('state')}">禁 用</a>
