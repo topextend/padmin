@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 22:10:31
+// |LastEditTime : 2021-01-19 19:13:20
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -113,6 +113,31 @@ class GoodService extends Service
         {
             $attrs[$key]['attr_id']    = $id;
             $attrs[$key]['attr_value'] = $value;
+        }
+        return $attrs;
+    }    
+
+    /**
+     * 获取指定分类的属性类型
+     * @return string
+     */
+    public function getCatsTypeID(string $cat_id) : string
+    {
+        $query = $this->app->db->name('GoodsCat');
+        return $query->where(['id' => $cat_id])->value('type_id');
+    }
+    
+    /**
+     * 获取店铺类型属性
+     * @return array
+     */
+    public function getGoodsAttrValue(string $cat_id): array
+    {
+        $type_id = $this->getCatsTypeID($cat_id);
+        $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_values');
+        foreach ($query as $key => $value) {
+            $value['attr_values'] = explode(',',$value['attr_values']);
+            $attrs[$key] = $value;
         }
         return $attrs;
     }

@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-17 19:45:48
+// |LastEditTime : 2021-01-19 19:23:51
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -93,9 +93,10 @@ class Index extends Controller
                 $this->goods_brand    = GoodService::instance()->getGoodsValue('GoodsBrand', 'brand_name');
                 $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
                 $this->select_cats    = GoodService::instance()->selectedCats(input('cat_id'));
+                $this->goods_attr     = GoodService::instance()->getGoodsAttrValue(input('cat_id'));
             }
         } elseif ($this->request->isPost()) {
-            //
+            dump($vo);die;
         }
     }
 

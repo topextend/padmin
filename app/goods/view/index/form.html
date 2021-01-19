@@ -77,6 +77,25 @@
                                 <div class="IPT_appendCell IPT_prependAppendCell">kg</div>
                             </div>
                         </div>
+                        <!-- {notempty name='goods_attr'} -->
+                        <!-- {foreach $goods_attr as $key => $attr} -->
+                        <!-- {eq name='attr.attr_type' value='1'} -->
+                            <div class="property-list">
+                                <div class="mui-form-group" style="display: flex;">
+                                    <label class="mui-form-group-label">{$attr.attr_name}</label>
+                                    <label class="layui-input-block" style="margin-left: 20px;">
+                                        <select name='attr_value[{$key}]' class='layui-select' lay-search>
+                                            <option value="0">请选择</option>
+                                            <!-- {foreach $attr.attr_values as $value} -->
+                                                <option value='{$value}'>{$value}</option>
+                                            <!-- {/foreach} -->
+                                        </select>
+                                    </label>
+                                </div>
+                            </div>
+                        <!-- {/eq} -->
+                        <!-- {/foreach} -->
+                        <!-- {/notempty} -->
                     </div>
                 </div>
             </div>
@@ -99,11 +118,125 @@
                 </table>
             </div>
         </div>
+        <div class="layui-form-item">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-xs4">
+                    <label class="layui-form-label"><b>拿货价格</b></label>
+                    <label class="layui-input-block relative block">
+                        <input autofocus required name="stock_price" value="{$vo.stock_price|default=''}" placeholder="请输入拿货价格" class="layui-input">
+                    </label>
+                </div>
+                <div class="layui-col-xs4">
+                    <label class="layui-form-label"><b>本店售价</b></label>
+                    <label class="layui-input-block relative block">
+                        <input autofocus required name="shop_price" value="{$vo.shop_price|default=''}" placeholder="请输入本店售价" class="layui-input">
+                    </label>
+                </div>
+                <div class="layui-col-xs4">
+                    <label class="layui-form-label"><b>市场售价</b></label>
+                    <label class="layui-input-block relative block">
+                        <input autofocus required name="market_price" value='{$vo.market_price|default=""}' placeholder="请输入市场售价" class="layui-input">
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品规格</b></label>
+            <div class="layui-input-block">
+                <div id="tab_home" class="tab-pane in active">
+                    <table class="table table_detail">
+                        <tbody>
+                            <tr>
+                                <td class="sku-style">
+                                    <div class="sku-wrap">
+                                        <div id="sku_lists">
+                                            <!-- {notempty name='goods_attr'} -->
+                                            <!-- {foreach $goods_attr as $key => $attr} -->
+                                            <!-- {eq name='attr.attr_type' value='0'} -->                                            
+                                            <div class="sku-group">
+                                                <label class="sku-label ">{$attr.attr_name}：</label>	
+                                                <div class="sku-box  sku-color">
+                                                    <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attr.attr_name}">
+                                                        <!-- <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attr.attr_name}" {if $attr.attr_name="颜色"}data_sku_parent_code="color"{/if}> -->
+                                                        <!-- {foreach $attr.attr_values as $k => $attr} -->
+                                                        <li class="sku-item">
+                                                            <input type="checkbox" id="{$k}" value="{$k}" name="sku_{$k}" class="j_checkbox sku_id" lay-skin="primary" autocomplete="off">
+                                                            <label title="{$attr}" class="labelname" id='labelname_{$k}' for="sku_{$k}">{$attr}</label>
+                                                            <input class="editbox text" type="text" value="{$attr}" maxlength="15" autocomplete="off" onkeyup="remark_name_keyup($(this))">
+                                                        </li>
+                                                        <!-- {/foreach} -->
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- {/eq} -->
+                                            <!-- {/foreach} -->
+                                            <!-- {/notempty} -->
+                                        </div>
+                                        <!-- <div class="sku-wrapper">
+                                            <table class="table_color_upload" id="table_color_upload" width="100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>颜色</th>
+                                                        <th>图片</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div> -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>价格及库存</b></label>
+            <div class="layui-input-block">
+                <table id="tables_sku" class="layui-table" width="100%">
+                    <thead>
+                        <tr id="tables_thead_tr_sku">
+                            <!-- {notempty name='goods_attr'} -->
+                            <!-- {foreach $goods_attr as $key => $attr} -->
+                            <!-- {eq name='attr.attr_type' value='0'} -->
+                            <th class="text-center nowrap">{$attr.attr_name}</th>
+                            <!-- {/eq} -->
+                            <!-- {/foreach} -->
+                            <!-- {/notempty} -->
+                            <th class="text-center nowrap"><span class="required">价格</span><a ng-click="batchSet('price',null)" data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                            <th class="text-center nowrap"><span class="required">数量</span><a ng-click="batchSet('amount',null)" data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tables_tbody_sku"></tbody>
+                </table>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品详情</b></label>
+            <div class="layui-input-block">
+                <textarea name="content">{$vo.goods_desc|default=''|raw}</textarea>                   
+            </div>
+        </div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <input type='hidden' value='{:input("cat_id",0)}' name='cat_id'>
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-open='{:url("index")}'>取消编辑</button>
+        </div>
     </div>
 </form>
 {/block}
 {block name='script'}
+<link rel="stylesheet" href="__ROOT__/static/plugs/goods/sku.css?at={:date('md')}">
+<script src="__ROOT__/static/plugs/goods/sku.js"></script>
+<script src="__ROOT__/static/plugs/goods/jquery.wallform.js"></script>
 <script>
-    window.form.render();
+    /*! 表单初始化 */
+    window.form.render();    
+    /*! 加载扩展插件 */
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+    });
 </script>
 {/block}
