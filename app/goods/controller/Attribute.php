@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-17 22:03:40
+// |LastEditTime : 2021-01-18 15:24:32
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -30,9 +30,8 @@ class Attribute extends Controller
      * 绑定数据表
      * @var string
      */
-    private $table      = 'GoodsAttr';
-    private $attr_value = 'GoodsAttrValue';
-    
+    private $table = 'GoodsAttr';
+
     /**
      * 商品属性列表
      * @auth true
@@ -45,25 +44,11 @@ class Attribute extends Controller
     {
         $this->title = '商品属性列表';
         $this->type_id = input('type_id', 0);
-        $map = input('type_id') ? ['a.type_id'=>$this->type_id] : 1;        
+        $map = input('type_id') ? ['a.type_id'=>$this->type_id] : 1;
         $query = $this->_query($this->table)->alias('a')->field('a.*, b.type_name')->join('goods_type b','a.type_id = b.id');
         $query->dateBetween('a.create_at')->like('a.attr_name#attr_name')->where($map);
         // 列表排序并显示
-        $query->equal('a.status')->page();
-    }
-    
-    /**
-     * 添加商品属性
-     * @auth true
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\DbException
-     * @throws \think\db\exception\ModelNotFoundException
-     */
-    public function add()
-    {
-        $this->title = '添加类型属性';
-        $this->_applyFormToken();
-        $this->_form($this->table, 'form');
+        $query->equal('a.status')->order('a.sort desc,a.id desc')->page();
     }
 
     /**
@@ -77,57 +62,32 @@ class Attribute extends Controller
     protected function _form_filter(&$data)
     {
         if ($this->request->isGet()) {
-            $data['type_id']   = $data['type_id'] ?? input('type_id', '0');
-            $this->goods_type  = GoodService::instance()->getGoodsValue('GoodsType','type_name');
-            if (!empty($data['attr_id'])) $this->attr_values = implode(',', $this->app->db->name($this->attr_value)->where(['attr_id' => $data['attr_id']])->column('attr_value'));
+            $data['type_id'] = $data['type_id'] ?? input('type_id', '0');
+            $this->goods_type = GoodService::instance()->getGoodsValue('GoodsType','type_name');
         } elseif ($this->request->isPost()) {
-            if (isset($data['type_id']) && $data['type_id'] > 0) {
-                unset($data['type_id']);
+            if (isset($data['id']) && $data['id'] > 0) {
                 unset($data['attr_name']);
             } else {
                 // 检查登录属性是否出现重复
                 $where = ['attr_name' => $data['attr_name'], 'type_id' => $data['type_id']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("属性{$data['attr_name']}已经存在，请使用其它属性名称！");
-                }
-            }
-        }
-    }
-    
-    /**
-     * 创建属性成功后保存数据
-     * @param bool $state
-     */
-    protected function _form_result(bool $state, array $data)
-    {
-        if ($state) {
-            $data['attr_id'] = (input('attr_id') ?: $this->app->db->name($this->table)->getLastInsID()) ?: 0;
-            if (!empty($data['attr_id']))
-            {
-                if (!empty($data['attr_values']))
-                {
                     $data['attr_values'] = rtrim(str_replace('，', ',', str_replace(' ','',$data['attr_values'])),',');
-                    $data['attr_values'] = GoodService::instance()->attrStr2Attr($data['attr_values'], $data['attr_id']);
-                    foreach ($data['attr_values'] as $v)
-                    {
-                        //存入数据库
-                        $this->app->db->name($this->attr_value)->save($v);
-                    }
                 }
             }
         }
     }
     
     /**
-     * 编辑商品属性
+     * 添加商品属性
      * @auth true
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function edit()
+    public function add()
     {
-        $this->title = '编辑类型属性值';
+        $this->title = '添加商品属性';
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
     }
@@ -139,13 +99,11 @@ class Attribute extends Controller
      * @throws \think\db\exception\DbException
      * @throws \think\db\exception\ModelNotFoundException
      */
-    public function edit1()
+    public function edit()
     {
-        $this->title = '编辑类型属性值';
-        $this->attr_id = input('attr_id', 0);
-        $query = $this->_query($this->attr_value);
-        // 列表排序并显示
-        $query->where(['attr_id'=>$this->attr_id])->page();
+        $this->title = '编辑商品属性';
+        $this->_applyFormToken();
+        $this->_form($this->table, 'form');
     }
     
     /**

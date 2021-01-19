@@ -22,7 +22,11 @@
                         <th class='list-table-check-td think-checkbox'>
                             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
                         </th>
+                        <th class='list-table-sort-td'>
+                            <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
+                        </th>
                         <th class='text-left nowrap'>属性名称</th>
+                        <th class='text-left nowrap'>属性值</th>
                         <th class='text-left nowrap'>所属类型</th>
                         <th class="text-center">状态</th>
                         <th class="text-center">创建时间</th>
@@ -33,10 +37,16 @@
                     <!-- {foreach $list as $key=>$vo} -->
                     <tr data-dbclick>
                         <td class='list-table-check-td think-checkbox'>
-                            <input class="list-check-box" value='{$vo.attr_id}' type='checkbox'>
+                            <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+                        </td>
+                        <td class='list-table-sort-td'>
+                            <label><input data-action-blur="{:url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></label>
                         </td>
                         <td class='text-left nowrap'>
                             {$vo.attr_name|default=''}
+                        </td>
+                        <td width='550' style="word-break: break-all;">
+                            {$vo.attr_values|default=''}
                         </td>
                         <td class='text-left nowrap'>
                             {$vo.type_name|default=''}
@@ -49,16 +59,16 @@
                         </td>
                         <td class='text-left nowrap'>
                             <!--{if auth("edit")}-->
-                                <a class="layui-btn layui-btn-xs" data-title="编辑{$vo.attr_name}属性" data-modal='{:url("edit")}?attr_id={$vo.attr_id}'>编 辑</a>
+                                <a class="layui-btn layui-btn-xs" data-title="编辑商品属性" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
                             <!--{/if}-->
                             <!-- {if $vo.status eq 1 and auth("state")} -->
-                                <a class="layui-btn layui-btn-warm layui-btn-xs" data-confirm="确定禁用该商品属性吗？" data-action='{:url("state")}' data-value="attr_id#{$vo.attr_id};status#0" data-csrf="{:systoken('state')}">禁 用</a>
+                                <a class="layui-btn layui-btn-warm layui-btn-xs" data-confirm="确定禁用该商品属性吗？" data-action='{:url("state")}' data-value="id#{$vo.id};status#0" data-csrf="{:systoken('state')}">禁 用</a>
                             <!-- {/if} -->
                             <!-- {if $vo.status eq 0 and auth("state")} -->
-                                <a class="layui-btn layui-btn-warm layui-btn-xs" data-confirm="确定启用该商品属性吗？" data-action='{:url("state")}' data-value="attr_id#{$vo.attr_id};status#1" data-csrf="{:systoken('state')}">启 用</a>
+                                <a class="layui-btn layui-btn-warm layui-btn-xs" data-confirm="确定启用该商品属性吗？" data-action='{:url("state")}' data-value="id#{$vo.id};status#1" data-csrf="{:systoken('state')}">启 用</a>
                             <!-- {/if} -->
                             <!-- {if auth("remove")} -->
-                                <a class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要删除该商品属性吗？" data-action='{:url("remove")}' data-value="attr_id#{$vo.attr_id}" data-csrf="{:systoken('remove')}">删 除</a>
+                                <a class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要删除该商品属性吗？" data-action='{:url("remove")}' data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
                             <!-- {/if} -->
                         </td>
                     </tr>
