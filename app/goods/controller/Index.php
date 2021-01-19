@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-19 19:23:51
+// |LastEditTime : 2021-01-19 21:38:21
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -96,7 +96,78 @@ class Index extends Controller
                 $this->goods_attr     = GoodService::instance()->getGoodsAttrValue(input('cat_id'));
             }
         } elseif ($this->request->isPost()) {
-            dump($vo);die;
+            // 商品品牌
+            if ($vo['brand_id']==0)  $this->error('请选择品牌!');
+            // 商品仓库
+            if ($vo['whouse_id']==0) $this->error('请选择仓库!');
+            // 商品货号
+            if (empty($vo['goods_sn'])) $this->error('请输出商品货号!');
+            if (empty($vo['sku_names'])) $this->error('请选择商品SKU属性!');
+            // 商品图片
+            if (!empty($vo['goods_img']))
+            {
+                $vo['goods_img'] = explode("|",$vo['goods_img']);
+                foreach($vo['goods_img'] as $v)
+                {
+                    $vo['goods_imgs'][]['images'] = $v;
+                }
+                $vo['goods_logo'] = $vo['goods_img'][0];
+                unset($vo['goods_img']);
+            }
+            $vo['goods_sku_value'] = GoodService::instance()->tree2attr($vo['sku_value'],$vo['attr_id'],$vo['attr_value']);
+            unset($vo['attr_id']);
+            unset($vo['attr_value']);
+            unset($vo['sku_value']);
+        }
+    }
+
+    /**
+     * 创建商品成功后保存数据
+     * @param bool $state
+     */
+    protected function _form_result(bool $state, array $data)
+    {
+        if ($state) {
+            $data['id'] = (input('id') ?: $this->app->db->name($this->table)->getLastInsID()) ?: 0;
+            if (!empty($data['id']))
+            {
+                // 商品详情
+                if (!empty($data['content']))
+                {
+                    $content = ['goods_id' => $data['id'], 'content' => $data['content']];
+                    $this->app->db->name('GoodsContent')->save($content);
+                }
+                // 商品图片
+                if (!empty($data['goods_imgs']))
+                {
+                    foreach($data['goods_imgs'] as $vvv)
+                    {
+                        $vvv['goods_id'] = $data['id'];
+                        $this->app->db->name('GoodsImages')->save($vvv);
+                    }
+                }
+
+                $data['goods_sku_value'] = GoodService::instance()->attrAddId($data['goods_sku_value'], $data['id']);
+                // 商品SKU
+                foreach ($data['goods_sku_value'] as $v)
+                {
+                    // 存入数据库
+                    $res = $this->app->db->name('GoodsSku')->save($v);
+                }
+                // 商品库存
+                if ($res)
+                {
+                    $value     = GoodService::instance()->skuValue($data['sku_names'], $data['id']);
+                    $sku_value = GoodService::instance()->att2value($value, $data['sku_price'], $data['sku_amount'], $data['id']);
+                    foreach($sku_value as $vv)
+                    {
+                        // 存入数据库
+                        $this->app->db->name('GoodsProducts')->save($vv);
+                    }
+                }
+            }
+            // dump($sku_value);
+            // dump($data);die;
         }
     }
 

@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-19 19:13:20
+// |LastEditTime : 2021-01-19 21:20:33
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -140,5 +140,89 @@ class GoodService extends Service
             $attrs[$key] = $value;
         }
         return $attrs;
+    }
+
+    /**
+     * 商品属性转换
+     * @return array
+     */
+    public function tree2attr(array $attr1, array $attr2, array $attr3) : array
+    {
+        foreach ($attr1 as $k1 =>$v1)
+        {
+            $attr = explode('_', $v1);
+            $attr4[$k1]['attr_id'] = $attr[0];
+            $attr4[$k1]['attr_value'] = $attr[1];
+        }
+        foreach ($attr2 as $k2 => $v2)
+        {
+            $attr5[] = ['attr_id'=> $v2, 'attr_value' => $attr3[$k2]];
+        }
+        return array_merge($attr4, $attr5);
+    }
+
+    /**
+     * 商品属性组合商品ID
+     * @return array
+     */
+    public function attrAddId(array $attr, string $goods_id)
+    {
+        foreach ($attr as $key =>$value)
+        {
+            foreach ($value as $v)
+            {                
+                $value['goods_id'] = $goods_id;
+            }
+            $attr[$key] = $value;
+        }
+        return $attr;
+    }
+    
+    /**
+     * 获取属性ID
+     * @return array
+     */
+    public function attr2ID(array $attr, string $goods_id) : array
+    {
+        foreach ($attr as $v)
+        {
+            $s = explode('_', $v);
+            foreach($s as $k =>$vv)
+            {
+                $value = $this->app->db->name('GoodsSku')->where(['goods_id' => $goods_id, 'attr_value'=>$vv])->column('goods_attr_id');  
+                $newattr[$k][] = $value;
+            }
+        }
+        return $newattr;
+    }
+
+    /**
+     * 重新组合SKU
+     * @return array
+     */
+    public function skuValue(array $attr, string $goods_id) : array
+    {
+        $sku_value = $this->attr2ID($attr, $goods_id);
+        foreach ($sku_value[0] as $k => $v)
+        {
+            foreach($v as $vv)
+            {
+                $value[]['attr_value'] = $vv . '|' . $sku_value[1][$k][0];
+            }
+        }
+        return $value;
+    }
+
+    /**
+     * 组合SKU
+     * @return array
+     */
+    public function att2value($attr1, $attr2, $attr3, $goods_id) : array
+    {
+        foreach($attr2 as $k => $v)
+        {
+            $attr[] = ['goods_attr'=> $attr1[$k]['attr_value'], 'goods_price' => $v, 'goods_amount' => $attr3[$k], 'goods_id' => $goods_id];
+        }
+        return $attr;
     }
 }

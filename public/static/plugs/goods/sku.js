@@ -37,11 +37,10 @@ $(function() {
                     var obj_checkbox_checked = $(this);
                     var name_label = obj_checkbox_checked.parent().find(".labelname").text();
                     var name = obj_checkbox_checked.parent().find(".editbox").val();
-
                     var checked_id = obj_checkbox_checked.val();
                     var name_label_short = "";
                     if (name_label != name && name != undefined && name != '') {
-                        name_label += "<span style='color:gray'>(" + name + ")</span>";
+                        name_label = name;
                         name_label_short = name;
                     }
                     name_label += "|" + checked_id + "|" + name_label_short;
@@ -75,8 +74,7 @@ $(function() {
                             var sku_names_short = "";
                             $.each(td_array, function(i, values) {
                                 var valuesArr = values.split("|");
-
-                                td_sku_value += "<td width='15%' class='text-center td_sku_" + valuesArr[1] + "'>" + valuesArr[0] + "</td>";
+                                td_sku_value += "<td width='15%' class='text-center td_sku_" + i +"_"+ valuesArr[1] + "'>" + valuesArr[0] + "</td>";
                                 tr_sku_cla += valuesArr[1] + "_";
                                 sku_ids += valuesArr[1] + "_";
                                 sku_names += valuesArr[0] + "_";
@@ -105,8 +103,8 @@ $(function() {
                             if (sku_ids == sku_default) {
                                 checked = "checked";
                             }
-                            tr += "<td class='text-center'><input type='hidden' name='sku_ids[]' value='" + sku_ids + "' class='sku_ids'>\n\
-<input type='hidden' name='sku_names[]' value='" + sku_names_short + "' class='sku_names'><input type='text' name='sku_price[]' value='" + price + "' class='price text'></td>\n\
+                            tr += "<td class='text-center'><input type='hidden' name='sku_names[]' value='" + sku_names_short + "' class='sku_names'>\n\
+<input type='text' name='sku_price[]' value='" + price + "' class='price text'></td>\n\
 <td class='text-center'><input type='text' name='sku_amount[]' value='" + input_amount + "' class='amount text' maxlength='9'></td>";
                         });
                     }

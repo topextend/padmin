@@ -84,7 +84,8 @@
                                 <div class="mui-form-group" style="display: flex;">
                                     <label class="mui-form-group-label">{$attr.attr_name}</label>
                                     <label class="layui-input-block" style="margin-left: 20px;">
-                                        <select name='attr_value[{$key}]' class='layui-select' lay-search>
+                                        <input type="hidden" name='attr_id[]' value="{$attr.id}">
+                                        <select name='attr_value[]' class='layui-select' lay-search>
                                             <option value="0">请选择</option>
                                             <!-- {foreach $attr.attr_values as $value} -->
                                                 <option value='{$value}'>{$value}</option>
@@ -151,18 +152,18 @@
                                     <div class="sku-wrap">
                                         <div id="sku_lists">
                                             <!-- {notempty name='goods_attr'} -->
-                                            <!-- {foreach $goods_attr as $key => $attr} -->
-                                            <!-- {eq name='attr.attr_type' value='0'} -->                                            
+                                            <!-- {foreach $goods_attr as $key => $attrs} -->
+                                            <!-- {eq name='attrs.attr_type' value='0'} -->                                            
                                             <div class="sku-group">
-                                                <label class="sku-label ">{$attr.attr_name}：</label>	
+                                                <label class="sku-label ">{$attrs.attr_name}：</label>	
                                                 <div class="sku-box  sku-color">
-                                                    <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attr.attr_name}">
-                                                        <!-- <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attr.attr_name}" {if $attr.attr_name="颜色"}data_sku_parent_code="color"{/if}> -->
-                                                        <!-- {foreach $attr.attr_values as $k => $attr} -->
+                                                    <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attrs.attr_name}">
+                                                        <!-- <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attrs.attr_name}" {if $attrs.attr_name="颜色"}data_sku_parent_code="color"{/if}> -->
+                                                        <!-- {foreach $attrs.attr_values as $k => $attr} -->
                                                         <li class="sku-item">
-                                                            <input type="checkbox" id="{$k}" value="{$k}" name="sku_{$k}" class="j_checkbox sku_id" lay-skin="primary" autocomplete="off">
-                                                            <label title="{$attr}" class="labelname" id='labelname_{$k}' for="sku_{$k}">{$attr}</label>
-                                                            <input class="editbox text" type="text" value="{$attr}" maxlength="15" autocomplete="off" onkeyup="remark_name_keyup($(this))">
+                                                            <input type="checkbox" id="{$k}" value="{$attrs.id}_{$attr}" name="sku_value[]" class="j_checkbox sku_id" lay-skin="primary" autocomplete="off">
+                                                            <label title="{$attr}" class="labelname" lay-attr-id="{$attrs.id}" id='labelname_{$k}' for="sku_value[]">{$attr}</label>
+                                                            <input class="editbox text" type="text" value="{$attr}" maxlength="15" autocomplete="off" {if $key=='0'}onkeyup="remark_one($(this))"{elseif $key=='1'}onkeyup="remark_two($(this))"{/if}>
                                                         </li>
                                                         <!-- {/foreach} -->
                                                     </ul>
@@ -220,6 +221,7 @@
         </div>
         {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
         <input type='hidden' value='{:input("cat_id",0)}' name='cat_id'>
+        <input type='hidden' value='{:session("user.id")}' name='user_id'>
         <div class="layui-form-item text-center">
             <button class="layui-btn" type='submit'>保存数据</button>
             <button class="layui-btn layui-btn-danger" type='button' data-open='{:url("index")}'>取消编辑</button>
