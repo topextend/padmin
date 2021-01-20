@@ -4,6 +4,78 @@
         <button data-open='{:url("category")}' class='layui-btn layui-btn-sm layui-btn-primary'>发布商品</button>
     <!-- {/if} -->
     <!-- {if auth("remove")} -->
-        <a data-confirm="确定要删除这些商品信息吗？" data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
+        <a data-confirm="确定要删除这些商品信息吗？" data-action='{:url("remove")}' data-rule="goods_id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>批量删除</a>
     <!-- {/if} -->
+{/block}
+{block name="content"}
+<div class="layui-tab layui-tab-card think-bg-white">
+    <div class="layui-tab-content think-box-shadow table-block">
+        <table class="layui-table margin-top-10" lay-skin="line">
+            <!-- {notempty name='list'} -->
+                <thead>
+                    <tr>
+                        <th class='list-table-check-td think-checkbox'>
+                            <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+                        </th>
+                        <th class='list-table-sort-td'>
+                            <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
+                        </th>
+                        <th class='text-left nowrap'>商品信息</th>
+                        <th class='text-left nowrap'>销售状态</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- {foreach $list as $key=>$vo} -->
+                    <tr data-dbclick>
+                        <td class='list-table-check-td think-checkbox'>
+                            <input class="list-check-box" value='{$vo.goods_id}' type='checkbox'>
+                        </td>
+                        <td class='list-table-sort-td'>
+                            <label><input data-action-blur="{:request()->url()}" data-value="goods_id#{$vo.goods_id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></label>
+                        </td> 
+                        <td class='nowrap'>
+                            {notempty name='vo.goods_logo'}
+                            <div class="headimg" data-tips-image data-lazy-src="{$vo.goods_logo}"></div>
+                            {/notempty}
+                            <div class="inline-block text-top sub-span-blue">
+                                商品编号：<span>{$vo.goods_id|default='--'}</span><br>
+                                商品货号：<span>{$vo.goods_sn|default='--'}</span><br>
+                            </div>
+                        </td>
+                        <td class='nowrap'>
+                            {eq name='vo.status' value='0'}<span class="layui-badge">已下架</span>{else}<span class="layui-badge layui-bg-green">销售中</span>{/eq}
+                        </td>
+                        <td class='nowrap sub-span-blue'>
+                            <div class="margin-bottom-5">剩余库存 <span>0</span> 件 ( 已销售 <span>1</span> 件 )</div>
+                            <!--{if auth("edit")}-->
+                            <a class="layui-btn layui-btn-xs" data-open='{:url("edit")}?goods_id={$vo.goods_id}'>编 辑</a>
+                            <!--{else}-->
+                            <a data-tips-text="您没有编辑商品的权限哦！" class="layui-btn layui-btn-xs layui-btn-primary layui-disabled">编 辑</a>
+                            <!--{/if}-->
+                            <!-- {if isset($vo.status) and $vo.status eq 1} -->
+                                <!--{if auth("state")}-->
+                                <a class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:url('state')}" data-value="goods_id#{$vo.goods_id};status#0">下 架</a>
+                                <!--{else}-->
+                                <a data-tips-text="您没有下架商品的权限哦！" class="layui-btn layui-btn-xs layui-btn-primary layui-disabled">下 架</a>
+                                <!--{/if}-->
+                            <!-- {else} -->
+                                <!--{if auth("state")}-->
+                                <a class="layui-btn layui-btn-xs layui-btn-warm" data-action="{:url('state')}" data-value="goods_id#{$vo.goods_id};status#1">上 架</a>
+                                <!--{else}-->
+                                <a data-tips-text="您没有上架商品的权限哦！" class="layui-btn layui-btn-xs layui-btn-primary layui-disabled">上 架</a>
+                                <!--{/if}-->
+                            <!-- {/if} -->
+                            <!--{if auth("remove")}-->
+                            <a class="layui-btn layui-btn-xs layui-btn-danger" data-confirm="确定要移入回收站吗？" data-action="{:url('remove')}" data-value="goods_id#{$vo.goods_id};deleted#1">删 除</a>
+                            <!--{/if}-->
+                        </td>
+                    </tr>
+                    <!-- {/foreach} -->
+                </tbody>
+            <!-- {/notempty} -->
+        </table>
+        {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+    </div>
+</div>
 {/block}
