@@ -3,7 +3,7 @@
     <button data-open='{:url("index")}' class='layui-btn layui-btn-sm layui-btn-primary'>返回</button>
 {/block}
 {block name="content"}
-{include file='index/formstyle'}
+{include file='index/categorystyle'}
 <div class="soft-cate-tip"><i class="lebel">发布须知：</i>准确选择类目有利于商品曝光，促进转化；若错放类目将会导致流量降权或下架整改。</div>
 <div class="select-box">
     <div class="wrap">
@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="bottom">
-    <button id="releaseBtn" disabled class="BTN_outerWrapper BTN_primary BTN_medium BTN_outerWrapperBtn BTN_disabled" type="button"><span>确认发布该类商品</span></button>
+    <button id="releaseBtn" disabled class="layui-btn layui-btn-warm layui-btn-disabled" type="button"><span>确认发布该类商品</span></button>
 </div>
 {/block}
 {block name='script'}
@@ -40,6 +40,13 @@
         l1 = $(this).index();
         cname1 = $(this).text();
         cid1 = $(this).attr('val');
+        if ($('#releaseBtn').hasClass('layui-btn-disabled'))
+        {
+
+        } else {
+            $('#releaseBtn').attr("disabled","disabled");;
+            $('#releaseBtn').addClass("layui-btn-disabled");
+        }
         $('#selectedSort').html(cname1);
     });
     $('ul.second', $('.select-box')).on('click', 'li', function() {
@@ -48,6 +55,13 @@
         l2 = $(this).index();
         cname2 = $(this).text();
         cid2 = $(this).attr('val');
+        if ($('#releaseBtn').hasClass('layui-btn-disabled'))
+        {
+
+        } else {
+            $('#releaseBtn').attr("disabled","disabled");;
+            $('#releaseBtn').addClass("layui-btn-disabled");
+        }
         $('#selectedSort').html(cname1+arrow+cname2);
     });
     $('ul.third', $('.select-box')).on('click', 'li', function() {
@@ -56,7 +70,7 @@
         cid3 = $(this).attr('val');
         $('#selectedSort').html(cname1+arrow+cname2+arrow+cname3);
         $('#releaseBtn').removeAttr("disabled");
-        $('#releaseBtn').removeClass("BTN_disabled");
+        $('#releaseBtn').removeClass("layui-btn-disabled");
         $('#select_cat').html(cname1+arrow+cname2+arrow+cname3);
     });
 

@@ -4,101 +4,95 @@
 {/block}
 {block name="content"}
 {include file='index/formstyle'}
-<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品分类</b></label>
-            <div class="layui-input-block">
-                <span class="select_cats">{$select_cats|raw}</span>
-                <a data-open='{:url("category")}' class="BTN_outerWrapper BTN_textPrimary BTN_small BTN_outerWrapperLink"><span>修改分类</span></a>
+            <div class="layui-input-inline">
+                <span class="layui-input">{$select_cats|raw}</span>
             </div>
+            <a data-open='{:url("category")}' class="layui-btn layui-btn-radius layui-btn-danger"><span>修改分类</span></a>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品属性</b></label>
-            <div class="layui-input-block">
-                <div class="propertys-warmtip">
-                    <div class="tips" style="line-height: 38px;display: inline-block;">请准确填写属性，有利于商品在搜索和推荐中露出，错误填写可能面临商品下架或流量损失!</div>
-                    <span class="important-tips">(注：带<i class="layui-icon">&#xe67a;</i>为重要属性)</span>
-                </div>
-                <div class="goods-propertys">
-                    <div class="propertys">
-                        <div class="property-list">
-                            <div class="mui-form-group" style="display: flex;">
-                                <label class="mui-form-group-label label-required-prev">品牌</label>
-                                <label class="layui-input-block" style="margin-left: 20px;">
-                                    <select name='brand_id' class='layui-select' lay-search>
-                                        <option value="0">请选择</option>
-                                        <!-- {notempty name='goods_brand'} -->
-                                        <!-- {foreach $goods_brand as $brand} -->
-                                            <!-- {eq name='brand.id' value='$vo.brand_id|default=0'} -->
-                                                <option selected value='{$brand.id}'>{$brand.brand_name}</option>
-                                            <!-- {else} -->
-                                                <option value='{$brand.id}'>{$brand.brand_name}</option>
-                                            <!-- {/eq} -->
-                                        <!-- {/foreach} -->
-                                        <!-- {/notempty} -->
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="property-list">
-                            <div class="mui-form-group" style="display: flex;">
-                                <label class="mui-form-group-label label-required-prev">仓库</label>
-                                <label class="layui-input-block" style="margin-left: 20px;">
-                                    <select name='whouse_id' class='layui-select' lay-search>
-                                        <option value="0">请选择</option>
-                                        <!-- {notempty name='goods_whouses'} -->
-                                        <!-- {foreach $goods_whouses as $whouse} -->
-                                            <!-- {eq name='whouse.id' value='$vo.whouse_id|default=0'} -->
-                                                <option selected value='{$whouse.id}'>{$whouse.whouse_name}</option>
-                                            <!-- {else} -->
-                                                <option value='{$whouse.id}'>{$whouse.whouse_name}</option>
-                                            <!-- {/eq} -->
-                                        <!-- {/foreach} -->
-                                        <!-- {/notempty} -->
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="property-list">
-                            <div class="mui-form-group" style="display: flex;">
-                                <label class="mui-form-group-label label-required-prev">商品货号</label>
-                                <label class="layui-input-block" style="margin-left: 20px;">
-                                    <input name="goods_sn" value='{$vo.goods_sn|default=""}' class="layui-input" style="height: 30px;width: 195.6px;">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="property-list">
-                            <div class="mui-form-group" style="display: flex;">
-                                <label class="mui-form-group-label">商品重量</label>
-                                <label class="layui-input-block" style="margin-left: 20px;">
-                                    <input name="goods_weight" value='{$vo.goods_weight|default=""}' class="layui-input" style="height: 30px;width: 165px;">
-                                </label>
-                                <div class="IPT_appendCell IPT_prependAppendCell">kg</div>
-                            </div>
-                        </div>
-                        <!-- {notempty name='goods_attr'} -->
-                        <!-- {foreach $goods_attr as $key => $attr} -->
-                        <!-- {eq name='attr.attr_type' value='1'} -->
-                            <div class="property-list">
-                                <div class="mui-form-group" style="display: flex;">
-                                    <label class="mui-form-group-label">{$attr.attr_name}</label>
-                                    <label class="layui-input-block" style="margin-left: 20px;">
-                                        <input type="hidden" name='attr_id[]' value="{$attr.id}">
-                                        <select name='attr_value[]' class='layui-select' lay-search>
-                                            <option value="0">请选择</option>
-                                            <!-- {foreach $attr.attr_values as $value} -->
-                                                <option value='{$value}'>{$value}</option>
-                                            <!-- {/foreach} -->
-                                        </select>
-                                    </label>
+            <div class="layui-input-block">        
+                <table class="layui-table">                    
+                    <thead>
+                        <tr>
+                            <th class="text-left">请准确填写属性，有利于商品在搜索和推荐中露出，错误填写可能面临商品下架或流量损失!</th>
+                        </tr>
+                        <tr>
+                            <td class="text-left">
+                                <div class="layui-row" style="margin-top: 10px;">
+                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                        <label class="layui-form-label">商品货号</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="goods_sn" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                        <label class="layui-form-label">商品重量</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="goods_weight" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                        <label class="layui-form-label">品牌</label>
+                                        <div class="layui-input-inline">
+                                            <select name="brand_id" required lay-verify="required" lay-search>
+                                                <option value="0">请选择品牌</option>
+                                                <!-- {notempty name='goods_brand'} -->
+                                                <!-- {foreach $goods_brand as $brand} -->
+                                                    <!-- {eq name='brand.id' value='$vo.brand_id|default=0'} -->
+                                                        <option selected value='{$brand.id}'>{$brand.brand_name}</option>
+                                                    <!-- {else} -->
+                                                        <option value='{$brand.id}'>{$brand.brand_name}</option>
+                                                    <!-- {/eq} -->
+                                                <!-- {/foreach} -->
+                                                <!-- {/notempty} -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                        <label class="layui-form-label">仓库</label>
+                                        <div class="layui-input-inline">
+                                            <select name="whouse_id" required lay-verify="required" lay-search>
+                                                <option value="0">请选择仓库</option>
+                                                <!-- {notempty name='goods_whouses'} -->
+                                                <!-- {foreach $goods_whouses as $whouse} -->
+                                                    <!-- {eq name='whouse.id' value='$vo.whouse_id|default=0'} -->
+                                                        <option selected value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                                    <!-- {else} -->
+                                                        <option value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                                    <!-- {/eq} -->
+                                                <!-- {/foreach} -->
+                                                <!-- {/notempty} -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- {notempty name='goods_attr'} -->
+                                    <!-- {foreach $goods_attr as $key => $attr} -->
+                                    <!-- {eq name='attr.attr_type' value='1'} -->
+                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                        <label class="layui-form-label">{$attr.attr_name}</label>
+                                        <div class="layui-input-inline">
+                                            <input type="hidden" name='attr_id[]' value="{$attr.id}">
+                                            <select name="attr_value[]"class="layui-input layui-unselect">
+                                                <option value="0">请选择</option>
+                                                <!-- {foreach $attr.attr_values as $value} -->
+                                                    <option value='{$value}'>{$value}</option>
+                                                <!-- {/foreach} -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <!-- {/eq} -->
+                                    <!-- {/foreach} -->
+                                    <!-- {/notempty} -->
                                 </div>
-                            </div>
-                        <!-- {/eq} -->
-                        <!-- {/foreach} -->
-                        <!-- {/notempty} -->
-                    </div>
-                </div>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
         <div class="layui-form-item">
@@ -106,117 +100,43 @@
             <div class="layui-input-block">
                 <table class="layui-table">
                     <thead>
-                    <tr>
-                        <th class="text-left">轮播图</th>
-                    </tr>
-                    <tr>
-                        <td class="text-left">
-                            <input name="goods_img" type="hidden" value="{$vo.goods_img|default=''}">
-                            <script>$('[name="goods_img"]').uploadMultipleImage();</script>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th class="text-left label-required-prev"><label>轮播图</label></th>
+                        </tr>
+                        <tr>
+                            <td class="text-left">
+                                <input name="goods_img" type="hidden" value="{$vo.goods_img|default=''}">
+                                <script>$('[name="goods_img"]').uploadMultipleImage();</script>
+                            </td>
+                        </tr>
                     </thead>
                 </table>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-row layui-col-space15">
-                <div class="layui-col-xs4">
-                    <label class="layui-form-label"><b>拿货价格</b></label>
-                    <label class="layui-input-block relative block">
-                        <input autofocus required name="stock_price" value="{$vo.stock_price|default=''}" placeholder="请输入拿货价格" class="layui-input">
-                    </label>
-                </div>
-                <div class="layui-col-xs4">
-                    <label class="layui-form-label"><b>本店售价</b></label>
-                    <label class="layui-input-block relative block">
-                        <input autofocus required name="shop_price" value="{$vo.shop_price|default=''}" placeholder="请输入本店售价" class="layui-input">
-                    </label>
-                </div>
-                <div class="layui-col-xs4">
-                    <label class="layui-form-label"><b>市场售价</b></label>
-                    <label class="layui-input-block relative block">
-                        <input autofocus required name="market_price" value='{$vo.market_price|default=""}' placeholder="请输入市场售价" class="layui-input">
-                    </label>
-                </div>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品规格</b></label>
             <div class="layui-input-block">
-                <div id="tab_home" class="tab-pane in active">
-                    <table class="table table_detail">
-                        <tbody>
-                            <tr>
-                                <td class="sku-style">
-                                    <div class="sku-wrap">
-                                        <div id="sku_lists">
-                                            <!-- {notempty name='goods_attr'} -->
-                                            <!-- {foreach $goods_attr as $key => $attrs} -->
-                                            <!-- {eq name='attrs.attr_type' value='0'} -->                                            
-                                            <div class="sku-group">
-                                                <label class="sku-label ">{$attrs.attr_name}：</label>	
-                                                <div class="sku-box  sku-color">
-                                                    <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attrs.attr_name}">
-                                                        <!-- <ul class="sku-list" id="sku_colors" data_sku_parent_word="{$attrs.attr_name}" {if $attrs.attr_name="颜色"}data_sku_parent_code="color"{/if}> -->
-                                                        <!-- {foreach $attrs.attr_values as $k => $attr} -->
-                                                        <li class="sku-item">
-                                                            <input type="checkbox" id="{$k}" value="{$attrs.id}_{$attr}" name="sku_value[]" class="j_checkbox sku_id" lay-skin="primary" autocomplete="off">
-                                                            <label title="{$attr}" class="labelname" lay-attr-id="{$attrs.id}" id='labelname_{$k}' for="sku_value[]">{$attr}</label>
-                                                            <input class="editbox text" type="text" value="{$attr}" maxlength="15" autocomplete="off" {if $key=='0'}onkeyup="remark_one($(this))"{elseif $key=='1'}onkeyup="remark_two($(this))"{/if}>
-                                                        </li>
-                                                        <!-- {/foreach} -->
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <!-- {/eq} -->
-                                            <!-- {/foreach} -->
-                                            <!-- {/notempty} -->
-                                        </div>
-                                        <!-- <div class="sku-wrapper">
-                                            <table class="table_color_upload" id="table_color_upload" width="100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>颜色</th>
-                                                        <th>图片</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody></tbody>
-                                            </table>
-                                        </div> -->
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <div ng-repeat="x in specs track by $index" class="margin-bottom-10" ng-class="{true:'layui-show'}[mode==='add'&&specs.length>0]">
+                    <div class="goods-spec-box padding-10 margin-0 relative" style="background:#ddd">
+                        <span class="text-center goods-spec-title">分组</span>
+                        <label class="label-required-null inline-block"></label>
+                        <div class="pull-right">
+                            <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn" ng-click="addSpecVal(x.list)">增加</a>
+                        </div>
+                    </div>
+                    <div class="goods-spec-box padding-10 margin-0 layui-bg-gray block relative" ng-if="x.list && x.list.length > 0">
+                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap" ng-repeat="xx in x.list">
+                            <input type="checkbox" lay-ignore ng-model="xx.check" ng-click="xx.check=checkListChecked(x.list,$event.target.checked)">
+                            <input type="text" ng-blur="xx.name=trimSpace(xx.name)" ng-model="xx.name" ng-keyup="xx.name=$event.target.value" required placeholder="请输入规格">
+                            <a ng-if="x.list.length>1" ng-click="x.list=delSpecVal(x.list,$index)" class="layui-icon layui-icon-close font-s12 goods-spec-close"></a>
+                        </label>
+                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap" ng-repeat="xx in x.list">
+                            <input type="checkbox" lay-ignore ng-model="xx.check" ng-click="xx.check=checkListChecked(x.list,$event.target.checked)">
+                            <input type="text" ng-blur="xx.name=trimSpace(xx.name)" ng-model="xx.name" ng-keyup="xx.name=$event.target.value" required placeholder="请输入规格">
+                            <a ng-if="x.list.length>1" ng-click="x.list=delSpecVal(x.list,$index)" class="layui-icon layui-icon-close font-s12 goods-spec-close"></a>
+                        </label>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"><b>价格及库存</b></label>
-            <div class="layui-input-block">
-                <table id="tables_sku" class="layui-table" width="100%">
-                    <thead>
-                        <tr id="tables_thead_tr_sku">
-                            <!-- {notempty name='goods_attr'} -->
-                            <!-- {foreach $goods_attr as $key => $attr} -->
-                            <!-- {eq name='attr.attr_type' value='0'} -->
-                            <th class="text-center nowrap">{$attr.attr_name}</th>
-                            <!-- {/eq} -->
-                            <!-- {/foreach} -->
-                            <!-- {/notempty} -->
-                            <th class="text-center nowrap"><span class="required">价格</span><a ng-click="batchSet('price',null)" data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
-                            <th class="text-center nowrap"><span class="required">数量</span><a ng-click="batchSet('amount',null)" data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
-                        </tr>
-                    </thead>
-                    <tbody id="tables_tbody_sku"></tbody>
-                </table>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label"><b>商品详情</b></label>
-            <div class="layui-input-block">
-                <textarea name="content">{$vo.goods_desc|default=''|raw}</textarea>                   
             </div>
         </div>
         {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
@@ -230,15 +150,8 @@
 </form>
 {/block}
 {block name='script'}
-<link rel="stylesheet" href="__ROOT__/static/plugs/goods/sku.css?at={:date('md')}">
-<script src="__ROOT__/static/plugs/goods/sku.js"></script>
-<script src="__ROOT__/static/plugs/goods/jquery.wallform.js"></script>
 <script>
     /*! 表单初始化 */
-    window.form.render();    
-    /*! 加载扩展插件 */
-    require(['ckeditor', 'angular'], function () {
-        window.createEditor('[name="content"]', {height: 500});
-    });
+    window.form.render();
 </script>
 {/block}
