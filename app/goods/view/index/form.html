@@ -23,20 +23,20 @@
                         </tr>
                         <tr>
                             <td class="text-left">
-                                <div class="layui-row" style="margin-top: 10px;">
-                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                <div class="layui-row margin-top-10">
+                                    <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">商品货号</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="goods_sn" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                    <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">商品重量</label>
                                         <div class="layui-input-inline">
                                             <input type="text" name="goods_weight" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
-                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                    <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">品牌</label>
                                         <div class="layui-input-inline">
                                             <select name="brand_id" required lay-verify="required" lay-search>
@@ -53,7 +53,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                    <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">仓库</label>
                                         <div class="layui-input-inline">
                                             <select name="whouse_id" required lay-verify="required" lay-search>
@@ -73,7 +73,7 @@
                                     <!-- {notempty name='goods_attr'} -->
                                     <!-- {foreach $goods_attr as $key => $attr} -->
                                     <!-- {eq name='attr.attr_type' value='1'} -->
-                                    <div class="layui-col-md4" style="margin-bottom: 15px;">
+                                    <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">{$attr.attr_name}</label>
                                         <div class="layui-input-inline">
                                             <input type="hidden" name='attr_id[]' value="{$attr.id}">
@@ -116,27 +116,47 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品规格</b></label>
             <div class="layui-input-block">
-                <div ng-repeat="x in specs track by $index" class="margin-bottom-10" ng-class="{true:'layui-show'}[mode==='add'&&specs.length>0]">
-                    <div class="goods-spec-box padding-10 margin-0 relative" style="background:#ddd">
-                        <span class="text-center goods-spec-title">分组</span>
+                <!-- {notempty name='goods_attr'} -->
+                <!-- {foreach $goods_attr as $key => $attrs} -->
+                <!-- {eq name='attrs.attr_type' value='0'} -->
+                <div class="margin-bottom-0">
+                    <div class="goods-spec-box margin-0 relative" style="background:#ddd;padding: 7px!important;">
+                        <span class="text-center goods-spec-title">{$attrs.attr_name}</span>
                         <label class="label-required-null inline-block"></label>
                         <div class="pull-right">
-                            <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn" ng-click="addSpecVal(x.list)">增加</a>
+                            <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn">增加</a>
                         </div>
                     </div>
-                    <div class="goods-spec-box padding-10 margin-0 layui-bg-gray block relative" ng-if="x.list && x.list.length > 0">
-                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap" ng-repeat="xx in x.list">
-                            <input type="checkbox" lay-ignore ng-model="xx.check" ng-click="xx.check=checkListChecked(x.list,$event.target.checked)">
-                            <input type="text" ng-blur="xx.name=trimSpace(xx.name)" ng-model="xx.name" ng-keyup="xx.name=$event.target.value" required placeholder="请输入规格">
-                            <a ng-if="x.list.length>1" ng-click="x.list=delSpecVal(x.list,$index)" class="layui-icon layui-icon-close font-s12 goods-spec-close"></a>
+                    <div class="goods-spec-box padding-10 margin-0 layui-bg-gray block relative">
+                        <!-- {foreach $attrs.attr_values as $k => $attr} -->
+                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
+                            <input type="checkbox" lay-ignore>
+                            <input type="text" value="{$attr}" name="sku_value[]">
                         </label>
-                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap" ng-repeat="xx in x.list">
-                            <input type="checkbox" lay-ignore ng-model="xx.check" ng-click="xx.check=checkListChecked(x.list,$event.target.checked)">
-                            <input type="text" ng-blur="xx.name=trimSpace(xx.name)" ng-model="xx.name" ng-keyup="xx.name=$event.target.value" required placeholder="请输入规格">
-                            <a ng-if="x.list.length>1" ng-click="x.list=delSpecVal(x.list,$index)" class="layui-icon layui-icon-close font-s12 goods-spec-close"></a>
-                        </label>
+                        <!-- {/foreach} -->
                     </div>
                 </div>
+                <!-- {/eq} -->
+                <!-- {/foreach} -->
+                <!-- {/notempty} -->
+                <table class="layui-table margin-top-10">
+                    <thead>
+                        <tr>
+                            <th width="20%" class="nowrap ng-binding ng-scope">颜色</th>
+                            <th width="20%" class="nowrap ng-binding ng-scope">尺码</th>
+                            <th width="15%" class="text-center nowrap">市场价格 <a ng-click="batchSet('market',2)" data-tips-text="批量设置" class="layui-icon"></a></th>
+                            <th width="15%" class="text-center nowrap">销售价格 <a ng-click="batchSet('selling',2)" data-tips-text="批量设置" class="layui-icon" index="16"></a></th>
+                            <th width="15%" class="text-center nowrap">分销价格 <a ng-click="batchSet('distribution',2)" data-tips-text="批量设置" class="layui-icon" index="16"></a></th>
+                            <th width="15%" class="text-center nowrap">库足数量 <a ng-click="batchSet('stock',0)" data-tips-text="批量设置" class="layui-icon"></a></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label"><b>商品详情</b></label>
+            <div class="layui-input-block">
+                <textarea name="content">{$vo.goods_desc|default=''|raw}</textarea>
             </div>
         </div>
         {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
@@ -153,5 +173,9 @@
 <script>
     /*! 表单初始化 */
     window.form.render();
+    /*! 加载扩展插件 */
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+    });
 </script>
 {/block}
