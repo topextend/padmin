@@ -4,7 +4,7 @@
 {/block}
 {block name="content"}
 {include file='index/formstyle'}
-<form onsubmit="return false" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
+<form onsubmit="return false" data-auto="true" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品分类</b></label>
@@ -129,7 +129,7 @@
                     <div class="goods-spec-value{$key} goods-spec-box padding-10 margin-0 layui-bg-gray block relative">
                         <!-- {foreach $attrs.attr_values as $k => $attr} -->
                         <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
-                            <input type="checkbox" lay-ignore layui-id = "{$attrs.id}">
+                            <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
                             <div></div>
                             <input type="text" value="{$attr}">
                         </label>
@@ -192,7 +192,6 @@
                         if ($(this).is(':checked')) {
                             attr_id = $(this).attr('layui-id');
                             attr_value = $(this).next().next().val();
-                            console.log(attr_value);
                             $(this).next().next().attr('readonly', 'readonly');
                             $(this).next().next().css("background", "#CCCCCC");
                             $(this).next().html("<input type='hidden' name='spec_id[]' value= '" + attr_id +"'><input type='hidden' name='spec_name[]' value= '" + attr_value +"'>");
@@ -223,10 +222,10 @@
                         var td = $("<th width='20%' class='text-center nowrap ng-binding ng-scope'>" + item + "</th>");
                         td.appendTo(trHead);
                     });
-                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a data-tips-text='批量设置' class='layui-icon'></a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a data-tips-text='批量设置' class='layui-icon'></a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a data-tips-text='批量设置' class='layui-icon'></a></th>";
-                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a data-tips-text='批量设置' class='layui-icon'></a></th>");
+                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
+                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>");
                     itemColumHead.appendTo(trHead);
                     var tbody = $("<tbody></tbody>");
                     tbody.appendTo(table);
@@ -241,11 +240,12 @@
                             var tr = $("<tr class='ng-scope'></tr>");
                             tr.appendTo(table);
                             $.each(td_array, function (i, values) {
+                                spec_name += values + "_";
                                 var td = $("<td class='layui-bg-gray text-center nowrap ng-binding ng-scope'>" + values + "</td>");
                                 td.appendTo(tr);
                             });
                             spec_name = spec_name.substring(0, spec_name.length - 1);
-                            var maket_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='maket_price[]' value='0'></label></td>");
+                            var maket_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input type='hidden' name='spec_name[]' value='" + spec_name + "'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='maket_price[]' value='0'></label></td>");
                             maket_price.appendTo(tr);
                             var shop_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='shop_price[]' value='0'></label></td>");
                             shop_price.appendTo(tr);
