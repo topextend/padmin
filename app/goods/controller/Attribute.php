@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-18 15:24:32
+// |LastEditTime : 2021-01-24 12:44:06
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -67,12 +67,13 @@ class Attribute extends Controller
         } elseif ($this->request->isPost()) {
             if (isset($data['id']) && $data['id'] > 0) {
                 unset($data['attr_name']);
+                $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
             } else {
                 // 检查登录属性是否出现重复
                 $where = ['attr_name' => $data['attr_name'], 'type_id' => $data['type_id']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("属性{$data['attr_name']}已经存在，请使用其它属性名称！");
-                    $data['attr_values'] = rtrim(str_replace('，', ',', str_replace(' ','',$data['attr_values'])),',');
+                    $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
                 }
             }
         }
