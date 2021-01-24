@@ -130,7 +130,7 @@
                         <!-- {foreach $attrs.attr_values as $k => $attr} -->
                         <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
                             <input type="checkbox" lay-ignore>
-                            <input type="text" value="{$attr}" name="sku_value">
+                            <input type="text" value="{$attr}">
                         </label>
                         <!-- {/foreach} -->
                     </div>
@@ -188,7 +188,7 @@
                     //选中的CHeckBox取值
                     var order = new Array();
                     $("." + itemName + " input[type=checkbox]:checked").each(function (){
-                        order.push($(this).next().attr("value"));
+                        order.push($(this).next().val());
                     });
                     arrayInfor.push(order);
                     if (order.join() == ""){
@@ -229,13 +229,13 @@
                                 var td = $("<td class='layui-bg-gray text-center nowrap ng-binding ng-scope'>" + values + "</td>");
                                 td.appendTo(tr);
                             });
-                            var maket_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='maket_price' value=''></label></td>");
+                            var maket_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='maket_price[]' value=''></label></td>");
                             maket_price.appendTo(tr);
-                            var shop_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='shop_price' value=''></label></td>");
+                            var shop_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='shop_price[]' value=''></label></td>");
                             shop_price.appendTo(tr);
-                            var stock_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='stock_price' value=''></label></td>");
+                            var stock_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='stock_price[]' value=''></label></td>");
                             stock_price.appendTo(tr);
-                            var goods_amount = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='goods_amount' value=''></label></td>");
+                            var goods_amount = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='goods_amount[]' value=''></label></td>");
                             goods_amount.appendTo(tr);
                         });
                     }
