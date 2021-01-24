@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-21 17:01:35
+// |LastEditTime : 2021-01-24 20:45:10
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -96,29 +96,39 @@ class Index extends Controller
                 $this->goods_attr     = GoodService::instance()->getGoodsAttrValue(input('cat_id'));
             }
         } elseif ($this->request->isPost()) {
+            // 检查登录属性是否出现重复
+            $where = ['goods_sn' => $vo['goods_sn'], 'user_id' => session('user.id')];
+            if ($this->app->db->name($this->table)->where($where)->count() > 0) {
+                $this->error("货号 {$vo['goods_sn']} 已经存在，请使用其它货号名称！");
+            }
             // 商品品牌
             if ($vo['brand_id']==0)  $this->error('请选择品牌!');
             // 商品仓库
             if ($vo['whouse_id']==0) $this->error('请选择仓库!');
-            // 商品货号
-            // if (empty($vo['goods_sn'])) $this->error('请输出商品货号!');
-            // if (empty($vo['sku_names'])) $this->error('请选择商品SKU属性!');
-            // // 商品图片
-            // if (!empty($vo['goods_img']))
-            // {
-            //     $vo['goods_img'] = explode("|",$vo['goods_img']);
-            //     foreach($vo['goods_img'] as $v)
-            //     {
-            //         $vo['goods_imgs'][]['images'] = $v;
-            //     }
-            //     $vo['goods_logo'] = $vo['goods_img'][0];
-            //     unset($vo['goods_img']);
-            // }
-            // $vo['goods_sku_value'] = GoodService::instance()->tree2attr($vo['sku_value'],$vo['attr_id'],$vo['attr_value']);
-            // unset($vo['attr_id']);
-            // unset($vo['attr_value']);
-            // unset($vo['sku_value']);
-            dump($vo);die;
+            // 商品图片
+            if (!empty($vo['goods_img']))
+            {
+                $vo['goods_img'] = GoodService::instance()->attrToImageValue($vo['goods_img']);
+                $vo['goods_logo'] = $vo['goods_img'][0]['images'];
+            } else {
+                $this->error('请上传轮播图!');
+            }
+            // 商品规格
+            if (empty($vo['spec_name']) || empty($vo['attr_id'])) $this->error('未选择规格属性!');
+            // 商品详情
+            if (empty($vo['content'])) $this->error('请填写商品详情!');
+            // 规格属性重组
+            $vo['sku_value'] = GoodService::instance()->arrayToSkuValue($vo['attr_id'], $vo['attr_value'], $vo['spec_id'], $vo['spec_name']);
+            unset($vo['attr_id']);
+            unset($vo['attr_value']);
+            unset($vo['spec_id']);
+            unset($vo['spec_name']);
+            $vo['product_value'] = GoodService::instance()->arrayToProcudtValue($vo['spec_value'], $vo['maket_price'], $vo['shop_price'], $vo['stock_price'], $vo['goods_amount']);
+            unset($vo['spec_value']);
+            unset($vo['maket_price']);
+            unset($vo['shop_price']);
+            unset($vo['stock_price']);
+            unset($vo['goods_amount']);
         }
     }
 
@@ -128,48 +138,48 @@ class Index extends Controller
      */
     protected function _form_result(bool $state, array $data)
     {
-        // if ($state) {
-        //     $data['id'] = (input('id') ?: $this->app->db->name($this->table)->getLastInsID()) ?: 0;
-        //     if (!empty($data['id']))
-        //     {
-        //         // 商品详情
-        //         if (!empty($data['content']))
-        //         {
-        //             $content = ['goods_id' => $data['id'], 'content' => $data['content']];
-        //             $this->app->db->name('GoodsContent')->save($content);
-        //         }
-        //         // 商品图片
-        //         if (!empty($data['goods_imgs']))
-        //         {
-        //             foreach($data['goods_imgs'] as $vvv)
-        //             {
-        //                 $vvv['goods_id'] = $data['id'];
-        //                 $this->app->db->name('GoodsImages')->save($vvv);
-        //             }
-        //         }
+        if ($state) {
+            $data['id'] = (input('id') ?: $this->app->db->name($this->table)->getLastInsID()) ?: 0;
+            if (!empty($data['id']))
+            {
+                // 商品详情
+                if (!empty($data['content']))
+                {
+                    $content = ['goods_id' => $data['id'], 'content' => $data['content']];
+                    $this->app->db->name('GoodsContent')->save($content);
+                }
+                // 商品图片
+                if (!empty($data['goods_img']))
+                {
+                    foreach($data['goods_img'] as $imgs)
+                    {
+                        $imgs['goods_id'] = $data['id'];
+                        $this->app->db->name('GoodsImages')->save($imgs);
+                    }
+                }
+                // 商品SKU
+                if (!empty($data['sku_value']))
+                {
+                    foreach ($data['sku_value'] as $v)
+                    {
+                        $v['goods_id'] = $data['id'];
+                        // 存入数据库
+                        $res = $this->app->db->name('GoodsSku')->save($v);
+                    }
 
-        //         $data['goods_sku_value'] = GoodService::instance()->attrAddId($data['goods_sku_value'], $data['id']);
-        //         // 商品SKU
-        //         foreach ($data['goods_sku_value'] as $v)
-        //         {
-        //             // 存入数据库
-        //             $res = $this->app->db->name('GoodsSku')->save($v);
-        //         }
-        //         // 商品库存
-        //         if ($res)
-        //         {
-        //             $value     = GoodService::instance()->skuValue($data['sku_names'], $data['id']);
-        //             $sku_value = GoodService::instance()->att2value($value, $data['sku_price'], $data['sku_amount'], $data['id']);
-        //             foreach($sku_value as $vv)
-        //             {
-        //                 // 存入数据库
-        //                 $this->app->db->name('GoodsProducts')->save($vv);
-        //             }
-        //         }
-        //     }
-            // dump($sku_value);
-            // dump($data);die;
-        // }
+                }
+                // 商品库存
+                if ($res)
+                {
+                    foreach($data['product_value'] as $vv)
+                    {
+                        $vv['goods_id'] = $data['id'];
+                        // 存入数据库
+                        $this->app->db->name('GoodsProducts')->save($vv);
+                    }
+                }
+            }
+        }
     }
 
     /**
