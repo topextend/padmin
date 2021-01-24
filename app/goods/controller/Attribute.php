@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 12:44:06
+// |LastEditTime : 2021-01-24 20:40:28
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -73,6 +73,7 @@ class Attribute extends Controller
                 $where = ['attr_name' => $data['attr_name'], 'type_id' => $data['type_id']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("属性{$data['attr_name']}已经存在，请使用其它属性名称！");
+                } else {
                     $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
                 }
             }
