@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 20:30:59
+// |LastEditTime : 2021-01-24 21:25:30
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -135,11 +135,15 @@ class GoodService extends Service
     {
         $type_id = $this->getCatsTypeID($cat_id);
         $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_values');
-        foreach ($query as $key => $value) {
-            $value['attr_values'] = explode(',',$value['attr_values']);
-            $attrs[$key] = $value;
+        if ($query) {
+            foreach ($query as $key => $value) {
+                $value['attr_values'] = explode(',',$value['attr_values']);
+                $attrs[$key] = $value;
+            }
+            return $attrs;
+        } else {
+            return [];
         }
-        return $attrs;
     }
 
     /**

@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 20:45:10
+// |LastEditTime : 2021-01-24 21:28:52
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -94,6 +94,7 @@ class Index extends Controller
                 $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
                 $this->select_cats    = GoodService::instance()->selectedCats(input('cat_id'));
                 $this->goods_attr     = GoodService::instance()->getGoodsAttrValue(input('cat_id'));
+                if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
             }
         } elseif ($this->request->isPost()) {
             // 检查登录属性是否出现重复
