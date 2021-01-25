@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 21:38:44
+// |LastEditTime : 2021-01-25 17:36:02
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -88,14 +88,22 @@ class Index extends Controller
     protected function _form_filter(&$vo)
     {
         if ($this->request->isGet()) {
-            if (!empty(input('cat_id')))
-            {
+            $cat_id = input('cat_id') ?: $this->app->db->name($this->table)->where(['goods_id'=> input('goods_id')])->value('cat_id');
+            // dump($cat_id);die;
+            // if (!empty(input('cat_id')))
+            // {
                 $this->goods_brand    = GoodService::instance()->getGoodsValue('GoodsBrand', 'brand_name');
                 $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
-                $this->select_cats    = GoodService::instance()->selectedCats(input('cat_id'));
-                $this->goods_attr     = GoodService::instance()->getGoodsAttrValue(input('cat_id'));
+                $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
+                $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id);
                 if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
-            }
+                if (!empty(input('goods_id'))) {
+                    $this->attr_value     = GoodService::instance()->getGoodsAttrName(input('goods_id'));
+                }
+            // } else {
+            //     $cat_id = $this->app->db->name($this->table)->where(['goods_id'=> input('goods_id')])->value('cat_id');
+            //     $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
+            // }
         } elseif ($this->request->isPost()) {
             // 检查登录属性是否出现重复
             $where = ['goods_sn' => $vo['goods_sn'], 'user_id' => session('user.id')];
@@ -170,15 +178,15 @@ class Index extends Controller
 
                 }
                 // 商品库存
-                if ($res)
-                {
-                    foreach($data['product_value'] as $vv)
-                    {
-                        $vv['goods_id'] = $data['id'];
-                        // 存入数据库
-                        $this->app->db->name('GoodsProducts')->save($vv);
-                    }
-                }
+                // if ($res)
+                // {
+                //     foreach($data['product_value'] as $vv)
+                //     {
+                //         $vv['goods_id'] = $data['id'];
+                //         // 存入数据库
+                //         $this->app->db->name('GoodsProducts')->save($vv);
+                //     }
+                // }
             }
         }
     }

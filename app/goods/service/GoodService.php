@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 21:25:30
+// |LastEditTime : 2021-01-25 17:30:08
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -137,7 +137,7 @@ class GoodService extends Service
         $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_values');
         if ($query) {
             foreach ($query as $key => $value) {
-                $value['attr_values'] = explode(',',$value['attr_values']);
+                $value['attr_values'] = explode(',', $value['attr_values']);
                 $attrs[$key] = $value;
             }
             return $attrs;
@@ -185,6 +185,12 @@ class GoodService extends Service
         {
             $attr[] = ['goods_attr'=> $v, 'maket_price' => $attr2[$k], 'shop_price' => $attr3[$k], 'stock_price' => $attr4[$k], 'goods_amount' => $attr5[$k]];
         }
+        return $attr;
+    }
+
+    public function getGoodsAttrName(string $goods_id) : array
+    {
+        $attr = $this->app->db->name('GoodsSku')->where(['goods_id' => $goods_id])->column('attr_value');
         return $attr;
     }
 }

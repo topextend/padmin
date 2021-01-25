@@ -27,13 +27,13 @@
                                     <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">商品货号</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="goods_sn" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
+                                            <input type="text" name="goods_sn" value='{$vo.goods_sn|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">商品重量</label>
                                         <div class="layui-input-inline">
-                                            <input type="text" name="goods_weight" required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
+                                            <input type="text" name="goods_weight" value='{$vo.goods_weight|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
                                         </div>
                                     </div>
                                     <div class="layui-col-md4 margin-bottom-15">
