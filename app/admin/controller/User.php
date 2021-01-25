@@ -226,5 +226,4 @@ class User extends Controller
             sysoplog('系统用户管理', "删除系统用户[{$id}]成功");
         }
     }
-
 }

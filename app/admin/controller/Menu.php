@@ -206,5 +206,4 @@ class Menu extends Controller
             sysoplog('系统菜单管理', "删除系统菜单[{$id}]成功");
         }
     }
-
 }
