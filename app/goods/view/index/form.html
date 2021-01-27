@@ -1,6 +1,6 @@
 {extend name="../../admin/view/main"}
 {block name="button"}
-    <a onClick="javascript:window.history.back();return false;" class="layui-btn layui-btn-sm layui-btn-primary">返回</a>
+    <button data-open='{:url("index")}' class='layui-btn layui-btn-sm layui-btn-primary'>返回</button>
 {/block}
 {block name="content"}
 {include file='index/formstyle'}
@@ -80,11 +80,15 @@
                                             <select name="attr_value[]"class="layui-input layui-unselect">
                                                 <option value="0">请选择</option>
                                                 <!-- {foreach $attr.attr_values as $value} -->
-                                                    <!-- {if in_array($value, $attr_value)} -->
-                                                    <option selected value='{$value}'>{$value}</option>
+                                                    <!-- {notempty name='attr_value'} -->
+                                                        <!-- {if in_array($value, $attr_value)} -->
+                                                        <option selected value='{$value}'>{$value}</option>
+                                                        <!-- {else} -->
+                                                        <option value='{$value}'>{$value}</option>
+                                                        <!-- {/if} -->
                                                     <!-- {else} -->
-                                                    <option value='{$value}'>{$value}</option>
-                                                    <!-- {/if} -->
+                                                        <option value='{$value}'>{$value}</option>
+                                                    <!-- {/notempty} -->
                                                 <!-- {/foreach} -->
                                             </select>
                                         </div>
@@ -127,24 +131,30 @@
                         <span class="text-center goods-spec-title">{$attrs.attr_name}</span>
                         <label class="label-required-null inline-block"></label>
                         <div class="pull-right">
-                            <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn">增加</a>
+                            <!-- <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn">增加</a> -->
                         </div>
                     </div>
                     <div class="goods-spec-value{$key} goods-spec-box padding-10 margin-0 layui-bg-gray block relative">
                         <!-- {foreach $attrs.attr_values as $k => $attr} -->
                         <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
-                            <!-- {if in_array($attr, $attr_value)} -->
-                                <input type="checkbox" checked lay-ignore layui-id="{$attrs.id}">
-                                <div>
-                                    <input type="hidden" name="spec_id[]" value="{$attrs.id}">
-                                    <input type="hidden" name="spec_name[]" value="{$attr}">
-                                </div>
-                                <input type="text" value="{$attr}" readonly="readonly" style="background: rgb(204, 204, 204);">
+                            <!-- {notempty name='attr_value'} -->
+                                <!-- {if in_array($attr, $attr_value)} -->
+                                    <input type="checkbox" checked lay-ignore layui-id="{$attrs.id}">
+                                    <div>
+                                        <input type="hidden" name="spec_id[]" value="{$attrs.id}">
+                                        <input type="hidden" name="spec_name[]" value="{$attr}">
+                                    </div>
+                                    <input type="text" value="{$attr}" readonly="readonly" style="background: rgb(204, 204, 204);">
+                                <!-- {else} -->
+                                    <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
+                                    <div></div>
+                                    <input type="text" value="{$attr}">
+                                <!-- {/if} -->
                             <!-- {else} -->
                                 <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
                                 <div></div>
                                 <input type="text" value="{$attr}">
-                            <!-- {/if} -->
+                            <!-- {/notempty} -->
                         </label>
                         <!-- {/foreach} -->
                     </div>
