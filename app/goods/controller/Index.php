@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-27 20:25:53
+// |LastEditTime : 2021-01-27 20:49:44
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -96,7 +96,6 @@ class Index extends Controller
             if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
             if (!empty(input('goods_id'))) {
                 $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));
-                // dump($this->attr_value);die;
                 $this->goods_imgs = GoodService::instance()->getGoodsImages(input('goods_id'));
                 $this->goods_content = GoodService::instance()->getGoodsContent(input('goods_id'));
             }
@@ -108,7 +107,6 @@ class Index extends Controller
                     $this->error("货号 {$vo['goods_sn']} 已经存在，请使用其它货号名称！");
                 }
             }
-            dump($vo);die;
             // 商品品牌
             if ($vo['brand_id']==0)  $this->error('请选择品牌!');
             // 商品仓库
