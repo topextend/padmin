@@ -80,7 +80,11 @@
                                             <select name="attr_value[]"class="layui-input layui-unselect">
                                                 <option value="0">请选择</option>
                                                 <!-- {foreach $attr.attr_values as $value} -->
+                                                    <!-- {if in_array($value, $attr_value)} -->
+                                                    <option selected value='{$value}'>{$value}</option>
+                                                    <!-- {else} -->
                                                     <option value='{$value}'>{$value}</option>
+                                                    <!-- {/if} -->
                                                 <!-- {/foreach} -->
                                             </select>
                                         </div>
@@ -105,7 +109,7 @@
                         </tr>
                         <tr>
                             <td class="text-left">
-                                <input name="goods_img" type="hidden" value="{$vo.goods_img|default=''}">
+                                <input name="goods_img" type="hidden" value="{$goods_imgs|default=''}">
                                 <script>$('[name="goods_img"]').uploadMultipleImage();</script>
                             </td>
                         </tr>
@@ -129,9 +133,18 @@
                     <div class="goods-spec-value{$key} goods-spec-box padding-10 margin-0 layui-bg-gray block relative">
                         <!-- {foreach $attrs.attr_values as $k => $attr} -->
                         <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
-                            <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
-                            <div></div>
-                            <input type="text" value="{$attr}">
+                            <!-- {if in_array($attr, $attr_value)} -->
+                                <input type="checkbox" checked lay-ignore layui-id="{$attrs.id}">
+                                <div>
+                                    <input type="hidden" name="spec_id[]" value="{$attrs.id}">
+                                    <input type="hidden" name="spec_name[]" value="{$attr}">
+                                </div>
+                                <input type="text" value="{$attr}" readonly="readonly" style="background: rgb(204, 204, 204);">
+                            <!-- {else} -->
+                                <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
+                                <div></div>
+                                <input type="text" value="{$attr}">
+                            <!-- {/if} -->
                         </label>
                         <!-- {/foreach} -->
                     </div>
@@ -144,11 +157,11 @@
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品详情</b></label>
             <div class="layui-input-block">
-                <textarea name="content">{$vo.goods_desc|default=''|raw}</textarea>
+                <textarea name="content">{$goods_content|default=''|raw}</textarea>
             </div>
         </div>
         {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
-        <input type='hidden' value='{:input("cat_id",0)}' name='cat_id'>
+        <input type='hidden' value='{$vo.cat_id|default=input("cat_id",0)}' name='cat_id'>
         <input type='hidden' value='{:session("user.id")}' name='user_id'>
         <div class="layui-form-item text-center">
             <button class="layui-btn" type='submit'>保存数据</button>

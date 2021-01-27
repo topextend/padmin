@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-25 17:30:08
+// |LastEditTime : 2021-01-27 20:20:31
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -188,9 +188,30 @@ class GoodService extends Service
         return $attr;
     }
 
+    /**
+     * 获取商品SKU属性名称
+     */
     public function getGoodsAttrName(string $goods_id) : array
     {
         $attr = $this->app->db->name('GoodsSku')->where(['goods_id' => $goods_id])->column('attr_value');
         return $attr;
+    }
+    
+    /**
+     * 获取商品图片
+     */
+    public function getGoodsImages(string $goods_id) : string
+    {
+        $attr = $this->app->db->name('GoodsImages')->where(['goods_id' => $goods_id])->column('images');
+        return implode('|', $attr);
+    }
+
+    /**
+     * 获取商品详情
+     */
+    public function getGoodsContent(string $goods_id) : string
+    {
+        $str = $this->app->db->name('GoodsContent')->where(['goods_id' => $goods_id])->value('content');
+        return $str ?: '';
     }
 }

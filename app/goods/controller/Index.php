@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-25 17:36:02
+// |LastEditTime : 2021-01-27 20:25:53
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -89,27 +89,26 @@ class Index extends Controller
     {
         if ($this->request->isGet()) {
             $cat_id = input('cat_id') ?: $this->app->db->name($this->table)->where(['goods_id'=> input('goods_id')])->value('cat_id');
-            // dump($cat_id);die;
-            // if (!empty(input('cat_id')))
-            // {
-                $this->goods_brand    = GoodService::instance()->getGoodsValue('GoodsBrand', 'brand_name');
-                $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
-                $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
-                $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id);
-                if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
-                if (!empty(input('goods_id'))) {
-                    $this->attr_value     = GoodService::instance()->getGoodsAttrName(input('goods_id'));
-                }
-            // } else {
-            //     $cat_id = $this->app->db->name($this->table)->where(['goods_id'=> input('goods_id')])->value('cat_id');
-            //     $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
-            // }
-        } elseif ($this->request->isPost()) {
-            // 检查登录属性是否出现重复
-            $where = ['goods_sn' => $vo['goods_sn'], 'user_id' => session('user.id')];
-            if ($this->app->db->name($this->table)->where($where)->count() > 0) {
-                $this->error("货号 {$vo['goods_sn']} 已经存在，请使用其它货号名称！");
+            $this->goods_brand    = GoodService::instance()->getGoodsValue('GoodsBrand', 'brand_name');
+            $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
+            $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
+            $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id);
+            if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
+            if (!empty(input('goods_id'))) {
+                $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));
+                // dump($this->attr_value);die;
+                $this->goods_imgs = GoodService::instance()->getGoodsImages(input('goods_id'));
+                $this->goods_content = GoodService::instance()->getGoodsContent(input('goods_id'));
             }
+        } elseif ($this->request->isPost()) {
+            if (empty(input('goods_id'))) {
+                // 检查登录属性是否出现重复
+                $where = ['goods_sn' => $vo['goods_sn'], 'user_id' => session('user.id')];
+                if ($this->app->db->name($this->table)->where($where)->count() > 0) {
+                    $this->error("货号 {$vo['goods_sn']} 已经存在，请使用其它货号名称！");
+                }
+            }
+            dump($vo);die;
             // 商品品牌
             if ($vo['brand_id']==0)  $this->error('请选择品牌!');
             // 商品仓库
@@ -149,6 +148,7 @@ class Index extends Controller
     {
         if ($state) {
             $data['id'] = (input('id') ?: $this->app->db->name($this->table)->getLastInsID()) ?: 0;
+            dump($data['id']);die;
             if (!empty($data['id']))
             {
                 // 商品详情
