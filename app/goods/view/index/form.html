@@ -4,7 +4,7 @@
 {/block}
 {block name="content"}
 {include file='index/formstyle'}
-<form onsubmit="return false" data-auto="true" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
+<form onsubmit="return false" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
             <label class="layui-form-label"><b>商品分类</b></label>
@@ -188,12 +188,31 @@
     require(['ckeditor', 'angular'], function () {
         // 富文本加载
         window.createEditor('[name="content"]', {height: 400});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+        function callback($rootScope) {
+            /*! 批量设置数值 */
+            $rootScope.batchSet = function (name, fixed) {
+                layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
+                    layer.close(index), $rootScope.$apply(function () {
+                        if (fixed !== null) value = (parseFloat(value) || 0).toFixed(fixed);
+                        $("input[name='"+ name +"[]']").each(function(){
+                            $(this).val(value);
+                        })
+                    });
+                });
+            }
+        }
     });
     $(function () {
+        $(document).ready(function(){
+            step.Creat_Table();
+        }); 
         //SKU信息
         $(".goods-spec-list label").bind("change", function () {
             step.Creat_Table();
         });
+        //批量设置
         var step = {
             //SKU信息组合
             Creat_Table: function () {
@@ -245,10 +264,10 @@
                         var td = $("<th width='20%' class='text-center nowrap ng-binding ng-scope'>" + item + "</th>");
                         td.appendTo(trHead);
                     });
-                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
-                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>");
+                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a ng-click='batchSet(\"maket_price\",2)' data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a  ng-click='batchSet(\"shop_price\",2)' data-tips-text='批量设置' class='layui-icon shop_price'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a  ng-click='batchSet(\"stock_price\",2)' data-tips-text='批量设置' class='layui-icon stock_price'>&#xe63c;</a></th>";
+                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a  ng-click='batchSet(\"goods_amount\",0)' data-tips-text='批量设置' class='layui-icon goods_amount'>&#xe63c;</a></th>");
                     itemColumHead.appendTo(trHead);
                     var tbody = $("<tbody></tbody>");
                     tbody.appendTo(table);
