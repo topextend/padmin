@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-27 20:20:31
+// |LastEditTime : 2021-01-29 00:03:58
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -183,7 +183,7 @@ class GoodService extends Service
     {
         foreach($attr1 as $k => $v)
         {
-            $attr[] = ['goods_attr'=> $v, 'maket_price' => $attr2[$k], 'shop_price' => $attr3[$k], 'stock_price' => $attr4[$k], 'goods_amount' => $attr5[$k]];
+            $attr[] = ['goods_attr'=> $v, 'market_price' => $attr2[$k], 'shop_price' => $attr3[$k], 'stock_price' => $attr4[$k], 'goods_amount' => $attr5[$k]];
         }
         return $attr;
     }
@@ -213,5 +213,14 @@ class GoodService extends Service
     {
         $str = $this->app->db->name('GoodsContent')->where(['goods_id' => $goods_id])->value('content');
         return $str ?: '';
+    }
+    
+    /**
+     * 获取商品库存信息
+     */
+    public function getGoodsAttrPrice(string $goods_id) : string 
+    {
+        $attr = $this->app->db->name('GoodsProducts')->where(['goods_id' => $goods_id])->column('market_price,shop_price,stock_price,goods_amount');
+        return json_encode($attr);
     }
 }

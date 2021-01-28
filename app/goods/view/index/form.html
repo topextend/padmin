@@ -188,23 +188,9 @@
     require(['ckeditor', 'angular'], function () {
         // 富文本加载
         window.createEditor('[name="content"]', {height: 400});
-        var app = angular.module("GoodsForm", []).run(callback);
-        angular.bootstrap(document.getElementById(app.name), [app.name]);
-        function callback($rootScope) {
-            /*! 批量设置数值 */
-            $rootScope.batchSet = function (name, fixed) {
-                layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
-                    layer.close(index), $rootScope.$apply(function () {
-                        if (fixed !== null) value = (parseFloat(value) || 0).toFixed(fixed);
-                        $("input[name='"+ name +"[]']").each(function(){
-                            $(this).val(value);
-                        })
-                    });
-                });
-            }
-        }
     });
     $(function () {
+        //默认加载
         $(document).ready(function(){
             step.Creat_Table();
         }); 
@@ -253,7 +239,7 @@
                 if (bCheck == true) {
                     var RowsCount = 0;
                     $("#goods-spec-table").html("");
-                    var table = $("<table class='layui-table margin-top-10'></table>");
+                    var table = $("<table id='test_table' class='layui-table margin-top-10'></table>");
                     table.appendTo($("#goods-spec-table"));
                     var thead = $("<thead></thead>");
                     thead.appendTo(table);
@@ -264,10 +250,10 @@
                         var td = $("<th width='20%' class='text-center nowrap ng-binding ng-scope'>" + item + "</th>");
                         td.appendTo(trHead);
                     });
-                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a ng-click='batchSet(\"maket_price\",2)' data-tips-text='批量设置' class='layui-icon'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a  ng-click='batchSet(\"shop_price\",2)' data-tips-text='批量设置' class='layui-icon shop_price'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a  ng-click='batchSet(\"stock_price\",2)' data-tips-text='批量设置' class='layui-icon stock_price'>&#xe63c;</a></th>";
-                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a  ng-click='batchSet(\"goods_amount\",0)' data-tips-text='批量设置' class='layui-icon goods_amount'>&#xe63c;</a></th>");
+                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"market_price\")'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"shop_price\")'>&#xe63c;</a></th>";
+                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"stock_price\")'>&#xe63c;</a></th>";
+                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"goods_amount\")'>&#xe63c;</a></th>");
                     itemColumHead.appendTo(trHead);
                     var tbody = $("<tbody></tbody>");
                     tbody.appendTo(table);
@@ -287,8 +273,8 @@
                                 td.appendTo(tr);
                             });
                             spec_name = spec_name.substring(0, spec_name.length - 1);
-                            var maket_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input type='hidden' name='spec_value[]' value='" + spec_name + "'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='maket_price[]' value='0'></label></td>");
-                            maket_price.appendTo(tr);
+                            var market_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input type='hidden' name='spec_value[]' value='" + spec_name + "'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='market_price[]' value='0'></label></td>");
+                            market_price.appendTo(tr);
                             var shop_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='shop_price[]' value='0'></label></td>");
                             shop_price.appendTo(tr);
                             var stock_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='stock_price[]' value='0'></label></td>");
@@ -401,5 +387,41 @@
         };
         return step;
     });
+    // 批量设置
+    function bachset(name){
+        layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
+            layer.close(index);
+            if (name !='goods_amount') value = (parseFloat(value) || 0).toFixed('2');
+            $("input[name='"+ name +"[]']").each(function(){
+                $(this).val(value);
+            })
+        });
+    }
+    // 填充库存信息
+    var attr_price = JSON.parse('{$attr_price|raw}');
+    if (attr_price != '') {
+        $(attr_price).each(function(k,v){
+            $("input[name='market_price[]']").each(function (k1, v1) {
+                if (k1 == k) {
+                    $(this).val(v.market_price);
+                }
+            });
+            $("input[name='shop_price[]']").each(function (k1, v1) {
+                if (k1 == k) {
+                    $(this).val(v.shop_price);
+                }
+            });
+            $("input[name='stock_price[]']").each(function (k1, v1) {
+                if (k1 == k) {
+                    $(this).val(v.stock_price);
+                }
+            });
+            $("input[name='goods_amount[]']").each(function (k1, v1) {
+                if (k1 == k) {
+                    $(this).val(v.goods_amount);
+                }
+            });
+        })
+    }
 </script>
 {/block}

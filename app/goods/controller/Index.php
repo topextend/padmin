@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-28 18:13:16
+// |LastEditTime : 2021-01-29 00:05:02
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -93,6 +93,7 @@ class Index extends Controller
             $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
             $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
             $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id);
+            $this->attr_price     = input('goods_id') ? GoodService::instance()->getGoodsAttrPrice(input('goods_id')) : 0;
             if (empty($this->goods_attr )) $this->error('请先配置类型属性',);
             if (!empty(input('goods_id'))) {
                 $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));
@@ -100,6 +101,7 @@ class Index extends Controller
                 $this->goods_content = GoodService::instance()->getGoodsContent(input('goods_id'));
             }
         } elseif ($this->request->isPost()) {
+            dump($vo);die;
             if (empty(input('goods_id'))) {
                 // 检查登录属性是否出现重复
                 $where = ['goods_sn' => $vo['goods_sn'], 'user_id' => session('user.id')];
@@ -129,9 +131,9 @@ class Index extends Controller
             unset($vo['attr_value']);
             unset($vo['spec_id']);
             unset($vo['spec_name']);
-            $vo['product_value'] = GoodService::instance()->arrayToProcudtValue($vo['spec_value'], $vo['maket_price'], $vo['shop_price'], $vo['stock_price'], $vo['goods_amount']);
+            $vo['product_value'] = GoodService::instance()->arrayToProcudtValue($vo['spec_value'], $vo['market_price'], $vo['shop_price'], $vo['stock_price'], $vo['goods_amount']);
             unset($vo['spec_value']);
-            unset($vo['maket_price']);
+            unset($vo['market_price']);
             unset($vo['shop_price']);
             unset($vo['stock_price']);
             unset($vo['goods_amount']);
@@ -176,15 +178,15 @@ class Index extends Controller
 
                 }
                 // 商品库存
-                // if ($res)
-                // {
-                //     foreach($data['product_value'] as $vv)
-                //     {
-                //         $vv['goods_id'] = $data['id'];
-                //         // 存入数据库
-                //         $this->app->db->name('GoodsProducts')->save($vv);
-                //     }
-                // }
+                if ($res)
+                {
+                    foreach($data['product_value'] as $vv)
+                    {
+                        $vv['goods_id'] = $data['id'];
+                        // 存入数据库
+                        $this->app->db->name('GoodsProducts')->save($vv);
+                    }
+                }
             }
         }
     }
