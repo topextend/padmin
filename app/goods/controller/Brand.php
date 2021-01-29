@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:12:01
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-12 17:58:55
+// |LastEditTime : 2021-01-29 13:51:51
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -92,10 +92,8 @@ class Brand extends Controller
     protected function _form_filter(&$data)
     {        
         if ($this->request->isPost()) {
-            if (isset($data['id']) && $data['id'] > 0) {
-                unset($data['brand_name']);
-            } else {
-                // 检查登录属性是否出现重复
+            // 检查品牌名称是否出现重复
+            if (!isset($data['id'])) {
                 $where = ['brand_name' => $data['brand_name']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("品牌{$data['brand_name']}已经存在，请使用其它品牌名称！");

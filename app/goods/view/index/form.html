@@ -32,9 +32,10 @@
                                     </div>
                                     <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">商品重量</label>
-                                        <div class="layui-input-inline">
-                                            <input type="text" name="goods_weight" value='{$vo.goods_weight|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input">
+                                        <div class="layui-input-inline" style="width: 153px;margin-right: -1px;">
+                                            <input type="text" name="goods_weight" value='{$vo.goods_weight|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input" style="width: 153px;">
                                         </div>
+                                        <div class="layui-form-mid layui-form-label layui-word-aux" style="width: 10%;">克</div>
                                     </div>
                                     <div class="layui-col-md4 margin-bottom-15">
                                         <label class="layui-form-label">品牌</label>
@@ -170,7 +171,7 @@
                 <textarea name="content">{$goods_content|default=''|raw}</textarea>
             </div>
         </div>
-        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        {notempty name='vo.goods_id'}<input type='hidden' value='{$vo.goods_id}' name='goods_id'>{/notempty}
         <input type='hidden' value='{$vo.cat_id|default=input("cat_id",0)}' name='cat_id'>
         <input type='hidden' value='{:session("user.id")}' name='user_id'>
         <div class="layui-form-item text-center">

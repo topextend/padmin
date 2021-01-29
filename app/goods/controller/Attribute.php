@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-24 20:40:28
+// |LastEditTime : 2021-01-29 13:52:08
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -64,19 +64,16 @@ class Attribute extends Controller
         if ($this->request->isGet()) {
             $data['type_id'] = $data['type_id'] ?? input('type_id', '0');
             $this->goods_type = GoodService::instance()->getGoodsValue('GoodsType','type_name');
-        } elseif ($this->request->isPost()) {
-            if (isset($data['id']) && $data['id'] > 0) {
-                unset($data['attr_name']);
-                $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
-            } else {
-                // 检查登录属性是否出现重复
+        } elseif ($this->request->isPost()) {            
+            if (!isset($data['id'])) {
+                // 检查属性名称是否出现重复
                 $where = ['attr_name' => $data['attr_name'], 'type_id' => $data['type_id']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("属性{$data['attr_name']}已经存在，请使用其它属性名称！");
-                } else {
-                    $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
                 }
             }
+            // 正则过滤全角逗号及空格
+            $data['attr_values'] = preg_replace("/(，)/" ,',' ,preg_replace('# #','',$data['attr_values']));
         }
     }
     

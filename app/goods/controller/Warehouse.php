@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:13:44
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-12 22:05:14
+// |LastEditTime : 2021-01-29 13:50:17
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -92,10 +92,8 @@ class Warehouse extends Controller
     protected function _form_filter(&$data)
     {
         if ($this->request->isPost()) {
-            if (isset($data['id']) && $data['id'] > 0) {
-                unset($data['whouse_name']);
-            } else {
-                // 检查登录属性是否出现重复
+            // 检查仓库名称是否出现重复
+            if (!isset($data['id'])) {
                 $where = ['whouse_name' => $data['whouse_name']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("仓库{$data['whouse_name']}已经存在，请使用其它仓库名称！");

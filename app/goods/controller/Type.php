@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:12:22
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 08:29:06
+// |LastEditTime : 2021-01-29 13:51:22
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -87,10 +87,8 @@ class Type extends Controller
     protected function _form_filter(&$data)
     {
         if ($this->request->isPost()) {
-            if (isset($data['id']) && $data['id'] > 0) {
-                unset($data['type_name']);
-            } else {
-                // 检查登录属性是否出现重复
+            // 检查类型名称是否出现重复
+            if (!isset($data['id'])) {
                 $where = ['type_name' => $data['type_name']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("类型{$data['type_name']}已经存在，请使用其它类型名称！");

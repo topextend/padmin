@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:12:45
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-13 15:43:25
+// |LastEditTime : 2021-01-29 13:51:40
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -105,10 +105,8 @@ class Category extends Controller
                 unset($this->goods_cats[$key]);
             }
         } elseif ($this->request->isPost()) {
-            if (isset($data['id']) && $data['id'] > 0) {
-                unset($data['cat_name']);
-            } else {
-                // 检查登录属性是否出现重复
+            // 检查分类名称是否出现重复
+            if (!isset($data['id'])) {
                 $where = ['cat_name' => $data['cat_name']];
                 if ($this->app->db->name($this->table)->where($where)->count() > 0) {
                     $this->error("分类{$data['cat_name']}已经存在，请使用其它分类名称！");
