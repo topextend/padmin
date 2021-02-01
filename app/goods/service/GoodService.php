@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-29 00:03:58
+// |LastEditTime : 2021-02-01 17:42:58
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -134,7 +134,7 @@ class GoodService extends Service
     public function getGoodsAttrValue(string $cat_id): array
     {
         $type_id = $this->getCatsTypeID($cat_id);
-        $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_values');
+        $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_notice, attr_values');
         if ($query) {
             foreach ($query as $key => $value) {
                 $value['attr_values'] = explode(',', $value['attr_values']);

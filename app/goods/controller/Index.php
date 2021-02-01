@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-29 17:53:45
+// |LastEditTime : 2021-02-01 17:43:05
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -93,48 +93,48 @@ class Index extends Controller
             $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
             $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
             $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id) ?: $this->error('请先配置类型属性');
-            $this->attr_price     = input('goods_id') ? GoodService::instance()->getGoodsAttrPrice(input('goods_id')) : 0;
-            if (!empty(input('goods_id'))) {
-                $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));
-                $this->goods_imgs = GoodService::instance()->getGoodsImages(input('goods_id'));
-                $this->goods_content = GoodService::instance()->getGoodsContent(input('goods_id'));
-            }
+            // $this->attr_price     = input('goods_id') ? GoodService::instance()->getGoodsAttrPrice(input('goods_id')) : 0;
+            // if (!empty(input('goods_id'))) {
+            //     $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));
+            //     $this->goods_imgs = GoodService::instance()->getGoodsImages(input('goods_id'));
+            //     $this->goods_content = GoodService::instance()->getGoodsContent(input('goods_id'));
+            // }
         } elseif ($this->request->isPost()) {
-            // 检查登录属性是否出现重复
-            if (!isset($data['goods_id'])) {
-                $where = ['goods_sn' => $data['goods_sn'], 'user_id' => session('user.id')];
-                if ($this->app->db->name($this->table)->where($where)->count() > 0) {
-                    $this->error("货号 {$data['goods_sn']} 已经存在，请使用其它货号名称！");
-                }
-            }
-            // 商品品牌
-            if ($data['brand_id']==0)  $this->error('请选择品牌!');
-            // 商品仓库
-            if ($data['whouse_id']==0) $this->error('请选择仓库!');
-            // 商品图片
-            if (!empty($data['goods_img']))
-            {
-                $data['goods_img']  = GoodService::instance()->attrToImageValue($data['goods_img']);
-                $data['goods_logo'] = $data['goods_img'][0]['images'];
-            } else {
-                $this->error('请上传轮播图!');
-            }
-            // 商品规格
-            if (empty($data['spec_name']) || empty($data['attr_id'])) $this->error('未选择规格属性!');
-            // 商品详情
-            if (empty($data['content'])) $this->error('请填写商品详情!');
-            // 规格属性重组
-            $data['sku_value'] = GoodService::instance()->arrayToSkuValue($data['attr_id'], $data['attr_value'], $data['spec_id'], $data['spec_name']);
-            unset($data['attr_id']);
-            unset($data['attr_value']);
-            unset($data['spec_id']);
-            unset($data['spec_name']);
-            $data['product_value'] = GoodService::instance()->arrayToProcudtValue($data['spec_value'], $data['market_price'], $data['shop_price'], $data['stock_price'], $data['goods_amount']);
-            unset($data['spec_value']);
-            unset($data['market_price']);
-            unset($data['shop_price']);
-            unset($data['stock_price']);
-            unset($data['goods_amount']);
+            // // 检查登录属性是否出现重复
+            // if (!isset($data['goods_id'])) {
+            //     $where = ['goods_sn' => $data['goods_sn'], 'user_id' => session('user.id')];
+            //     if ($this->app->db->name($this->table)->where($where)->count() > 0) {
+            //         $this->error("货号 {$data['goods_sn']} 已经存在，请使用其它货号名称！");
+            //     }
+            // }
+            // // 商品品牌
+            // if ($data['brand_id']==0)  $this->error('请选择品牌!');
+            // // 商品仓库
+            // if ($data['whouse_id']==0) $this->error('请选择仓库!');
+            // // 商品图片
+            // if (!empty($data['goods_img']))
+            // {
+            //     $data['goods_img']  = GoodService::instance()->attrToImageValue($data['goods_img']);
+            //     $data['goods_logo'] = $data['goods_img'][0]['images'];
+            // } else {
+            //     $this->error('请上传轮播图!');
+            // }
+            // // 商品规格
+            // if (empty($data['spec_name']) || empty($data['attr_id'])) $this->error('未选择规格属性!');
+            // // 商品详情
+            // if (empty($data['content'])) $this->error('请填写商品详情!');
+            // // 规格属性重组
+            // $data['sku_value'] = GoodService::instance()->arrayToSkuValue($data['attr_id'], $data['attr_value'], $data['spec_id'], $data['spec_name']);
+            // unset($data['attr_id']);
+            // unset($data['attr_value']);
+            // unset($data['spec_id']);
+            // unset($data['spec_name']);
+            // $data['product_value'] = GoodService::instance()->arrayToProcudtValue($data['spec_value'], $data['market_price'], $data['shop_price'], $data['stock_price'], $data['goods_amount']);
+            // unset($data['spec_value']);
+            // unset($data['market_price']);
+            // unset($data['shop_price']);
+            // unset($data['stock_price']);
+            // unset($data['goods_amount']);
         }
     }
 
@@ -144,49 +144,49 @@ class Index extends Controller
      */
     protected function _form_result(bool $state, array $data)
     {
-        if ($state) {
-            $data['goods_id'] = $this->app->db->name($this->table)->getLastInsID() ?: $data['goods_id'];
-            $map = ['goods_id' => $data['goods_id']];
-            // 商品详情
-            if (!empty($data['content']))
-            {
-                $content = ['goods_id' => $data['goods_id'], 'content' => $data['content']];
-                if ($this->app->db->name('GoodsContent')->where($map)->count() > 0) {
-                    $this->app->db->name('GoodsContent')->where($map)->update($content);
-                } else {
-                    $this->app->db->name('GoodsContent')->save($content);
-                }
-            }
-            // 商品图片
-            if (!empty($data['goods_img']))
-            {
-                $this->app->db->name('GoodsImages')->where($map)->delete();
-                foreach($data['goods_img'] as $imgs)
-                {
-                    $imgs['goods_id'] = $data['goods_id'];
-                    $this->app->db->name('GoodsImages')->save($imgs);
-                }
-            }
-            // 商品SKU
-            if (!empty($data['sku_value']))
-            {
-                $this->app->db->name('GoodsSku')->where($map)->delete();
-                foreach ($data['sku_value'] as $v)
-                {
-                    $v['goods_id'] = $data['goods_id'];
-                    // 存入数据库
-                    $this->app->db->name('GoodsSku')->save($v);
-                }
-            }
-            // 商品库存
-            $this->app->db->name('GoodsProducts')->where($map)->delete();
-            foreach($data['product_value'] as $vv)
-            {
-                $vv['goods_id'] = $data['goods_id'];
-                // 存入数据库
-                $this->app->db->name('GoodsProducts')->save($vv);
-            }
-        }
+        // if ($state) {
+        //     $data['goods_id'] = $this->app->db->name($this->table)->getLastInsID() ?: $data['goods_id'];
+        //     $map = ['goods_id' => $data['goods_id']];
+        //     // 商品详情
+        //     if (!empty($data['content']))
+        //     {
+        //         $content = ['goods_id' => $data['goods_id'], 'content' => $data['content']];
+        //         if ($this->app->db->name('GoodsContent')->where($map)->count() > 0) {
+        //             $this->app->db->name('GoodsContent')->where($map)->update($content);
+        //         } else {
+        //             $this->app->db->name('GoodsContent')->save($content);
+        //         }
+        //     }
+        //     // 商品图片
+        //     if (!empty($data['goods_img']))
+        //     {
+        //         $this->app->db->name('GoodsImages')->where($map)->delete();
+        //         foreach($data['goods_img'] as $imgs)
+        //         {
+        //             $imgs['goods_id'] = $data['goods_id'];
+        //             $this->app->db->name('GoodsImages')->save($imgs);
+        //         }
+        //     }
+        //     // 商品SKU
+        //     if (!empty($data['sku_value']))
+        //     {
+        //         $this->app->db->name('GoodsSku')->where($map)->delete();
+        //         foreach ($data['sku_value'] as $v)
+        //         {
+        //             $v['goods_id'] = $data['goods_id'];
+        //             // 存入数据库
+        //             $this->app->db->name('GoodsSku')->save($v);
+        //         }
+        //     }
+        //     // 商品库存
+        //     $this->app->db->name('GoodsProducts')->where($map)->delete();
+        //     foreach($data['product_value'] as $vv)
+        //     {
+        //         $vv['goods_id'] = $data['goods_id'];
+        //         // 存入数据库
+        //         $this->app->db->name('GoodsProducts')->save($vv);
+        //     }
+        // }
     }
 
     /**

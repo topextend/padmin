@@ -128,36 +128,124 @@
                 <!-- {notempty name='goods_attr'} -->
                 <!-- {foreach $goods_attr as $key => $attrs} -->
                 <!-- {eq name='attrs.attr_type' value='0'} -->
-                    <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#ddd;padding: 7px!important;">
-                        <span class="text-center goods-spec-title">{$attrs.attr_name}</span>
-                        <label class="label-required-null inline-block"></label>
+                    <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#eee;padding: 7px!important;">
+                        <span class="text-center">{$attrs.attr_name}
+                        <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>
                         <div class="pull-right">
                             <!-- <a class="layui-btn layui-btn-sm layui-btn-primary goods-spec-btn">增加</a> -->
                         </div>
                     </div>
-                    <div class="goods-spec-value{$key} goods-spec-box padding-10 margin-0 layui-bg-gray block relative">
-                        <!-- {foreach $attrs.attr_values as $k => $attr} -->
-                        <label class="label-required-null inline-block margin-right-10 margin-bottom-5 relative nowrap">
-                            <!-- {notempty name='attr_value'} -->
-                                <!-- {if in_array($attr, $attr_value)} -->
-                                    <input type="checkbox" checked lay-ignore layui-id="{$attrs.id}">
-                                    <div>
-                                        <input type="hidden" name="spec_id[]" value="{$attrs.id}">
-                                        <input type="hidden" name="spec_name[]" value="{$attr}">
-                                    </div>
-                                    <input type="text" value="{$attr}" readonly="readonly" style="background: rgb(204, 204, 204);">
-                                <!-- {else} -->
-                                    <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
-                                    <div></div>
-                                    <input type="text" value="{$attr}">
-                                <!-- {/if} -->
-                            <!-- {else} -->
-                                <input type="checkbox" lay-ignore layui-id="{$attrs.id}">
-                                <div></div>
-                                <input type="text" value="{$attr}">
-                            <!-- {/notempty} -->
-                        </label>
-                        <!-- {/foreach} -->
+                    <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
+                        {if $key == 0}
+                        <div id="goods-spec" style="display: flex;">
+                            <div class="goods-spec-color">
+                                <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input select-color">
+                            </div>
+                            <div class="goods-spec-note margin-left-10">
+                                <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="goods-spce-image margin-left-10" style="box-sizing: border-box;">
+                                <input name="attr-images[]" type="hidden" value="{$vo.attr_images|default=''}">
+                                <script>$('[name="attr-images[]"]').uploadOneImage();</script>
+                            </div>
+                            <div class="goods-spec-del margin-left-10" style="line-height: 38px;">
+                                <a href="">删除</a>
+                            </div>
+                        </div>
+                        {else}
+                        <div id="">
+                            <div class="layui-tab layui-tab-card">
+                                <ul class="layui-tab-title">
+                                    <li class="layui-this">欧码</li>
+                                    <li>英码</li>
+                                    <li>美码</li>
+                                </ul>
+                            </div>
+                            <div class="goods-spec-name layui-row margin-top-10">
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="37" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="37.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="38" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="38.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="39" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="39.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="40" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="40.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="41" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="41.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="42" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="42.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="43" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="43.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="44" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="44.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="45" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="45.5" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" title="46" lay-skin="primary">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                </div>
+                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                    <input type="checkbox" name="" lay-skin="primary">
+                                    <input type="text" class="goods-spec-input layui-input">
+                                    <input type="text" class="goods-spec-note layui-input margin-left-5">
+                                </div>
+                            </div>
+                        </div>
+                        {/if}
                     </div>
                 <!-- {/eq} -->
                 <!-- {/foreach} -->
@@ -182,247 +270,19 @@
 </form>
 {/block}
 {block name='script'}
+<script src="__ROOT__/static/plugs/jquery/selectcolor.min.js"></script>
 <script>
     /*! 表单初始化 */
     window.form.render();
+    /*! 颜色选择 */    
+	new SelectColor({
+		elem: ".select-color",
+		range: "|",
+	});
     /*! 加载扩展插件 */
     require(['ckeditor', 'angular'], function () {
         // 富文本加载
         window.createEditor('[name="content"]', {height: 400});
     });
-    $(function () {
-        //默认加载
-        $(document).ready(function(){
-            step.Creat_Table();
-        }); 
-        //SKU信息
-        $(".goods-spec-list label").bind("change", function () {
-            step.Creat_Table();
-        });
-        //批量设置
-        var step = {
-            //SKU信息组合
-            Creat_Table: function () {
-                step.hebingFunction();
-                var SKUObj = $(".goods-spec-attr");
-                var arrayTile = new Array();//标题组数
-                var arrayInfor = new Array();//盛放每组选中的CheckBox值的对象
-                var arrayColumn = new Array();//指定列，用来合并哪些列
-                var bCheck = true;//是否全选
-                var columnIndex = 0;
-                $.each(SKUObj, function (i, item){
-                    arrayColumn.push(columnIndex);
-                    columnIndex++;
-                    arrayTile.push(SKUObj.find(".goods-spec-title").eq(i).html().replace("：", ""));
-                    var itemName = "goods-spec-value" + i;
-                    //选中的CHeckBox取值
-                    var order = new Array();
-                    $("." + itemName + " input[type=checkbox]").each(function (){
-                        if ($(this).is(':checked')) {
-                            attr_id = $(this).attr('layui-id');
-                            attr_value = $(this).next().next().val();
-                            $(this).next().next().attr('readonly', 'readonly');
-                            $(this).next().next().css("background", "#CCCCCC");
-                            $(this).next().html("<input type='hidden' name='spec_id[]' value= '" + attr_id +"'><input type='hidden' name='spec_name[]' value= '" + attr_value +"'>");
-                            order.push(attr_value);
-                        } else {
-                            $(this).next().next().removeAttr('readonly');
-                            $(this).next().next().css("background", "");
-                            $(this).next().html("");
-                        }
-                    });
-                    arrayInfor.push(order);
-                    if (order.join() == ""){
-                        bCheck = false;
-                    }
-                });
-                //开始创建Table表
-                if (bCheck == true) {
-                    var RowsCount = 0;
-                    $("#goods-spec-table").html("");
-                    var table = $("<table id='test_table' class='layui-table margin-top-10'></table>");
-                    table.appendTo($("#goods-spec-table"));
-                    var thead = $("<thead></thead>");
-                    thead.appendTo(table);
-                    var trHead = $("<tr></tr>");
-                    trHead.appendTo(thead);
-                    //创建表头
-                    $.each(arrayTile, function (index, item) {
-                        var td = $("<th width='20%' class='text-center nowrap ng-binding ng-scope'>" + item + "</th>");
-                        td.appendTo(trHead);
-                    });
-                    var itemColumHead  = "<th width='15%' class='text-center nowrap'>市场价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"market_price\")'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>销售价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"shop_price\")'>&#xe63c;</a></th>";
-                        itemColumHead  = itemColumHead + "<th width='15%' class='text-center nowrap'>分销价格<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"stock_price\")'>&#xe63c;</a></th>";
-                        itemColumHead  = $(itemColumHead + "<th width='15%' class='text-center nowrap'>库存数量<a data-tips-text='批量设置' class='layui-icon' onclick='bachset(\"goods_amount\")'>&#xe63c;</a></th>");
-                    itemColumHead.appendTo(trHead);
-                    var tbody = $("<tbody></tbody>");
-                    tbody.appendTo(table);
-                    //生成组合
-                    var zuheDate = step.doExchange(arrayInfor);
-                    if (zuheDate.length > 0) {
-                        //创建行
-                        $.each(zuheDate, function (index, item) {
-                            var td_array = item.split(",");
-                            var spec_name = "";
-                            var spec_test = [];
-                            var tr = $("<tr class='ng-scope'></tr>");
-                            tr.appendTo(table);
-                            $.each(td_array, function (i, values) {
-                                spec_name += values + "_";
-                                var td = $("<td class='layui-bg-gray text-center nowrap ng-binding ng-scope'>" + values + "</td>");
-                                td.appendTo(tr);
-                            });
-                            spec_name = spec_name.substring(0, spec_name.length - 1);
-                            var market_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input type='hidden' name='spec_value[]' value='" + spec_name + "'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='market_price[]' value='0'></label></td>");
-                            market_price.appendTo(tr);
-                            var shop_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='shop_price[]' value='0'></label></td>");
-                            shop_price.appendTo(tr);
-                            var stock_price = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='stock_price[]' value='0'></label></td>");
-                            stock_price.appendTo(tr);
-                            var goods_amount = $("<td class='padding-0'><label class='padding-0 margin-0'><input class='layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched' name='goods_amount[]' value='0'></label></td>");
-                            goods_amount.appendTo(tr);
-                        });
-                    }
-                    //结束创建Table表
-                    arrayColumn.pop();//删除数组中最后一项
-                    //合并单元格
-                    $(table).mergeCell({
-                        // 目前只有cols这么一个配置项, 用数组表示列的索引,从0开始
-                        cols: arrayColumn
-                    });
-                } else{
-                //未全选中,清除表格
-                document.getElementById('goods-spec-table').innerHTML="";
-                };
-            },
-            // 合并行
-            hebingFunction: function () {
-                $.fn.mergeCell = function (options) {
-                    return this.each(function () {
-                        var cols = options.cols;
-                        for (var i = cols.length - 1; cols[i] != undefined; i--) {
-                            mergeCell($(this), cols[i]);
-                        }
-                        dispose($(this));
-                    });
-                };
-                function mergeCell($table, colIndex) {
-                    $table.data('col-content', ''); // 存放单元格内容
-                    $table.data('col-rowspan', 1); // 存放计算的rowspan值 默认为1
-                    $table.data('col-td', $()); // 存放发现的第一个与前一行比较结果不同td(jQuery封装过的), 默认一个"空"的jquery对象
-                    $table.data('trNum', $('tbody tr', $table).length); // 要处理表格的总行数, 用于最后一行做特殊处理时进行判断之用
-                    // 进行"扫面"处理 关键是定位col-td, 和其对应的rowspan
-                    $('tbody tr', $table).each(function (index) {
-                        // td:eq中的colIndex即列索引
-                        var $td = $('td:eq(' + colIndex + ')', this);
-                        // 取出单元格的当前内容
-                        var currentContent = $td.html();
-                        // 第一次时走此分支
-                        if ($table.data('col-content') == '') {
-                            $table.data('col-content', currentContent);
-                            $table.data('col-td', $td);
-                        } else {
-                            // 上一行与当前行内容相同
-                            if ($table.data('col-content') == currentContent) {
-                                // 上一行与当前行内容相同则col-rowspan累加, 保存新值
-                                var rowspan = $table.data('col-rowspan') + 1;
-                                $table.data('col-rowspan', rowspan);
-                                // 值得注意的是 如果用了$td.remove()就会对其他列的处理造成影响
-                                $td.hide();
-                                // 最后一行的情况比较特殊一点
-                                // 比如最后2行 td中的内容是一样的, 那么到最后一行就应该把此时的col-td里保存的td设置rowspan
-                                if (++index == $table.data('trNum'))
-                                    $table.data('col-td').attr('rowspan', $table.data('col-rowspan'));
-                            } else { // 上一行与当前行内容不同
-                                // col-rowspan默认为1, 如果统计出的col-rowspan没有变化, 不处理
-                                if ($table.data('col-rowspan') != 1) {
-                                    $table.data('col-td').attr('rowspan', $table.data('col-rowspan'));
-                                }
-                                // 保存第一次出现不同内容的td, 和其内容, 重置col-rowspan
-                                $table.data('col-td', $td);
-                                $table.data('col-content', $td.html());
-                                $table.data('col-rowspan', 1);
-                            }
-                        }
-                    });
-                }
-                // 同样是个private函数 清理内存之用
-                function dispose($table) {
-                    $table.removeData();
-                }
-            },
-            //组合数组
-            doExchange: function (doubleArrays) {
-                var len = doubleArrays.length;
-                if (len >= 2) {
-                    var arr1 = doubleArrays[0];
-                    var arr2 = doubleArrays[1];
-                    var len1 = doubleArrays[0].length;
-                    var len2 = doubleArrays[1].length;
-                    var newlen = len1 * len2;
-                    var temp = new Array(newlen);
-                    var index = 0;
-                    for (var i = 0; i < len1; i++) {
-                        for (var j = 0; j < len2; j++) {
-                            temp[index] = arr1[i] + "," + arr2[j];
-                            index++;
-                        }
-                    }
-                    var newArray = new Array(len - 1);
-                    newArray[0] = temp;
-                    if (len > 2) {
-                        var _count = 1;
-                        for (var i = 2; i < len; i++) {
-                            newArray[_count] = doubleArrays[i];
-                            _count++;
-                        }
-                    }
-                    //console.log(newArray);
-                    return step.doExchange(newArray);
-                }
-                else {
-                    return doubleArrays[0];
-                }
-            }
-        };
-        return step;
-    });
-    // 批量设置
-    function bachset(name){
-        layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
-            layer.close(index);
-            if (name !='goods_amount') value = (parseFloat(value) || 0).toFixed('2');
-            $("input[name='"+ name +"[]']").each(function(){
-                $(this).val(value);
-            })
-        });
-    }
-    // 填充库存信息
-    var attr_price = JSON.parse('{$attr_price|raw}');
-    if (attr_price != '') {
-        $(attr_price).each(function(k,v){
-            $("input[name='market_price[]']").each(function (k1, v1) {
-                if (k1 == k) {
-                    $(this).val(v.market_price);
-                }
-            });
-            $("input[name='shop_price[]']").each(function (k1, v1) {
-                if (k1 == k) {
-                    $(this).val(v.shop_price);
-                }
-            });
-            $("input[name='stock_price[]']").each(function (k1, v1) {
-                if (k1 == k) {
-                    $(this).val(v.stock_price);
-                }
-            });
-            $("input[name='goods_amount[]']").each(function (k1, v1) {
-                if (k1 == k) {
-                    $(this).val(v.goods_amount);
-                }
-            });
-        })
-    }
 </script>
 {/block}
