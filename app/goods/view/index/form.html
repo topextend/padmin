@@ -137,19 +137,20 @@
                     </div>
                     <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
                         <!-- {if $key == 0} -->
-                        <div class="layui-display-flex divcolor">
-                            <div class="goods-spec-color">
-                                <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
-                            </div>
-                            <div class="goods-spec-note margin-left-10">
-                                <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
-                            </div>
-                            <div class="goods-spce-image margin-left-10">
-                                <input name="attr-images[]" type="hidden" value="{$vo.attr_images|default=''}">
-                                <script>$('[name="attr-images[]"]').uploadOneImage();</script>
-                            </div>
-                            <div class="goods-spec-del margin-left-10" style="line-height: 38px;">
-                                <a href="">删除</a>
+                        <div data-item-tpl>
+                            <div class="layui-display-flex divcolor">
+                                <div class="goods-spec-color">
+                                    <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
+                                </div>
+                                <div class="goods-spec-note margin-left-10">
+                                    <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="goods-spce-image margin-left-10">
+                                    <input data-upload-image name="attr-images[]" type="hidden">
+                                </div>
+                                <div class="goods-spec-del margin-left-10" style="line-height: 38px;">
+                                    <a href="">删除</a>
+                                </div>
                             </div>
                         </div>
                         <div class="color-group-wrapper color-dropdown-wrapper colordrop" style="display: none;">
@@ -342,73 +343,79 @@
     /*! 显示颜色框*/
     var colorBlock = $(".goods-spec-value");
     colorBlock.delegate(".colour","click",function(){
-			if($.trim($(this).val()).length == 0) {
-				colorBlock.find(".colordrop").show().css("top",$(this).offset().top);
-			}
-			$(this).addClass("selected").parents(".divcolor").siblings().find(".colour").removeClass("selected");
-			$(this).keyup(function(){
-				if($.trim($(this).val()).length==0){
-					$(".viewatttable tbody .tr_"+colorBlock.find(".colour").index(this)).remove();
-					checkistable();
-				}
-			});
+        if($.trim($(this).val()).length == 0) {
+            colorBlock.find(".colordrop").show().css("top",$(this).offset().top);
+        }
+        $(this).addClass("selected").parents(".divcolor").siblings().find(".colour").removeClass("selected");
+        $(this).keyup(function(){
+            if($.trim($(this).val()).length==0){
+                $(".viewatttable tbody .tr_"+colorBlock.find(".colour").index(this)).remove();
+                checkistable();
+            }
+        });
     });
     // colorBlock.delegate(".colour","blur",function(){
 		// 	colorBlock.find(".colordrop").hide();
     // });
     /*!  颜色值点击*/
-		colorBlock.find(".colorval ul li").click(function(){
-			if(checkval($(this).text()) == true){
-        layer.tips('与其他颜色重复，请修改!', $(this),{tips:[2,"#FF6A6A"]});
-				return false;
-      };
-      console.log($(this).text());
-			colorBlock.find(".colour.selected").val($(this).text());
-			colorBlock.find(".colour.selected").attr("data-id",$(this).attr("data-id"));
-			colorBlock.find(".colordrop").hide();
-			var max = colorBlock.find(".colour").length;
-			for( var i=0;i<max;i++){
+    colorBlock.find(".colorval ul li").click(function(){
+        if(checkval($(this).text()) == true){
+            layer.tips('与其他颜色重复，请修改!', $(this),{tips:[2,"#FF6A6A"]});
+            return false;
+        };
+        colorBlock.find(".colour.selected").val($(this).text());
+        colorBlock.find(".colour.selected").attr("data-id",$(this).attr("data-id"));
+        colorBlock.find(".colordrop").hide();
+        var max = colorBlock.find(".colour").length;
+        for( var i=0;i<max;i++){
         if(colorBlock.find(".colour").eq(i).hasClass("selected")){
-					var index = i+1;
-					break;
-				}
-			}
-			if(max == index){
-        addinput();
-      } else {
+                var index = i+1;
+                break;
+            }
+        }
+        if(max == index){
+            addinput();
+        } else {
 
-      }
+        }
     });
     
-	  function addinput(){
-      var color = "<div class='layui-display-flex divcolor'>";
-          color+= "<div class='goods-spec-color'><input type='text' name='attr-value[]' autocomplete='off' placeholder='选择或输入主色' class='layui-input colour'></div>";
-          color+= "<div class='goods-spec-note margin-left-10'><input type='text' name='attr-value-note[]' autocomplete='off' placeholder='备注(如偏深偏浅等)' class='layui-input'></div>";
-          color+= "<div class='goods-spce-image margin-left-10'><input name=attr-images[] type='hidden'>";
-          color+= "<a data-file='one' class='uploadimage transition' data-type='png,jpg,gif' data-size='0' data-field='attr-images[]' data-inited='true' data-multiple='0'><span class='layui-icon'>ဆ</span></a>";
-          color+= "<input class='layui-upload-file' type='file' accept='image/png,image/jpeg,image/gif' name='file'></div>";
-          color+= "<div class='goods-spec-del margin-left-10' style='line-height: 38px;'><a>删除</a></div>";
-          color+= "</div>";
-      colorBlock.find(".colordrop").before(color);
+	function addinput(){
+        this.$html = $($('[data-item-tpl]').html());
+        var color = "<div class='layui-display-flex divcolor'>";
+            color+= "<div class='goods-spec-color'><input type='text' name='attr-value[]' autocomplete='off' placeholder='选择或输入主色' class='layui-input colour'></div>";
+            color+= "<div class='goods-spec-note margin-left-10'><input type='text' name='attr-value-note[]' autocomplete='off' placeholder='备注(如偏深偏浅等)' class='layui-input'></div>";
+            color+= "<div class='goods-spce-image margin-left-10'><input data-upload-image name=attr-images[] type='hidden'></div>";
+            color+= "<div class='goods-spec-del margin-left-10' style='line-height: 38px;'><a>删除</a></div>";
+            color+= '</div>';
+        // colorBlock.find(".colordrop").before();
+        colorBlock.find(".colordrop").before(this.$html);
     };
-	  function checkval(str){
-      var that = $(".goods-spec-value .colour");
-      var affect=false;
-      for(var i=0;i<that.size();i++){
-        if(that.eq(i).val()== str){
-          affect = true;
-          break;
+    function checkval(str){
+        var that = $(".goods-spec-value .colour");
+        var affect=false;
+        for(var i=0;i<that.size();i++){
+            if(that.eq(i).val()== str){
+                affect = true;
+                break;
+            }
         }
-		  }
-		 return affect; 
-	  };
-	  function checkistable(){
-      if($(".sizeblock .sizemore .howsize").is(':checked')==false || checkinputcolor() ==false){
-        $(".viewatttable tbody").html('');
-        $(".viewatttable").hide();
-        return false;
-      }
-      return true;
-	  };
+        return affect; 
+    };
+    function checkistable(){
+        if($(".sizeblock .sizemore .howsize").is(':checked')==false || checkinputcolor() ==false){
+            $(".viewatttable tbody").html('');
+            $(".viewatttable").hide();
+            return false;
+        }
+        return true;
+    };
+    /*! 初始化上传插件 */
+    (function initUpload() {
+        $('.goods-spec-value input[data-upload-image]').map(function () {
+            if (!$(this).attr('inited')) $(this).attr('inited', true).uploadOneImage();
+        });
+        setTimeout(initUpload, 50);
+    })();
 </script>
 {/block}
