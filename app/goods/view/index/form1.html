@@ -1,0 +1,281 @@
+{extend name="../../admin/view/main"}
+{block name="button"}
+    <button data-open='{:url("index")}' class='layui-btn layui-btn-sm layui-btn-primary'>返回</button>
+{/block}
+{block name="content"}
+    {include file='index/formstyle'}
+    <form onsubmit="return false" data-auto="true" method="post" class='layui-form layui-card layui-form-pane' autocomplete="off">
+        <div class="layui-card-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b>商品分类</b></label>
+                <div class="layui-input-inline"><span class="layui-input">{$select_cats|raw}</span></div>
+                <a data-open='{:url("category")}' class="layui-btn layui-btn-radius layui-btn-danger"><span>修改分类</span></a>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b>商品属性</b></label>
+                <div class="layui-input-block">
+                    <table class="layui-table">
+                        <thead>
+                            <tr><th class="text-left">请准确填写属性，有利于商品在搜索和推荐中露出，错误填写可能面临商品下架或流量损失!</th></tr>
+                            <tr>
+                                <td class="text-left">
+                                    <div class="layui-row margin-top-10">
+                                        <div class="layui-col-md4 margin-bottom-15">
+                                            <label class="layui-form-label">商品货号</label>
+                                            <div class="layui-input-inline">
+                                                <input type="text" name="goods_sn" value='{$vo.goods_sn|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品货号" autocomplete="off" class="layui-input">
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md4 margin-bottom-15">
+                                            <label class="layui-form-label">商品重量</label>
+                                            <div class="layui-input-inline" style="width: 153px;margin-right: -1px;">
+                                                <input type="text" name="goods_weight" value='{$vo.goods_weight|default=""}' required lay-verify="required" lay-vertype="tips" placeholder="请输入商品重量" autocomplete="off" class="layui-input" style="width: 153px;">
+                                            </div>
+                                            <div class="layui-form-mid layui-form-label layui-word-aux" style="width: 10%;">克</div>
+                                        </div>
+                                        <div class="layui-col-md4 margin-bottom-15">
+                                            <label class="layui-form-label">品牌</label>
+                                            <div class="layui-input-inline">
+                                                <select name="brand_id" required lay-verify="required" lay-search>
+                                                    <option value="0">请选择品牌</option>
+                                                    <!-- {notempty name='goods_brand'} -->
+                                                        <!-- {foreach $goods_brand as $brand} -->
+                                                            <!-- {eq name='brand.id' value='$vo.brand_id|default=0'} -->
+                                                                <option selected value='{$brand.id}'>{$brand.brand_name}</option>
+                                                            <!-- {else} -->
+                                                                <option value='{$brand.id}'>{$brand.brand_name}</option>
+                                                            <!-- {/eq} -->
+                                                        <!-- {/foreach} -->
+                                                    <!-- {/notempty} -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="layui-col-md4 margin-bottom-15">
+                                            <label class="layui-form-label">仓库</label>
+                                            <div class="layui-input-inline">
+                                                <select name="whouse_id" required lay-verify="required" lay-search>
+                                                    <option value="0">请选择仓库</option>
+                                                    <!-- {notempty name='goods_whouses'} -->
+                                                        <!-- {foreach $goods_whouses as $whouse} -->
+                                                            <!-- {eq name='whouse.id' value='$vo.whouse_id|default=0'} -->
+                                                                <option selected value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                                            <!-- {else} -->
+                                                                <option value='{$whouse.id}'>{$whouse.whouse_name}</option>
+                                                            <!-- {/eq} -->
+                                                        <!-- {/foreach} -->
+                                                    <!-- {/notempty} -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- {notempty name='goods_attr'} -->
+                                            <!-- {foreach $goods_attr as $key => $attr} -->
+                                                <!-- {eq name='attr.attr_type' value='1'} -->
+                                                    <div class="layui-col-md4 margin-bottom-15">
+                                                        <label class="layui-form-label">{$attr.attr_name}</label>
+                                                        <div class="layui-input-inline">
+                                                            <input type="hidden" name='attr_id[]' value="{$attr.id}">
+                                                            <select name="attr_value[]"class="layui-input layui-unselect">
+                                                                <option value="0">请选择</option>
+                                                                <!-- {foreach $attr.attr_values as $value} -->
+                                                                    <!-- {notempty name='attr_value'} -->
+                                                                        <!-- {if in_array($value, $attr_value)} -->
+                                                                            <option selected value='{$value}'>{$value}</option>
+                                                                        <!-- {else} -->
+                                                                            <option value='{$value}'>{$value}</option>
+                                                                        <!-- {/if} -->
+                                                                    <!-- {else} -->
+                                                                        <option value='{$value}'>{$value}</option>
+                                                                    <!-- {/notempty} -->
+                                                                <!-- {/foreach} -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                <!-- {/eq} -->
+                                            <!-- {/foreach} -->
+                                        <!-- {/notempty} -->
+                                    </div>
+                                </td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b>商品图片</b></label>
+                <div class="layui-input-block">
+                    <table class="layui-table">
+                        <thead>
+                            <tr><th class="text-left label-required-prev"><label>轮播图</label></th></tr>
+                            <tr>
+                                <td class="text-left"><input data-upload-images name="goods_img" type="hidden" value="{$goods_imgs|default=''}"></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b>商品规格</b></label>
+                <div class="layui-input-block goods-spec-list">
+                    <!-- {notempty name='goods_attr'} -->
+                        <!-- {foreach $goods_attr as $key => $attrs} -->
+                            <!-- {eq name='attrs.attr_type' value='0'} -->
+                                <!-- {if $key == 0} -->
+                                    <div class="colorblock">
+                                        <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#eee;padding: 7px!important;">
+                                            <span class="text-center">{$attrs.attr_name}</span>
+                                            <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>                    
+                                        </div>
+                                        <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
+                                            <div class="color-group-wrapper color-dropdown-wrapper colordrop" style="display: none;">
+                                                <div class="colorleft">
+                                                    <ul class="color-group-panel">
+                                                        <li class="color-tag" index-data='1' data-id="0">
+                                                            <a><div class="color-block" style="background:rgb(255, 255, 255);"></div><span>白色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='2' data-id="1">
+                                                            <a><div class="color-block" style="background:rgb(128, 128, 128);"></div><span>灰色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='3' data-id="2">
+                                                            <a><div class="color-block" style="background:rgb(0, 0, 0);"></div><span>黑色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='4' data-id="3">
+                                                            <a><div class="color-block" style="background:rgb(255, 0, 0);"></div><span>红色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='5' data-id="4">
+                                                            <a><div class="color-block" style="background:rgb(255, 255, 0);"></div><span>黄色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='6' data-id="5">
+                                                            <a><div class="color-block" style="background:rgb(0, 128, 0);"></div><span>绿色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='7' data-id="6">
+                                                            <a><div class="color-block" style="background:rgb(0, 0, 254);"></div><span>蓝色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='8' data-id="7">
+                                                            <a><div class="color-block" style="background:rgb(128, 0, 128);"></div><span>紫色系</span></a>
+                                                        </li>
+                                                        <li class="color-tag" index-data='9' data-id="8">
+                                                            <a><div class="color-block" style="background:rgb(124, 75, 0);"></div><span>棕色系</span></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="colors-panel coloright">
+                                                    <p class="colors-panel-title">常用标准颜色</p>
+                                                    <div class="colorval">
+                                                        <ul class="color-list index2">
+                                                            <li class="color-tag" data-id="0">
+                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>乳白色</span></a>
+                                                            </li>
+                                                            <li class="color-tag" data-id="1">
+                                                                <a><div class="color-block" style="background:rgb(255, 255, 2255);"></div><span>白色</span></a>
+                                                            </li>
+                                                            <li class="color-tag" data-id="2">
+                                                                <a><div class="color-block" style="background:rgb(238, 222, 176);"></div><span>米白色</span></a>
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="color-list index3" style="display: none;">
+                                                            <li class="color-tag" data-id="0">
+                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>灰色</span></a>
+                                                            </li>
+                                                        </ul>
+                                                        <ul class="color-list index4" style="display: none;">
+                                                            <li class="color-tag" data-id="0">
+                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>黑色</span></a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <!-- {else} -->
+                                <div class="sizeblock">                
+                                    <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#eee;padding: 7px!important;">
+                                        <span class="text-center">{$attrs.attr_name}</span>
+                                        <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>                    
+                                    </div>
+                                    <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
+                                        <div class="layui-tab layui-tab-card divsize">
+                                            <ul class="layui-tab-title">
+                                                <li class="layui-this">欧码</li>
+                                                <li>英码</li>
+                                                <li>美码</li>
+                                            </ul>
+                                        </div>
+                                        <div class="goods-spec-name layui-row margin-top-10">
+                                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                                <input type="checkbox" name="" title="37" lay-skin="primary">
+                                                <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                            </div>
+                                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                                <input type="checkbox" name="" title="37.5" lay-skin="primary">
+                                                <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                            </div>
+                                            <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
+                                                <input type="checkbox" name="" title="38" lay-skin="primary">
+                                                <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- {/if} -->
+                            <!-- {/eq} -->
+                        <!-- {/foreach} -->
+                    <!-- {/notempty} -->
+                    <table class="layui-table viewatttable">
+                        <thead>
+                            <tr>
+                                <!-- {notempty name='goods_attr'} -->
+                                    <!-- {foreach $goods_attr as $key => $attrs} -->
+                                        <!-- {eq name='attrs.attr_type' value='0'} -->
+                                            <th width="20%" class="text-center nowrap">{$attrs.attr_name}</th>
+                                        <!-- {/eq} -->
+                                    <!-- {/foreach} -->
+                                <!-- {/notempty} -->
+                                <th width="15%" class="text-center nowrap">销售价格<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                                <th width="15%" class="text-center nowrap">分销价格<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                                <th width="15%" class="text-center nowrap">库存<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"><b>商品详情</b></label>
+                <div class="layui-input-block"><textarea name="content">{$goods_content|default=''|raw}</textarea></div>
+            </div>            
+            <div data-item-tpl class="layui-hide">
+                <div class="layui-display-flex divcolor">
+                    <div class="goods-spec-color">
+                        <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
+                    </div>
+                    <div class="goods-spec-note margin-left-10">
+                        <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="goods-spce-image margin-left-10">
+                        <input data-upload-image name="attr-images[]" type="hidden">
+                    </div>
+                    <div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>
+                </div>
+            </div>
+            {notempty name='vo.goods_id'}<input type='hidden' value='{$vo.goods_id}' name='goods_id'>{/notempty}
+            <input type='hidden' value='{$vo.cat_id|default=input("cat_id",0)}' name='cat_id'>
+            <input type='hidden' value='{:session("user.id")}' name='user_id'>
+            <div class="layui-form-item text-center">
+                <button class="layui-btn" type='submit'>保存数据</button>
+                <button class="layui-btn layui-btn-danger" type='button' data-open='{:url("index")}'>取消编辑</button>
+            </div>
+        </div>
+    </form>
+{/block}
+{block name='script'}
+<script>
+    /*! 表单初始化 */
+    window.form.render();
+    /*! 加载扩展插件 */
+    require(['ckeditor', 'angular'], function () {
+        // 富文本加载
+        window.createEditor('[name="content"]', {height: 400});
+    });
+</script>
+{/block}
