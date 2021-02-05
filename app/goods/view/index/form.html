@@ -275,9 +275,9 @@
   /*! 显示颜色框*/
   var colorBlock = $(".colorblock .goods-spec-value");
   colorBlock.delegate(".colour","click",function(){
-    console.log($(this).val());
     if($.trim($(this).val()).length == 0) {
-      colorBlock.find(".colordrop").show().css("top",$(this).offset().top);
+      var index = colorBlock.find(".colour").index(this);
+      colorBlock.find(".colordrop").show().css("top",index*45+45);
     }
     $(this).addClass("selected").parents(".divcolor").siblings().find(".colour").removeClass("selected");
     $(this).keyup(function(){
