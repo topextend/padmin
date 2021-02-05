@@ -128,65 +128,75 @@
                   <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>                    
                 </div>
                 <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
-                  <div data-item-tpl>
-                    <div class="layui-display-flex divcolor">
-                      <div class="goods-spec-color">
-                        <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
-                      </div>
-                      <div class="goods-spec-note margin-left-10">
-                        <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
-                      </div>
-                      <div class="goods-spce-image margin-left-10">
-                        <input data-upload-image name="attr-images[]" type="hidden">
-                      </div>
-                      <div class="goods-spec-del margin-left-10" style="line-height: 38px;">
-                        <a>删除</a>
-                      </div>
+                  <div class="layui-display-flex divcolor">
+                    <div class="goods-spec-color">
+                      <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
                     </div>
+                    <div class="goods-spec-note margin-left-10">
+                      <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
+                    </div>
+                    <div class="goods-spce-image margin-left-10">
+                      <input data-upload-image name="attr-images[]" type="hidden">
+                    </div>
+                    <div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>
                   </div>
                   <div class="color-group-wrapper color-dropdown-wrapper colordrop" style="display: none;">
-                    <ul class="color-group-panel">
-                      <li class="color-tag" data-id="0">
-                        <a><div class="color-block" style="background:rgb(255, 255, 255);"></div><span>白色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="1">
-                        <a><div class="color-block" style="background:rgb(128, 128, 128);"></div><span>灰色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="2">
-                        <a><div class="color-block" style="background:rgb(0, 0, 0);"></div><span>黑色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="3">
-                        <a><div class="color-block" style="background:rgb(255, 0, 0);"></div><span>红色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="4">
-                        <a><div class="color-block" style="background:rgb(255, 255, 0);"></div><span>黄色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="5">
-                        <a><div class="color-block" style="background:rgb(0, 128, 0);"></div><span>绿色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="6">
-                        <a><div class="color-block" style="background:rgb(0, 0, 254);"></div><span>蓝色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="7">
-                        <a><div class="color-block" style="background:rgb(128, 0, 128);"></div><span>紫色系</span></a>
-                      </li>
-                      <li class="color-tag" data-id="8">
-                        <a><div class="color-block" style="background:rgb(124, 75, 0);"></div><span>棕色系</span></a>
-                      </li>
-                    </ul>
-                    <div class="colors-panel colorval">
-                      <p class="colors-panel-title">常用标准颜色</p>
-                      <ul class="color-list">
-                        <li class="color-tag" data-id="0">
-                          <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>乳白色</span></a>
+                    <div class="colorleft">
+                      <ul class="color-group-panel">
+                        <li class="color-tag" index-data='1' data-id="0">
+                          <a><div class="color-block" style="background:rgb(255, 255, 255);"></div><span>白色系</span></a>
                         </li>
-                        <li class="color-tag" data-id="1">
-                          <a><div class="color-block" style="background:rgb(255, 255, 2255);"></div><span>白色</span></a>
+                        <li class="color-tag" index-data='2' data-id="1">
+                          <a><div class="color-block" style="background:rgb(128, 128, 128);"></div><span>灰色系</span></a>
                         </li>
-                        <li class="color-tag" data-id="2">
-                          <a><div class="color-block" style="background:rgb(238, 222, 176);"></div><span>米白色</span></a>
+                        <li class="color-tag" index-data='3' data-id="2">
+                          <a><div class="color-block" style="background:rgb(0, 0, 0);"></div><span>黑色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='4' data-id="3">
+                          <a><div class="color-block" style="background:rgb(255, 0, 0);"></div><span>红色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='5' data-id="4">
+                          <a><div class="color-block" style="background:rgb(255, 255, 0);"></div><span>黄色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='6' data-id="5">
+                          <a><div class="color-block" style="background:rgb(0, 128, 0);"></div><span>绿色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='7' data-id="6">
+                          <a><div class="color-block" style="background:rgb(0, 0, 254);"></div><span>蓝色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='8' data-id="7">
+                          <a><div class="color-block" style="background:rgb(128, 0, 128);"></div><span>紫色系</span></a>
+                        </li>
+                        <li class="color-tag" index-data='9' data-id="8">
+                          <a><div class="color-block" style="background:rgb(124, 75, 0);"></div><span>棕色系</span></a>
                         </li>
                       </ul>
+                    </div>
+                    <div class="colors-panel coloright">
+                      <p class="colors-panel-title">常用标准颜色</p>
+                      <div class="colorval">
+                        <ul class="color-list index2">
+                          <li class="color-tag" data-id="0">
+                            <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>乳白色</span></a>
+                          </li>
+                          <li class="color-tag" data-id="1">
+                            <a><div class="color-block" style="background:rgb(255, 255, 2255);"></div><span>白色</span></a>
+                          </li>
+                          <li class="color-tag" data-id="2">
+                            <a><div class="color-block" style="background:rgb(238, 222, 176);"></div><span>米白色</span></a>
+                          </li>
+                        </ul>
+                        <ul class="color-list index3" style="display: none;">
+                          <li class="color-tag" data-id="0">
+                            <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>灰色</span></a>
+                          </li>
+                        </ul>
+                        <ul class="color-list index4" style="display: none;">
+                          <li class="color-tag" data-id="0">
+                            <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>黑色</span></a>
+                          </li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -265,6 +275,7 @@
   /*! 显示颜色框*/
   var colorBlock = $(".colorblock .goods-spec-value");
   colorBlock.delegate(".colour","click",function(){
+    console.log($(this).val());
     if($.trim($(this).val()).length == 0) {
       colorBlock.find(".colordrop").show().css("top",$(this).offset().top);
     }
@@ -285,6 +296,7 @@
     colorBlock.find(".colour.selected").val($(this).text());
     colorBlock.find(".colour.selected").attr("data-id",$(this).attr("data-id"));
     colorBlock.find(".colordrop").hide();
+    colorBlock.find(".colour.selected").parent(".goods-spec-color").siblings(".goods-spec-del").html("<a>删除</a>").show();
     var max = colorBlock.find(".colour").length;
     for( var i=0;i<max;i++){
       if(colorBlock.find(".colour").eq(i).hasClass("selected")){
@@ -298,14 +310,41 @@
       
     }
   });
+  /*! 颜色左边移动*/
+  $(".colorblock .colorleft ul li").mouseover(function(){
+    var nums = parseInt($(this).attr("index-data"));
+    $(".colorblock .coloright .colorval ul").each(function(index){
+      if(nums == index+1){
+        $(this).show().siblings().hide();
+      }
+    })
+  });
+  /*! 删除颜色*/
+  $(".colorblock").delegate(".goods-spec-del a","click",function(){
+    var remove_key = $(".colorblock .goods-spec-del a").index(this);
+    $(this).parents(".divcolor").remove();
+    $(".colorblock .colordrop").hide();
+    // 删除表格属性
+  });
   /*! 加载扩展插件 */
   require(['ckeditor', 'angular'], function () {
     // 富文本加载
     window.createEditor('[name="content"]', {height: 400});
   });
 	function addinput(){
-    this.$html = $($('[data-item-tpl]').html());
-    colorBlock.find(".colordrop").before(this.$html);
+    var html = '<div class="layui-display-flex divcolor">';
+        html+= '<div class="goods-spec-color">';
+        html+= '<input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">';
+        html+= '</div>';
+        html+= '<div class="goods-spec-note margin-left-10">';
+        html+= '<input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">';
+        html+= '</div>';
+        html+= '<div class="goods-spce-image margin-left-10">';
+        html+= '<input data-upload-image name="attr-images[]" type="hidden">';
+        html+= '</div>';
+        html+= '<div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>';
+        html+= '</div>';
+    colorBlock.find(".colordrop").before(html);
   };
   function checkval(str){
     var that = $(".colorblock .goods-spec-value .colour");
@@ -334,6 +373,7 @@
     $('.layui-table input[data-upload-images]').map(function () {
       if (!$(this).attr('inited')) $(this).attr('inited', true).uploadMultipleImage();
     });
+    setTimeout(initUpload, 100);
   })();
 </script>
 {/block}
