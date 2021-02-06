@@ -204,43 +204,43 @@
                                         <div data-item-size>                                            
                                             <div class="goods-spec-name layui-row margin-top-10 index1">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="37" lay-filter="size" lay-skin="primary" value="1">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37.5" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="37.5" lay-filter="size" lay-skin="primary" value="2">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary" value="3">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index2" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="4" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="4" lay-filter="size" lay-skin="primary" value="4">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="5" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="5" lay-filter="size" lay-skin="primary" value="5">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary" value="6">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index3" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="X" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="X" lay-filter="size" lay-skin="primary" value="7">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="XL" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="XL" lay-filter="size" lay-skin="primary" value="8">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary" value="9">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
@@ -324,7 +324,7 @@
             $('.layui-table input[data-upload-images]').map(function () {
                 if (!$(this).attr('inited')) $(this).attr('inited', true).uploadMultipleImage();
             });
-            setTimeout(initUpload, 100);
+            setTimeout(initUpload, 50);
         })();
         /*! 显示颜色框*/
         var colorBlock = $(".colorblock .goods-spec-value");
@@ -404,9 +404,20 @@
         form.on('checkbox(size)', function(data){
             if(this.checked){
                 $(this).siblings(".goods-spec-note").removeClass('layui-hide');
-				// IsmakeProducttable($(".sizeblock .sizeselect .howsize:checked").index(this),5);
+				IsmakeProducttable($("[data-item-size] input[name='spec-size']:checked").index(this),5);
             } else {
                 $(this).siblings(".goods-spec-note").addClass('layui-hide');
+				var thisc = 0;
+				var tvalue = this.value;
+				$(this).parents("[data-item-size]").find("input[name='spec-size']").each(function(){
+					if(tvalue == $(this).val()){
+						return false;
+					}
+					if($(this).is(":checked")){
+						thisc++;
+					}
+                });
+				IsmakeProducttable(thisc,6);
             }
         });
     })(JSON.parse($('#DefaultData').val() || '[]') || []);    
@@ -414,6 +425,10 @@
     function IsmakeProducttable(key,num){
         if(checkistable() == false){
             return false;
+        }
+        var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
+        if(num == 1){
+            var all_size = $(".viewatttable tbody .att_size").size();
         }
     };
     /*! 添加数据选项 */
@@ -423,17 +438,28 @@
         // if (data) for (this.index in data) this.$html.find('[name^="' + this.index + '"]').val(data[this.index]);
         $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html), setTimeout(function() {
             $.form.reInit();
-        }, 100);
+        }, 50);
     };
     /*! 检测表格*/
     function checkistable() {
-        if($(".sizeblock .sizemore .howsize").is(':checked')==false || checkinputcolor() ==false){
-            $(".viewatttable tbody").html('');
-            $(".viewatttable").hide();
+        if($("[data-item-size] input[name='spec-size']").is(':checked')==false || checkinputcolor() ==false){
+            $(".viewatttable tbody").html("");
             return false;
         }
         return true;
     };
+    /*! 检测表格*/
+    function checkinputcolor(){
+        var block_color = $(".colorblock .goods-spec-value .colour");
+        var affect=false;
+	 	for(var i=0;i<block_color.size();i++){
+            if(block_color.eq(i).val()){
+                var affect=true;
+                break;
+			}
+        }
+        return affect;
+    }
     /*! 检测颜色*/
     function checkval(str) {
         var that = $(".colorblock .goods-spec-value .colour");
