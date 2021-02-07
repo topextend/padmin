@@ -276,9 +276,9 @@
                                         <!-- {/eq} -->
                                     <!-- {/foreach} -->
                                 <!-- {/notempty} -->
-                                <th width="15%" class="text-center nowrap">销售价格<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
-                                <th width="15%" class="text-center nowrap">分销价格<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
-                                <th width="15%" class="text-center nowrap">库存<a data-tips-text="批量设置" class="layui-icon">&#xe63c;</a></th>
+                                <th width="15%" class="text-center nowrap">销售价格<a data-tips-text="批量设置" class="layui-icon" onclick="bachset('shop_price')">&#xe63c;</a></th>
+                                <th width="15%" class="text-center nowrap">分销价格<a data-tips-text="批量设置" class="layui-icon" onclick="bachset('stock_price')">&#xe63c;</a></th>
+                                <th width="15%" class="text-center nowrap">库存<a data-tips-text="批量设置" class="layui-icon" onclick="bachset('goods_amount')">&#xe63c;</a></th>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -670,6 +670,15 @@
             }
         })
         return ct;
-    }	
+    }    
+    function bachset(name){
+        layer.prompt({title: '请输入数值', formType: 0}, function (value, index) {
+            layer.close(index);
+            if (name !='goods_amount') value = (parseFloat(value) || 0).toFixed('2');
+            $("input[name='"+ name +"[]']").each(function(){
+                $(this).val(value);
+            })
+        });
+    }
 </script>
 {/block}
