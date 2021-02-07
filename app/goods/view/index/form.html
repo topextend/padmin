@@ -429,6 +429,33 @@
         var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
         if(num == 1){
             var all_size = $(".viewatttable tbody .att_size").size();
+        } else if(num == 2){
+
+        } else if(num == 3){
+
+        } else if(num == 4){
+
+        } else if(num == 5){
+            var checktbody = $.trim($(".viewatttable tbody").html()).length;
+            if(checktbody==0){
+                var tbodystr='';
+                var usecolorkey= 0;
+                $(".colorblock .goods-spec-value .colour").each(function(){
+                    thatcolor = $(this);
+                    if($.trim($(this).val()).length > 0){
+                        $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+                            tbodystr += ('<tr>'+
+                                '</tr>');
+                        });
+                        usecolorkey++;
+                    }
+                });
+                $(".viewatttable tbody").append(tbodystr);
+            } else {
+
+            }
+        } else if(num == 6){
+
         }
     };
     /*! 添加数据选项 */
