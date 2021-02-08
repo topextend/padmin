@@ -215,11 +215,6 @@
                                                     <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary" value="3">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" lay-filter="sizes" lay-skin="primary">
-                                                    <input type="text" name="spec-size" class="goods-input-size layui-input">
-                                                    <input type="text" class="input-size-note layui-input margin-left-5">
-                                                </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index2" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
@@ -234,11 +229,6 @@
                                                     <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary" value="6">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" lay-filter="sizes" lay-skin="primary">
-                                                    <input type="text" name="spec-size" class="goods-input-size layui-input">
-                                                    <input type="text" class="input-size-note layui-input margin-left-5">
-                                                </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index3" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
@@ -252,11 +242,6 @@
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
                                                     <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary" value="9">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" lay-filter="sizes" lay-skin="primary">
-                                                    <input type="text" name="spec-size" class="goods-input-size layui-input">
-                                                    <input type="text" class="input-size-note layui-input margin-left-5">
                                                 </div>
                                             </div>
                                         </div>
@@ -289,7 +274,7 @@
                 <label class="layui-form-label"><b>商品详情</b></label>
                 <div class="layui-input-block"><textarea name="content">{$goods_content|default=''|raw}</textarea></div>
             </div>
-            <div data-item-tpl class="layui-hide">
+            <div data-input-color class="layui-hide">
                 <div class="layui-display-flex divcolor">
                     <div class="goods-spec-color">
                         <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
@@ -301,6 +286,13 @@
                         <input data-upload-image name="img[]" type="hidden">
                     </div>
                     <div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>
+                </div>
+            </div>
+            <div data-input-size class="layui-hide">                
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 size">
+                    <input type="checkbox" class="input-size" lay-filter="sizes" lay-skin="primary">
+                    <input type="text" name="input-size" class="goods-input-size layui-input">
+                    <input type="text" class="input-size-note layui-input margin-left-5">
                 </div>
             </div>
             <label class="layui-hide">
@@ -327,9 +319,9 @@
             window.createEditor('[name="content"]', {height: 400});
         });
         /*! 默认数据渲染 */
-        if (data.length < 1) addItem();
+        if (data.length < 1) addColorItem(),addSizeItem();
         else data.forEach(function (item) {
-            addItem(item)
+            addColorItem(item)
         });
         /*! 初始化上传插件 */
         (function initUpload() {
@@ -357,7 +349,7 @@
             });
         }).delegate(".colordrop", "mouseleave", function(){
             colorBlock.find(".colordrop").hide();
-        }).delegate(".colour", "blur", function(){
+        }).delegate(".colour", "blur", function() {
             if($.trim($(this).val()).length > 0) {
                 checkcolor();
             }
@@ -389,7 +381,6 @@
             // 删除表格属性
 			IsmakeProducttable(remove_key,4);
         });
-
         // 切换码型
         layui.use('element', function() {
             var element = layui.element;
@@ -413,6 +404,11 @@
                             this.checked=false;
                             $(this).siblings(".goods-spec-note").addClass('layui-hide');
                         });
+                        $("[data-item-size] .size").each(function(){
+                            this.remove();
+                        });
+                        var sizehtml = $('[data-input-size]').html();
+                        $("[data-item-size]").find(".index" + layid).append(sizehtml);
 					    $(".viewatttable").find("tbody").html("");
 					    layer.close(index);
                     }
@@ -438,6 +434,15 @@
 					}
                 });
 				IsmakeProducttable(thisc,6);
+            }
+        });
+        $("[data-item-size]").delegate("input[name='input-size']","blur", function(){
+            if($.trim($(this).val()).length > 0) {
+                $(this).siblings(".input-size").prop('checked', true);
+                $(this).addClass('selected');
+                var max = $("[data-item-size]").find(".goods-input-size").length;
+                console.log(max);
+                form.render('checkbox');
             }
         });
     })(JSON.parse($('#DefaultData').val() || '[]') || []);    
@@ -498,7 +503,6 @@
             form.render();
             $(".viewatttable tbody .tr_"+key).remove();
         } else if(num == 4){
-            console.log('4');
             var all_size = $(".viewatttable tbody .att_size").size();
             var valid_count = GetCountColor()+1;
             var average = all_size/valid_count;
@@ -601,14 +605,21 @@
             }
         }
     };
-    /*! 添加数据选项 */
-    function addItem(data) {
-        this.$html = $($('[data-item-tpl]').html());
+    /*! 添加颜色数据 */
+    function addColorItem(data) {
+        this.$html = $($('[data-input-color]').html());
         // $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html);
         // if (data) for (this.index in data) this.$html.find('[name^="' + this.index + '"]').val(data[this.index]);
         $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html), setTimeout(function() {
             $.form.reInit();
         }, 50);
+    };
+    /*! 添加尺码数据 */
+    function addSizeItem(data) {
+        this.$html = $($('[data-input-size]').html());
+        // $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html);
+        // if (data) for (this.index in data) this.$html.find('[name^="' + this.index + '"]').val(data[this.index]);
+        $("[data-item-size] .goods-spec-name").append(this.$html);
     };
     /*! 检测表格*/
     function checkistable() {
@@ -656,7 +667,7 @@
             }
         }
         if(max == index){
-            addItem();
+            addColorItem();
             IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),2);
         } else {
             IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),1);            
