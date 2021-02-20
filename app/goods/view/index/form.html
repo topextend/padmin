@@ -439,10 +439,23 @@
         $("[data-item-size]").delegate("input[name='input-size']","blur", function(){
             if($.trim($(this).val()).length > 0) {
                 $(this).siblings(".input-size").prop('checked', true);
-                $(this).addClass('selected');
-                var max = $("[data-item-size]").find(".goods-input-size").length;
-                console.log(max);
                 form.render('checkbox');
+                $(this).addClass('selected').parents(".size").siblings().find(".goods-input-size").removeClass("selected");
+                var max = $("[data-item-size]").find(".size").find("input[name='input-size']").length;
+                for( var i=0;i<max;i++){
+                    if($("input[name='input-size']").eq(i).hasClass("selected")){
+                        var index = i+1;
+                        break;
+                    }
+                }
+                if(max == index){
+                    addSizeItem();
+                    console.log($("[data-item-size]").find("input[name='input-size'].selected").parents(".size").index());
+                    IsmakeProducttable($("[data-item-size]").find(".goods-input-size.selected").parents(".size").index(),2);
+                } else {
+                    console.log($("[data-item-size]").find(".goods-input-size.selected").parents(".size").index());
+                    IsmakeProducttable($("[data-item-size]").find(".goods-input-size.selected").parents(".size").index(),1);            
+                }
             }
         });
     })(JSON.parse($('#DefaultData').val() || '[]') || []);    
@@ -451,6 +464,7 @@
         if(checkistable() == false){
             return false;
         }
+        console.log('111111111111');
         var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
         if(num == 1){
             var all_size = $(".viewatttable tbody .att_size").size();
@@ -619,7 +633,7 @@
         this.$html = $($('[data-input-size]').html());
         // $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html);
         // if (data) for (this.index in data) this.$html.find('[name^="' + this.index + '"]').val(data[this.index]);
-        $("[data-item-size] .goods-spec-name").append(this.$html);
+        $("[data-item-size] .goods-spec-name").eq(0).append(this.$html);
     };
     /*! 检测表格*/
     function checkistable() {
@@ -668,8 +682,10 @@
         }
         if(max == index){
             addColorItem();
+            // console.log($(".colorblock .colour.selected").parents(".divcolor").index());
             IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),2);
         } else {
+            // console.log($(".colorblock .colour.selected").parents(".divcolor").index());
             IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),1);            
         }
     };
