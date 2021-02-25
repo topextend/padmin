@@ -201,50 +201,46 @@
                                                 <li lay-id="3">美码</li>
                                             </ul>
                                         </div>
-                                        <div class="sizeinput">
-                                            <input type="text" name="inputsize" placeholder="请输入自定义值" class="layui-input inputsize">
-                                            <div class="layui-btn layui-btn-primary layui-btn-sm adsize">+添加</div>
-                                        </div>
                                         <div data-item-size>                                            
                                             <div class="goods-spec-name layui-row margin-top-10 index1">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37" lay-filter="size" lay-skin="primary" value="294">
+                                                    <input type="checkbox" name="spec-size" title="37" lay-filter="size" lay-skin="primary" value="1">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37.5" lay-filter="size" lay-skin="primary" value="295">
+                                                    <input type="checkbox" name="spec-size" title="37.5" lay-filter="size" lay-skin="primary" value="2">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary" value="296">
+                                                    <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary" value="3">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index2" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="4" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="4" lay-filter="size" lay-skin="primary" value="4">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="5" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="5" lay-filter="size" lay-skin="primary" value="5">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary" value="6">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
                                             <div class="goods-spec-name layui-row margin-top-10 index3" style="display: none;">
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="X" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="X" lay-filter="size" lay-skin="primary" value="7">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="XL" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="XL" lay-filter="size" lay-skin="primary" value="8">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary">
+                                                    <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary" value="9">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
                                             </div>
@@ -292,6 +288,13 @@
                     <div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>
                 </div>
             </div>
+            <div data-input-size class="layui-hide">                
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4 size">
+                    <input type="checkbox" class="input-size" lay-filter="sizes" lay-skin="primary">
+                    <input type="text" name="input-size" class="goods-input-size layui-input">
+                    <input type="text" class="input-size-note layui-input margin-left-5">
+                </div>
+            </div>
             <label class="layui-hide">
                 <textarea id="DefaultData">{$data|default=[]|json_encode}</textarea>
             </label>
@@ -316,7 +319,7 @@
             window.createEditor('[name="content"]', {height: 400});
         });
         /*! 默认数据渲染 */
-        if (data.length < 1) addColorItem();
+        if (data.length < 1) addColorItem(),addSizeItem();
         else data.forEach(function (item) {
             addColorItem(item)
         });
@@ -353,7 +356,7 @@
         });
         /*!  颜色值点击*/
         colorBlock.find(".colorval ul li").click(function(){
-            if(checkval($(this).text(),'color') == true){
+            if(checkval($(this).text()) == true){
                 layer.tips('与其他颜色重复，请修改!', $(this),{tips:[2,"#FF6A6A"]});
                 return false;
             };
@@ -376,7 +379,7 @@
             $(this).parents(".divcolor").remove();
             $(".colorblock .colordrop").hide();
             // 删除表格属性
-			IsmakeProducttable(remove_key,4);
+			IsmakeProducttable(true, remove_key,4);
         });
         // 切换码型
         layui.use('element', function() {
@@ -401,6 +404,11 @@
                             this.checked=false;
                             $(this).siblings(".goods-spec-note").addClass('layui-hide');
                         });
+                        $("[data-item-size] .size").each(function(){
+                            this.remove();
+                        });
+                        var sizehtml = $('[data-input-size]').html();
+                        $("[data-item-size]").find(".index" + layid).append(sizehtml);
 					    $(".viewatttable").find("tbody").html("");
 					    layer.close(index);
                     }
@@ -412,7 +420,7 @@
         form.on('checkbox(size)', function(data){
             if(this.checked){
                 $(this).siblings(".goods-spec-note").removeClass('layui-hide');
-				IsmakeProducttable($("input[name='spec-size']:checked").index(this),5);
+				IsmakeProducttable(true, $("[data-item-size] input[name='spec-size']:checked").index(this),5);
             } else {
                 $(this).siblings(".goods-spec-note").addClass('layui-hide');
 				var thisc = 0;
@@ -421,121 +429,144 @@
 					if(tvalue == $(this).val()){
 						return false;
 					}
-                    console.log(tvalue);
 					if($(this).is(":checked")){
 						thisc++;
 					}
                 });
-				IsmakeProducttable(thisc,6);
+				IsmakeProducttable(true, thisc,6);
             }
         });
-        // 增加自定义尺码
-        $(".sizeblock .adsize").click(function(){
-            var inputsize= $(".sizeblock .inputsize").val();
-            if(checkval(inputsize,'size') == true){
-                layer.tips('与其他尺码重复，请修改!', $(this),{tips:[2,"#FF6A6A"]});
-                return false;
-            };
-            var nt = 0;
-            $(".sizeblock .divsize ul li").each(function(){
-                if($(this).hasClass('layui-this')){
-                    var adinputsize = '<div class="layui-col-xs6 layui-col-sm6 layui-col-md4 newsize">';
-                        adinputsize+= '<input type="checkbox" name="spec-size" title="'+ inputsize +'" lay-filter="size" lay-skin="primary" value="'+ inputsize +'">';
-                        adinputsize+= '<input type="text" name="spec-note" class="goods-spec-notes layui-input margin-left-5">';
-                        adinputsize+= '<a class="layui-btn layui-btn-primary layui-btn-xs margin-top-10 margin-left-10 size-del"><i class="layui-icon">&#xe640;</i></a>';
-                        adinputsize+= '</div>';
-                    $("[data-item-size] .goods-spec-name").eq(nt).append(adinputsize);
-                }
-                nt++;
-            });
-			$(".sizeblock .inputsize").val('');
-            form.render();
+        form.on('checkbox(sizes)', function(data){
+            if(this.checked == false){
+                $(this).parents(".size").remove();
+            }
         });
-        $("[data-item-size]").delegate(".newsize .size-del","click",function(){
-            if($(this).siblings("input[name='spec-size']").is(':checked')==true){
-                layer.tips('请勾除尺码', $(this),{tips:[2,"#FF6A6A"]});
-                return false;
-            } else {
-                $(this).parents(".newsize").remove();
-            }            
+        $("[data-item-size]").delegate("input[name='input-size']","blur", function(){
+            if($.trim($(this).val()).length > 0) {
+                $(this).siblings(".input-size").prop('checked', true);
+                form.render('checkbox');
+                $(this).addClass('selected').parents(".size").siblings().find(".goods-input-size").removeClass("selected");
+                var max = $("[data-item-size]").find(".size").find("input[name='input-size']").length;
+                for( var i=0;i<max;i++){
+                    if($("input[name='input-size']").eq(i).hasClass("selected")){
+                        var index = i+1;
+                        break;
+                    }
+                }
+                if(max == index){
+                    addSizeItem();
+                    IsmakeProducttable(false, $("[data-item-size]").find(".goods-input-size.selected").parents(".size").index()-3,2);
+                } else {
+                    IsmakeProducttable(false, $("[data-item-size]").find(".goods-input-size.selected").parents(".size").index()-3,1);            
+                }
+            }
         });
     })(JSON.parse($('#DefaultData').val() || '[]') || []);    
     /*! 检测表格*/
-    function IsmakeProducttable(key,num){
-        if(checkistable() == false){
-            return false;
-        }
-        var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
-        if(num == 1){
-            var all_size = $(".viewatttable tbody .att_size").size();
-            var valid_count = GetCountColor()-1;
-            var average = all_size/valid_count;
-            var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
-            var tbodystr='';
-            $("[data-item-size] input[name='spec-size']:checked").each(function(index){
-                var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
-                    tbodystr += (st_tr+
-                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
-                        '</label></td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
-                        '</label></td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
-                        '</label></td>'+
-                    '</tr>');
-            });
-            if(key == 0) $(".viewatttable tbody").prepend(tbodystr); else $(".viewatttable tbody tr").eq(key*average-1).after(tbodystr);
-        } else if(num == 2){
-            var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
-            var tbodystr='';
-            $("[data-item-size] input[name='spec-size']:checked").each(function(index){
-                var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
-                    tbodystr += (st_tr+
-                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
-                        '</label></td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
-                        '</label></td>'+
-                        '<td class="padding-0"><label class="padding-0 margin-0">'+
-                        '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
-                        '</label></td>'+
-                    '</tr>');
-            });
-            $(".viewatttable tbody").append(tbodystr);
-        } else if(num == 3){
-            var all_size = $(".viewatttable tbody .att_size").size();
-            var valid_count = GetCountColor()+1;
-            var average = all_size/valid_count;
-            for(var i=key*average+average-1;i>=key*average;i--){
-                $(".viewatttable tbody tr").eq(i).remove();
+    function IsmakeProducttable(stu,key,num){
+        if (stu == true){
+            if(checkistable() == false){
+                return false;
             }
-            form.render();
-            $(".viewatttable tbody .tr_"+key).remove();
-        } else if(num == 4){
-            var all_size = $(".viewatttable tbody .att_size").size();
-            var valid_count = GetCountColor()+1;
-            var average = all_size/valid_count;
-            for(var i=key*average+average-1;i>=key*average;i--){
-                $(".viewatttable tbody tr").eq(i).remove();
-            }
-            form.render();
-        } else if(num == 5){
-            var checktbody = $.trim($(".viewatttable tbody").html()).length;
-            if(checktbody==0){
+            var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
+            if(num == 1){
+                var all_size = $(".viewatttable tbody .att_size").size();
+                var valid_count = GetCountColor()-1;
+                var average = all_size/valid_count;
+                var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
                 var tbodystr='';
-                var usecolorkey= 0;
-                $(".colorblock .goods-spec-value .colour").each(function(){
-                    thatcolor = $(this);
-                    if($.trim($(this).val()).length > 0){
-                        $("[data-item-size] input[name='spec-size']:checked").each(function(index){
-                            tbodystr += ('<tr>'+
-                                '<td rowspan="1" class="layui-bg-gray text-center att_color">'+ thatcolor.val() + '</td>'+
-                                '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+                    var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
+                        tbodystr += (st_tr+
+                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
+                            '</label></td>'+
+                        '</tr>');
+                });
+                if(key == 0) $(".viewatttable tbody").prepend(tbodystr); else $(".viewatttable tbody tr").eq(key*average-1).after(tbodystr);
+            } else if(num == 2){
+                var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
+                var tbodystr='';
+                $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+                    var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
+                        tbodystr += (st_tr+
+                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
+                            '</label></td>'+
+                        '</tr>');
+                });
+                $(".viewatttable tbody").append(tbodystr);
+            } else if(num == 3){
+                var all_size = $(".viewatttable tbody .att_size").size();
+                var valid_count = GetCountColor()+1;
+                var average = all_size/valid_count;
+                for(var i=key*average+average-1;i>=key*average;i--){
+                    $(".viewatttable tbody tr").eq(i).remove();
+                }
+                form.render();
+                $(".viewatttable tbody .tr_"+key).remove();
+            } else if(num == 4){
+                var all_size = $(".viewatttable tbody .att_size").size();
+                var valid_count = GetCountColor()+1;
+                var average = all_size/valid_count;
+                for(var i=key*average+average-1;i>=key*average;i--){
+                    $(".viewatttable tbody tr").eq(i).remove();
+                }
+                form.render();
+
+            } else if(num == 5){
+                var checktbody = $.trim($(".viewatttable tbody").html()).length;
+                if(checktbody==0){
+                    var tbodystr='';
+                    var usecolorkey= 0;
+                    $(".colorblock .goods-spec-value .colour").each(function(){
+                        thatcolor = $(this);
+                        if($.trim($(this).val()).length > 0){
+                            $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+                                tbodystr += ('<tr>'+
+                                    '<td rowspan="1" class="layui-bg-gray text-center att_color">'+ thatcolor.val() + '</td>'+
+                                    '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                                    '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                    '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
+                                    '</label></td>'+
+                                    '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                    '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
+                                    '</label></td>'+
+                                    '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                    '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
+                                    '</label></td>'+
+                                    '</tr>');
+                            });
+                            usecolorkey++;
+                        }
+                    });
+                    $(".viewatttable tbody").append(tbodystr);
+                } else {
+                    var all_size = $(".viewatttable tbody .att_size").size();
+                    var valid_count = GetCountColor();
+                    var average = all_size/valid_count;
+                    var digit = parseInt($(".viewatttable tbody tr").eq(0).find("td").attr("rowspan"));
+                    for(var i=1;i<=valid_count;i++){
+                        var skey = i*average-average;
+                        var starkey = (i == 1 ? skey : skey+i-2);
+                        var start_key = (i == 1 ? key-1 : starkey+key);
+                        if(key != 0){
+                            $(".viewatttable tbody tr").eq(start_key).after('<tr>'+
+                                '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
                                 '<td class="padding-0"><label class="padding-0 margin-0">'+
                                 '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                                 '</label></td>'+
@@ -545,75 +576,88 @@
                                 '<td class="padding-0"><label class="padding-0 margin-0">'+
                                 '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
                                 '</label></td>'+
-                                '</tr>');
-                        });
-                        usecolorkey++;
+                            '</tr>');
+                            var eqstar = (i == 1 ? starkey : starkey+1);
+                            $(".viewatttable tbody tr").eq(eqstar).find("td").eq(0).attr("rowspan",digit+1);
+                        }else{
+                            start_key = (i == 1 ? 0 : skey+i-1);
+                            var rowspan = $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).attr("rowspan");
+                            rowspan = parseInt(rowspan)+1;
+                            var row_color = $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).html();
+                            $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).remove();
+                            $(".viewatttable tbody tr").eq(start_key).before('<tr>'+
+                                '<td rowspan="'+rowspan+'" class="layui-bg-gray text-center att_color">'+ row_color + '</td>'+
+                                '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
+                                '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
+                                '</label></td>'+
+                                '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
+                                '</label></td>'+
+                                '<td class="padding-0"><label class="padding-0 margin-0">'+
+                                '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
+                                '</label></td>'+
+                            '</tr>');
+                        }
                     }
-                });
-                $(".viewatttable tbody").append(tbodystr);
-            } else {
+                }
+            } else if(num == 6){
                 var all_size = $(".viewatttable tbody .att_size").size();
                 var valid_count = GetCountColor();
                 var average = all_size/valid_count;
-                var digit = parseInt($(".viewatttable tbody tr").eq(0).find("td").attr("rowspan"));
-                for(var i=1;i<=valid_count;i++){
+                for(var i=valid_count;i>=1;i--){
                     var skey = i*average-average;
-                    var starkey = (i == 1 ? skey : skey+i-2);
-                    var start_key = (i == 1 ? key-1 : starkey+key);
-                    if(key != 0){
-                        $(".viewatttable tbody tr").eq(start_key).after('<tr>'+
-                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
-                            '</label></td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
-                            '</label></td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
-                            '</label></td>'+
-                        '</tr>');
-                        var eqstar = (i == 1 ? starkey : starkey+1);
-                        $(".viewatttable tbody tr").eq(eqstar).find("td").eq(0).attr("rowspan",digit+1);
+                    var rowspan = $(".viewatttable tbody tr").eq(skey).find("td").eq(0).attr("rowspan");
+                    rowspan = parseInt(rowspan)-1;
+                    //判断是否为第一个key(checkbox)
+                    if(key !=0){
+                        $(".viewatttable tbody tr").eq(skey).find("td").eq(0).attr("rowspan",rowspan);
+                        $(".viewatttable tbody tr").eq(skey+key).remove();
                     }else{
-                        start_key = (i == 1 ? 0 : skey+i-1);
-                        var rowspan = $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).attr("rowspan");
-                        rowspan = parseInt(rowspan)+1;
-                        var row_color = $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).html();
-                        $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).remove();
-                        $(".viewatttable tbody tr").eq(start_key).before('<tr>'+
-                            '<td rowspan="'+rowspan+'" class="layui-bg-gray text-center att_color">'+ row_color + '</td>'+
-                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
-                            '</label></td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
-                            '</label></td>'+
-                            '<td class="padding-0"><label class="padding-0 margin-0">'+
-                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
-                            '</label></td>'+
-                        '</tr>');
+                        var row_color = $(".viewatttable tbody tr").eq(skey).find("td").eq(0).html();
+                        $(".viewatttable tbody tr").eq(skey+1).prepend('<td rowspan="'+ rowspan +'" class="layui-bg-gray text-center att_color">'+ row_color + '</td>');
+                        $(".viewatttable tbody tr").eq(skey).remove();
                     }
                 }
             }
-        } else if(num == 6){
-            var all_size = $(".viewatttable tbody .att_size").size();
-            var valid_count = GetCountColor();
-            var average = all_size/valid_count;
-            for(var i=valid_count;i>=1;i--){
-                var skey = i*average-average;
-                var rowspan = $(".viewatttable tbody tr").eq(skey).find("td").eq(0).attr("rowspan");
-                rowspan = parseInt(rowspan)-1;
-                //判断是否为第一个key(checkbox)
-                if(key !=0){
-                    $(".viewatttable tbody tr").eq(skey).find("td").eq(0).attr("rowspan",rowspan);
-                    $(".viewatttable tbody tr").eq(skey+key).remove();
-                }else{
-                    var row_color = $(".viewatttable tbody tr").eq(skey).find("td").eq(0).html();
-                    $(".viewatttable tbody tr").eq(skey+1).prepend('<td rowspan="'+ rowspan +'" class="layui-bg-gray text-center att_color">'+ row_color + '</td>');
-                    $(".viewatttable tbody tr").eq(skey).remove();
-                }
+        } else {
+            // console.log('false');
+            if(checkistables() == false){
+                return false;
+            }
+            // console.log('2222222');
+            var st_sizecount = $("[data-item-size] input[name='input-size']").siblings(".input-size:checked").size();
+            // console.log(st_sizecount);
+            // console.log(num);
+            if(num == 1){
+
+            } else if(num == 2) {
+                var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
+                var tbodystr='';
+                $("[data-item-size] .input-size:checked").each(function(index){
+                    var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
+                        tbodystr += (st_tr+
+                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] .input-size:checked").eq(index).siblings("input[name='input-size']").val() + '</td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="stock_price[]" value="0">'+
+                            '</label></td>'+
+                            '<td class="padding-0"><label class="padding-0 margin-0">'+
+                            '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="goods_amount[]" value="0">'+
+                            '</label></td>'+
+                        '</tr>');
+                });
+                $(".viewatttable tbody").append(tbodystr);
+            } else if(num == 3) {
+
+            } else if(num == 4) {
+
+            } else if(num == 5) {
+
+            } else if(num == 6) {
+
             }
         }
     };
@@ -626,9 +670,24 @@
             $.form.reInit();
         }, 50);
     };
+    /*! 添加尺码数据 */
+    function addSizeItem(data) {
+        this.$html = $($('[data-input-size]').html());
+        // $(".colorblock .goods-spec-value").find(".colordrop").before(this.$html);
+        // if (data) for (this.index in data) this.$html.find('[name^="' + this.index + '"]').val(data[this.index]);
+        $("[data-item-size] .goods-spec-name").eq(0).append(this.$html);
+    };
     /*! 检测表格*/
     function checkistable() {
         if($("[data-item-size] input[name='spec-size']").is(':checked')==false || checkinputcolor() ==false){
+            $(".viewatttable tbody").html("");
+            return false;
+        }
+        return true;
+    };
+    /*! 检测表格*/
+    function checkistables() {
+        if($("[data-item-size] input[name='input-size']").siblings(".input-size").is(':checked')==false || checkinputcolor() ==false){
             $(".viewatttable tbody").html("");
             return false;
         }
@@ -647,23 +706,13 @@
         return affect;
     }
     /*! 检测颜色*/
-    function checkval(str,sor) {
+    function checkval(str) {
         var that = $(".colorblock .goods-spec-value .colour");
-        if(sor == 'size'){
-            that = $("[data-item-size] input[name='spec-size']");
-        }
         var affect=false;
         for(var i=0;i<that.size();i++){
-            if(sor == 'size'){
-                if(that.eq(i).attr('title')== str){
-                    affect = true;
-                    break;
-                }
-            } else {
-                if(that.eq(i).val()== str){
-                    affect = true;
-                    break;
-                }
+            if(that.eq(i).val()== str){
+                affect = true;
+                break;
             }
         }
         return affect; 
@@ -683,9 +732,9 @@
         }
         if(max == index){
             addColorItem();
-            IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),2);
+            IsmakeProducttable(true, $(".colorblock .colour.selected").parents(".divcolor").index(),2);
         } else {
-            IsmakeProducttable($(".colorblock .colour.selected").parents(".divcolor").index(),1);            
+            IsmakeProducttable(true, $(".colorblock .colour.selected").parents(".divcolor").index(),1);            
         }
     };
     function GetCountColor(){

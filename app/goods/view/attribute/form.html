@@ -25,26 +25,24 @@
             </label>
             <span class="help-block">名称即属性简称，中英文均支持。</span>
         </div>
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">属性类型</span>
+            <span class="color-desc margin-left-5">Goods Attr Type</span>
+            <div class="layui-form-item">
+                {php}$vo['attr_type'] = $vo['attr_type'] ?? 1;{/php}
+                {foreach [1=>'单选',0=>'唯一'] as $k => $v}
+                {if isset($vo.attr_type) and $vo.attr_type eq $k}
+                <label class="think-radio"><input checked type="radio" name="attr_type" value="{$k}" lay-ignore>{$v}</label>
+                {else}
+                <label class="think-radio"><input type="radio" name="attr_type" value="{$k}" lay-ignore>{$v}</label>
+                {/if}{/foreach}
+            </div>
+            <span class="help-block">必选,选择属性类型，是单选或是唯一值。</span>
+        </div>
         <label class="layui-form-item block relative">
             <span class="color-green font-w7">属性介绍</span><span class="color-desc margin-left-5">Goods Attr Notice</span>
             <textarea placeholder="请输入属性介绍" class="layui-textarea" name="attr_notice">{$vo.attr_notice|default=""}</textarea>
         </label>
-        <div class="layui-form-item">
-            <span class="color-green font-w7 label-required-prev">属性类型</span>
-            <span class="color-desc margin-left-5">Goods Attr Type</span>
-            <label class="relative block label-required-null">
-                <!-- {foreach ['单选','唯一'] as $key => $protocol} -->
-                <label class="think-radio">
-                    <!-- {if isset($vo.attr_type) && $vo.attr_type eq $key} -->
-                        <input checked type="radio" name="attr_type" value="{$vo.attr_type|default=$key}" lay-ignore> {$protocol}
-                    <!-- {else} -->
-                        <input {if $key eq 0}checked {/if} type="radio" name="attr_type" value="{$vo.attr_type|default=$key}" lay-ignore> {$protocol}
-                    <!-- {/if} -->
-                </label>
-                <!-- {/foreach} -->
-            </label>
-            <span class="help-block">必选,选择属性类型，是单选或是唯一值。</span>
-        </div>
         <label class="layui-form-item block relative">
             <span class="color-green font-w7">属性值</span><span class="color-desc margin-left-5">Goods Attr Values</span>
             <textarea placeholder="请输入属性值" class="layui-textarea" name="attr_values">{$vo.attr_values|default=""}</textarea>
