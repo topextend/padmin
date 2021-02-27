@@ -17,17 +17,17 @@
                 <!-- {notempty name='list'} -->
                     <thead>
                         <tr>
-                            <th width='10%' class='list-table-check-td think-checkbox'>
+                            <th width="5%" class='list-table-check-td think-checkbox'>
                                 <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
                             </th>
-                            <th width='10%' class='list-table-sort-td'>
+                            <th width="5%" class='list-table-sort-td'>
                                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
                             </th>
-                            <th width='10%' class='text-left nowrap'>属性名称</th>
-                            <th width='40%' class='text-left nowrap'>属性值</th>
-                            <th class="text-center">状态</th>
-                            <th class='text-center nowrap'>创建时间</th>
-                            <th></th>
+                            <th width="10%" class='text-left nowrap'>属性名称</th>
+                            <th width="45%" class='text-left nowrap'>属性值</th>
+                            <th width="5%" class="text-center">状态</th>
+                            <th width="10%" class='text-center nowrap'>创建时间</th>
+                            <th width="10%"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,8 +42,8 @@
                             <td class="text-left nowrap">
                                 <span class="font-w7">{$vo.name|default='-'}</span>
                             </td>
-                            <td class="text-left nowrap">
-                                <span class="font-w7">{$vo.values|default='-'}</span>
+                            <td class="text-left" style="word-wrap:break-word;word-break:break-all;">
+                                {$vo.values|default='-'}
                             </td>
                             <td class='text-center nowrap'>
                                 {eq name='vo.status' value='0'}<span class="layui-badge">已禁用</span>{else}<span class="layui-badge layui-bg-green">使用中</span>{/eq}<br>

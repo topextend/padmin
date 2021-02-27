@@ -15,15 +15,15 @@
             <!-- {notempty name='list'} -->
                 <thead>
                     <tr>
-                        <th class='list-table-check-td think-checkbox'>
+                        <th width='5%' class='list-table-check-td think-checkbox'>
                             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
                         </th>
-                        <th class='list-table-sort-td'>
+                        <th width='5%' class='list-table-sort-td'>
                             <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
                         </th>
-                        <th class='text-left nowrap'>类型名称</th>
-                        <th class="text-center">状态</th>
-                        <th class="text-center">创建时间</th>
+                        <th width='20%' class='text-center nowrap'>类型名称</th>
+                        <th width='10%' class="text-center">状态</th>
+                        <th width='10%' class="text-center">创建时间</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -36,7 +36,7 @@
                         <td class='list-table-sort-td'>
                             <label><input data-action-blur="{:url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></label>
                         </td>
-                        <td class='text-left nowrap'>
+                        <td class='text-center nowrap'>
                             {$vo.type_name|default=''}
                         </td>
                         <td class='text-center nowrap'>
@@ -45,7 +45,7 @@
                         <td class='text-center nowrap'>
                             日期：{$vo.create_at|format_datetime|str_replace=' ','<br><span class="color-desc">时间：',###|raw}</span>
                         </td>
-                        <td class='text-left nowrap'>
+                        <td class='text-center nowrap'>
                             <!--{if auth("index")}-->
                                 <a class="layui-btn layui-btn-normal layui-btn-xs" data-title="属性列表" data-open='{:url("attribute/index")}?type_id={$vo.id}'>属性列表</a>
                             <!--{/if}-->

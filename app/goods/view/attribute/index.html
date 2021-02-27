@@ -18,23 +18,23 @@
             <!-- {notempty name='list'} -->
                 <thead>
                     <tr>
-                        <th class='list-table-check-td think-checkbox'>
+                        <th width='5%' class='list-table-check-td think-checkbox'>
                             <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
                         </th>
-                        <th class='list-table-sort-td'>
+                        <th width='5%' class='list-table-sort-td'>
                             <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
                         </th>
-                        <th class='text-left nowrap'>属性名称</th>
-                        <th class='text-left nowrap'>属性值</th>
-                        <th class='text-left nowrap'>所属类型</th>
-                        <th class="text-center">状态</th>
-                        <th class="text-center">创建时间</th>
-                        <th></th>
+                        <th width='5%' class='text-left nowrap'>属性名称</th>
+                        <th width='45%' class='text-left nowrap'>属性值</th>
+                        <th width='10%' class='text-center nowrap'>所属类型</th>
+                        <th width='10%' class="text-center">状态</th>
+                        <th width='10%' class="text-center">创建时间</th>
+                        <th width='10%'></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- {foreach $list as $key=>$vo} -->
-                    <tr data-dbclick>
+                    <tr>
                         <td class='list-table-check-td think-checkbox'>
                             <input class="list-check-box" value='{$vo.id}' type='checkbox'>
                         </td>
@@ -44,10 +44,10 @@
                         <td class='text-left nowrap'>
                             {$vo.attr_name|default=''}
                         </td>
-                        <td width='550' style="word-break: break-all;">
-                            {$vo.attr_values|default=''}
+                        <td class="text-left" style="word-wrap:break-word;word-break:break-all;">
+                            {eq name='vo.attr_type' value='0'}<span class="font-w7" style="color: #FF5722;">规格模板---{$vo.attr_values|default=''}</span>{else}{$vo.attr_values|default=''}{/eq}
                         </td>
-                        <td class='text-left nowrap'>
+                        <td class='text-center nowrap'>
                             {$vo.type_name|default=''}
                         </td>
                         <td class='text-center nowrap'>

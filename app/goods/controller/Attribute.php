@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:14:14
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-02-24 20:45:26
+// |LastEditTime : 2021-02-27 23:34:09
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -64,7 +64,8 @@ class Attribute extends Controller
         if ($this->request->isGet()) {
             $data['type_id'] = $data['type_id'] ?? input('type_id', '0');
             $this->goods_type = GoodService::instance()->getGoodsValue('GoodsType','type_name');
-        } elseif ($this->request->isPost()) {            
+            $this->goods_spec = GoodService::instance()->getGoodsValue('GoodsSpecs','spec_name');
+        } elseif ($this->request->isPost()) {
             if (!isset($data['id'])) {
                 // 检查属性名称是否出现重复
                 $where = ['attr_name' => $data['attr_name'], 'type_id' => $data['type_id']];
