@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-02-01 17:42:58
+// |LastEditTime : 2021-02-27 17:02:16
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -31,7 +31,7 @@ class GoodService extends Service
      */
     public function getGoodsValue(string $table, string $value): array
     {
-        if ($table == 'GoodsType') {
+        if ($table == 'GoodsType' || $table == 'GoodsSpecs') {
             $map = ['status' => 1];
         } else {
             $map = ['status' => 1, 'user_id' => session('user.id')];

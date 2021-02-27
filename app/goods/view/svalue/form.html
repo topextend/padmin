@@ -1,0 +1,45 @@
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">所属规格模板</span>
+            <span class="color-desc margin-left-5">Goods Specs Template</span>
+            <label class="layui-input-block">
+                <select name='spec_id' class='layui-select' lay-search>
+                    <option value="0">请选择类型</option>
+                    <!-- {foreach $goods_spec as $spec} -->
+                        <!-- {eq name='spec.id' value='$vo.spec_id|default=0'} -->
+                            <option selected value='{$spec.id}'>{$spec.spec_name}</option>
+                        <!-- {else} -->
+                            <option value='{$spec.id}'>{$spec.spec_name}</option>
+                        <!-- {/eq} -->
+                    <!-- {/foreach} -->
+                </select>
+            </label>
+            <span class="help-block">必选，请选择所属类型。</span>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">商品规格属性名称</span>
+            <span class="color-desc margin-left-5">Goods Specs Name</span>
+            <label class="layui-input relative block label-required-null">
+                <input autofocus required placeholder="请输入规格模板名称" class="layui-input inline-block padding-0 border-0" style="width:auto;background:none" value="{$vo.name|default=''}" name="name">
+            </label>
+            <span class="help-block">名称即商品规格模板简称。</span>
+        </div>
+        <label class="layui-form-item block relative">
+            <span class="color-green font-w7">商品规格属性值</span><span class="color-desc margin-left-5">Goods Specs Values</span>
+            <textarea placeholder="请输入商品规格属性值" class="layui-textarea" name="values">{$vo.values|default=""}</textarea>
+        </label>
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+        </div>
+    </div>
+</form>
+{block name='script'}
+<script>
+    /*! 表单初始化 */
+    window.form.render();
+</script>
+{/block}
