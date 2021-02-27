@@ -20,12 +20,11 @@
                             <th width='5%' class='list-table-sort-td'>
                                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
                             </th>
-                            <th width='10%' class='text-left nowrap'>模板编号</th>
-                            <th width='10%' class='text-left nowrap'>模板名称</th>
-                            <th width='20%' class='text-left nowrap'>模板简介</th>
-                            <th width='10%' class="text-center">状态</th>
-                            <th width='20%' class='text-center nowrap'>创建时间</th>
-                            <th width='20%'></th>
+                            <th width='10%' class='text-center nowrap'>模板名称</th>
+                            <th width='45%' class='text-left nowrap'>模板简介</th>
+                            <th width='5%'  class="text-center">状态</th>
+                            <th width='10%' class='text-center nowrap'>创建时间</th>
+                            <th width='30%'></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -37,10 +36,7 @@
                             <td class='list-table-sort-td'>
                                 <label><input data-action-blur="{:url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></label>
                             </td>
-                            <td class="text-left nowrap">
-                                <span class="font-w7">{$vo.spec_code|default='-'}</span>
-                            </td>
-                            <td class="text-left nowrap">
+                            <td class="text-center nowrap">
                                 <span class="font-w7">{$vo.spec_name|default='-'}</span>
                             </td>
                             <td class="text-left nowrap">
