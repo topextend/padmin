@@ -168,7 +168,7 @@
                                             </ul>
                                         </div>
                                         <div class="sizeinput">
-                                            <input type="text" name="inputsize" placeholder="请输入自定义值" class="layui-input inputsize">
+                                            <input type="text" placeholder="请输入自定义值" class="layui-input inputsize">
                                             <div class="layui-btn layui-btn-primary layui-btn-sm adsize">+添加</div>
                                         </div>
                                         <div data-item-size>   
@@ -176,8 +176,8 @@
                                             <div class="goods-spec-name layui-row margin-top-10 index{$k}" {gt name="k" value="0"}style="display: none;"{/gt}>
                                                 {foreach $sizes.values as $kk => $size}
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="{$size}" lay-filter="size" lay-skin="primary" value="{$kk}">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
+                                                    <input type="checkbox" name="spec_size[]" title="{$size}" lay-filter="size" lay-skin="primary" value="{$size}">
+                                                    <input type="text" name="spec_size_note[]" class="goods-spec-note layui-input margin-left-5 layui-hide" disabled>
                                                 </div>
                                                 {/foreach}
                                             </div>
@@ -215,13 +215,13 @@
             <div data-input-color class="layui-hide">
                 <div class="layui-display-flex divcolor">
                     <div class="goods-spec-color">
-                        <input type="text" name="attr-value[]" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
+                        <input type="text" autocomplete="off" placeholder="选择或输入主色" class="layui-input colour">
                     </div>
                     <div class="goods-spec-note margin-left-10">
-                        <input type="text" name="attr-value-note[]" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input">
+                        <input type="text" placeholder="备注(如偏深偏浅等)" autocomplete="off" class="layui-input note">
                     </div>
                     <div class="goods-spce-image margin-left-10">
-                        <input data-upload-image name="img[]" type="hidden">
+                        <input data-upload-image type="hidden" class="specimg">
                     </div>
                     <div class="goods-spec-del margin-left-10" style="line-height: 38px;"></div>
                 </div>
@@ -271,6 +271,9 @@
                 var index = colorBlock.find(".colour").index(this);
                 colorBlock.find(".colordrop").show().css("top",index*45+45);
             }
+            $(this).attr("name","spec_value[]");
+            $(this).parents(".divcolor").find(".note").attr("name","spec_value_note[]");
+            $(this).parents(".divcolor").find(".specimg").attr("name","spec_img[]");
             $(this).addClass("selected").parents(".divcolor").siblings().find(".colour").removeClass("selected");
             $(this).keyup(function(){
                 if($.trim($(this).val()).length==0){
@@ -331,7 +334,7 @@
                     ,content: '<div style="padding:20px;line-height:22px;background-color:#fff;border-bottom:1px solid #eee;color:#000;font-weight:300;">切换尺码分组将会丢失勾选的尺码及 商品属性 数据，确定切换？</div>'
                     ,yes: function(index){
                         $("[data-item-size]").find(".index" + layid).show().siblings().hide();
-                        $("[data-item-size] input[name='spec-size']").each(function(){
+                        $("[data-item-size] input[name='spec_size[]']").each(function(){
                             this.checked=false;
                             $(this).siblings(".goods-spec-note").addClass('layui-hide');
                         });
@@ -346,12 +349,14 @@
         form.on('checkbox(size)', function(data){
             if(this.checked){
                 $(this).siblings(".goods-spec-note").removeClass('layui-hide');
-				IsmakeProducttable($("input[name='spec-size']:checked").index(this),5);
+                $(this).siblings(".goods-spec-note").attr("disabled",false);
+				IsmakeProducttable($("input[name='spec_size[]']:checked").index(this),5);
             } else {
                 $(this).siblings(".goods-spec-note").addClass('layui-hide');
+                $(this).siblings(".goods-spec-note").attr("disabled",true);
 				var thisc = 0;
 				var tvalue = this.value;
-				$(this).parents("[data-item-size]").find("input[name='spec-size']").each(function(){
+				$(this).parents("[data-item-size]").find("input[name='spec_size[]']").each(function(){
 					if(tvalue == $(this).val()){
 						return false;
 					}
@@ -374,8 +379,8 @@
             $(".sizeblock .divsize ul li").each(function(){
                 if($(this).hasClass('layui-this')){
                     var adinputsize = '<div class="layui-col-xs6 layui-col-sm6 layui-col-md4 newsize">';
-                        adinputsize+= '<input type="checkbox" name="spec-size" title="'+ inputsize +'" lay-filter="size" lay-skin="primary" value="'+ inputsize +'">';
-                        adinputsize+= '<input type="text" name="spec-note" class="goods-spec-notes layui-input margin-left-5">';
+                        adinputsize+= '<input type="checkbox" name="spec_size[]" title="'+ inputsize +'" lay-filter="size" lay-skin="primary" value="'+ inputsize +'">';
+                        adinputsize+= '<input type="text" name="spec_size_note[]" class="goods-spec-notes layui-input margin-left-5">';
                         adinputsize+= '<a class="layui-btn layui-btn-primary layui-btn-xs margin-top-10 margin-left-10 size-del"><i class="layui-icon">&#xe640;</i></a>';
                         adinputsize+= '</div>';
                     $("[data-item-size] .goods-spec-name").eq(nt).append(adinputsize);
@@ -386,7 +391,7 @@
             form.render();
         });
         $("[data-item-size]").delegate(".newsize .size-del","click",function(){
-            if($(this).siblings("input[name='spec-size']").is(':checked')==true){
+            if($(this).siblings("input[name='spec_size[]']").is(':checked')==true){
                 layer.tips('请勾除尺码', $(this),{tips:[2,"#FF6A6A"]});
                 return false;
             } else {
@@ -399,17 +404,17 @@
         if(checkistable() == false){
             return false;
         }
-        var st_sizecount = $("[data-item-size] input[name='spec-size']:checked").size();
+        var st_sizecount = $("[data-item-size] input[name='spec_size[]']:checked").size();
         if(num == 1){
             var all_size = $(".viewatttable tbody .att_size").size();
             var valid_count = GetCountColor()-1;
             var average = all_size/valid_count;
             var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
             var tbodystr='';
-            $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+            $("[data-item-size] input[name='spec_size[]']:checked").each(function(index){
                 var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
                     tbodystr += (st_tr+
-                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec_size[]']:checked").eq(index).attr("title") + '</td>'+
                         '<td class="padding-0"><label class="padding-0 margin-0">'+
                         '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                         '</label></td>'+
@@ -425,10 +430,10 @@
         } else if(num == 2){
             var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
             var tbodystr='';
-            $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+            $("[data-item-size] input[name='spec_size[]']:checked").each(function(index){
                 var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
                     tbodystr += (st_tr+
-                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                        '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec_size[]']:checked").eq(index).attr("title") + '</td>'+
                         '<td class="padding-0"><label class="padding-0 margin-0">'+
                         '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                         '</label></td>'+
@@ -466,10 +471,10 @@
                 $(".colorblock .goods-spec-value .colour").each(function(){
                     thatcolor = $(this);
                     if($.trim($(this).val()).length > 0){
-                        $("[data-item-size] input[name='spec-size']:checked").each(function(index){
+                        $("[data-item-size] input[name='spec_size[]']:checked").each(function(index){
                             tbodystr += ('<tr>'+
                                 '<td rowspan="1" class="layui-bg-gray text-center att_color">'+ thatcolor.val() + '</td>'+
-                                '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(index).attr("title") + '</td>'+
+                                '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec_size[]']:checked").eq(index).attr("title") + '</td>'+
                                 '<td class="padding-0"><label class="padding-0 margin-0">'+
                                 '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                                 '</label></td>'+
@@ -496,7 +501,7 @@
                     var start_key = (i == 1 ? key-1 : starkey+key);
                     if(key != 0){
                         $(".viewatttable tbody tr").eq(start_key).after('<tr>'+
-                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
+                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec_size[]']:checked").eq(key).attr("title") + '</td>'+
                             '<td class="padding-0"><label class="padding-0 margin-0">'+
                             '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                             '</label></td>'+
@@ -517,7 +522,7 @@
                         $(".viewatttable tbody tr").eq(start_key).find("td").eq(0).remove();
                         $(".viewatttable tbody tr").eq(start_key).before('<tr>'+
                             '<td rowspan="'+rowspan+'" class="layui-bg-gray text-center att_color">'+ row_color + '</td>'+
-                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec-size']:checked").eq(key).attr("title") + '</td>'+
+                            '<td class="layui-bg-gray text-center att_size">'+ $("[data-item-size] input[name='spec_size[]']:checked").eq(key).attr("title") + '</td>'+
                             '<td class="padding-0"><label class="padding-0 margin-0">'+
                             '<input class="layui-input border-0 padding-left-0 text-center ng-pristine ng-valid ng-not-empty ng-touched" name="shop_price[]" value="0">'+
                             '</label></td>'+
@@ -562,7 +567,7 @@
     };
     /*! 检测表格*/
     function checkistable() {
-        if($("[data-item-size] input[name='spec-size']").is(':checked')==false || checkinputcolor() ==false){
+        if($("[data-item-size] input[name='spec_size[]']").is(':checked')==false || checkinputcolor() ==false){
             $(".viewatttable tbody").html("");
             return false;
         }
@@ -584,7 +589,7 @@
     function checkval(str,sor) {
         var that = $(".colorblock .goods-spec-value .colour");
         if(sor == 'size'){
-            that = $("[data-item-size] input[name='spec-size']");
+            that = $("[data-item-size] input[name='spec_size[]']");
         }
         var affect=false;
         for(var i=0;i<that.size();i++){
