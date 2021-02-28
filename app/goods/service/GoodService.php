@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-02-27 23:38:47
+// |LastEditTime : 2021-02-28 16:31:46
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -137,9 +137,19 @@ class GoodService extends Service
         $type_id = $this->getCatsTypeID($cat_id);
         $query = $this->app->db->name('GoodsAttr')->where(['type_id'=>$type_id])->column('id, attr_type, attr_name, attr_notice, attr_values');
         if ($query) {
-            foreach ($query as $key => $value) {
-                $value['attr_values'] = explode(',', $value['attr_values']);
-                $attrs[$key] = $value;
+            foreach ($query as $key => $value) {                
+                if ($value['attr_type'] == 0) {
+                    $value['attr_values'] = $this->getSpecTemplateValue($value['attr_values']);
+                    foreach ($value['attr_values'] as $k => $v)
+                    {
+                        $v['values'] = explode(',', $v['values']);
+                        $value['attr_values'][$k] = $v;
+                    }
+                    $attrs[$key] = $value;
+                } else {
+                    $value['attr_values'] = explode(',', $value['attr_values']);
+                    $attrs[$key] = $value;
+                }
             }
             return $attrs;
         } else {
@@ -147,6 +157,16 @@ class GoodService extends Service
         }
     }
 
+    /**
+     * 获取规格模板数据
+     */
+    public function getSpecTemplateValue(string $str) : array
+    {
+        $where  = ["a.spec_name" => $str];
+        $column = "b.name,b.values";
+        $query  = $this->app->db->name('GoodsSpecs');
+        return $query->where($where)->alias('a')->join('goods_specs_value b','a.id=b.spec_id')->column($column);
+    }
     /**
      * 图片数组转换
      * @return array

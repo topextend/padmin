@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-02-24 15:15:34
+// |LastEditTime : 2021-02-28 16:41:52
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -93,6 +93,7 @@ class Index extends Controller
             $this->goods_whouses  = GoodService::instance()->getGoodsValue('GoodsWarehouse', 'whouse_name');
             $this->select_cats    = GoodService::instance()->selectedCats($cat_id);
             $this->goods_attr     = GoodService::instance()->getGoodsAttrValue($cat_id) ?: $this->error('请先配置类型属性');
+            // dump($this->goods_attr);
             // $this->attr_price     = input('goods_id') ? GoodService::instance()->getGoodsAttrPrice(input('goods_id')) : 0;
             // if (!empty(input('goods_id'))) {
             //     $this->attr_value = GoodService::instance()->getGoodsAttrName(input('goods_id'));

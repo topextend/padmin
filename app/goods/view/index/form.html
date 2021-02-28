@@ -129,59 +129,25 @@
                                             <div class="color-group-wrapper color-dropdown-wrapper colordrop" style="display: none;">
                                                 <div class="colorleft">
                                                     <ul class="color-group-panel">
-                                                        <li class="color-tag" index-data='1' data-id="0">
-                                                            <a><div class="color-block" style="background:rgb(255, 255, 255);"></div><span>白色系</span></a>
+                                                        {foreach $attrs.attr_values as $k => $colors}
+                                                        <li class="color-tag" index-data="{$k}">
+                                                            <a><div class="color-block" style="background:rgb(255, 255, 255);"></div><span>{$colors.name}</span></a>
                                                         </li>
-                                                        <li class="color-tag" index-data='2' data-id="1">
-                                                            <a><div class="color-block" style="background:rgb(128, 128, 128);"></div><span>灰色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='3' data-id="2">
-                                                            <a><div class="color-block" style="background:rgb(0, 0, 0);"></div><span>黑色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='4' data-id="3">
-                                                            <a><div class="color-block" style="background:rgb(255, 0, 0);"></div><span>红色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='5' data-id="4">
-                                                            <a><div class="color-block" style="background:rgb(255, 255, 0);"></div><span>黄色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='6' data-id="5">
-                                                            <a><div class="color-block" style="background:rgb(0, 128, 0);"></div><span>绿色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='7' data-id="6">
-                                                            <a><div class="color-block" style="background:rgb(0, 0, 254);"></div><span>蓝色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='8' data-id="7">
-                                                            <a><div class="color-block" style="background:rgb(128, 0, 128);"></div><span>紫色系</span></a>
-                                                        </li>
-                                                        <li class="color-tag" index-data='9' data-id="8">
-                                                            <a><div class="color-block" style="background:rgb(124, 75, 0);"></div><span>棕色系</span></a>
-                                                        </li>
+                                                        {/foreach}
                                                     </ul>
                                                 </div>
                                                 <div class="colors-panel coloright">
                                                     <p class="colors-panel-title">常用标准颜色</p>
-                                                    <div class="colorval">
-                                                        <ul class="color-list index1">
-                                                            <li class="color-tag" data-id="0">
-                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>乳白色</span></a>
+                                                    <div class="colorval">                                                        
+                                                        {foreach $attrs.attr_values as $k => $colors}
+                                                        <ul class="color-list index{$k}" {gt name="k" value="0"}style="display: none;"{/gt}>
+                                                            {foreach $colors.values as $kk => $color}
+                                                            <li class="color-tag" data-id="{$kk}">
+                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>{$color}</span></a>
                                                             </li>
-                                                            <li class="color-tag" data-id="1">
-                                                                <a><div class="color-block" style="background:rgb(255, 255, 2255);"></div><span>白色</span></a>
-                                                            </li>
-                                                            <li class="color-tag" data-id="2">
-                                                                <a><div class="color-block" style="background:rgb(238, 222, 176);"></div><span>米白色</span></a>
-                                                            </li>
+                                                            {/foreach}
                                                         </ul>
-                                                        <ul class="color-list index2" style="display: none;">
-                                                            <li class="color-tag" data-id="0">
-                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>灰色</span></a>
-                                                            </li>
-                                                        </ul>
-                                                        <ul class="color-list index3" style="display: none;">
-                                                            <li class="color-tag" data-id="0">
-                                                                <a><div class="color-block" style="background:rgb(255, 251, 240);"></div><span>黑色</span></a>
-                                                            </li>
-                                                        </ul>
+                                                        {/foreach}
                                                     </div>
                                                 </div>
                                             </div>
@@ -196,58 +162,26 @@
                                     <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
                                         <div class="layui-tab layui-tab-card divsize" lay-filter="divsize">
                                             <ul class="layui-tab-title">
-                                                <li lay-id="1" class="layui-this">欧码</li>
-                                                <li lay-id="2">英码</li>
-                                                <li lay-id="3">美码</li>
+                                                {foreach $attrs.attr_values as $k => $sizes}
+                                                <li lay-id="{$k}" {eq name="k" value="0"}class="layui-this"{/eq}>{$sizes.name}</li>
+                                                {/foreach}
                                             </ul>
                                         </div>
                                         <div class="sizeinput">
                                             <input type="text" name="inputsize" placeholder="请输入自定义值" class="layui-input inputsize">
                                             <div class="layui-btn layui-btn-primary layui-btn-sm adsize">+添加</div>
                                         </div>
-                                        <div data-item-size>                                            
-                                            <div class="goods-spec-name layui-row margin-top-10 index1">
+                                        <div data-item-size>   
+                                            {foreach $attrs.attr_values as $k => $sizes}                                         
+                                            <div class="goods-spec-name layui-row margin-top-10 index{$k}" {gt name="k" value="0"}style="display: none;"{/gt}>
+                                                {foreach $sizes.values as $kk => $size}
                                                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37" lay-filter="size" lay-skin="primary" value="294">
+                                                    <input type="checkbox" name="spec-size" title="{$size}" lay-filter="size" lay-skin="primary" value="{$kk}">
                                                     <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
                                                 </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="37.5" lay-filter="size" lay-skin="primary" value="295">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="38" lay-filter="size" lay-skin="primary" value="296">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
+                                                {/foreach}
                                             </div>
-                                            <div class="goods-spec-name layui-row margin-top-10 index2" style="display: none;">
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="4" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="5" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="6" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                            </div>
-                                            <div class="goods-spec-name layui-row margin-top-10 index3" style="display: none;">
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="X" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="XL" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                                <div class="layui-col-xs6 layui-col-sm6 layui-col-md4">
-                                                    <input type="checkbox" name="spec-size" title="2XL" lay-filter="size" lay-skin="primary">
-                                                    <input type="text" class="goods-spec-note layui-input margin-left-5 layui-hide">
-                                                </div>
-                                            </div>
+                                            {/foreach}
                                         </div>
                                     </div>
                                 </div>
@@ -365,7 +299,7 @@
         $(".colorblock .colorleft ul li").mouseover(function(){
             var nums = parseInt($(this).attr("index-data"));
             $(".colorblock .coloright .colorval ul").each(function(index){
-                if(nums == index+1){
+                if(nums == index){
                     $(this).show().siblings().hide();
                 }
             })
