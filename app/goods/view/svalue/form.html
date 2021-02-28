@@ -4,13 +4,13 @@
             <span class="color-green font-w7 label-required-prev">所属规格模板</span>
             <span class="color-desc margin-left-5">Goods Specs Template</span>
             <label class="layui-input-block">
-                <select name='spec_id' class='layui-select' lay-search>
+                <select name="spec_id" class="layui-select" lay-search>
                     <option value="0">请选择模板</option>
                     <!-- {foreach $goods_spec as $spec} -->
-                        <!-- {eq name='spec.id' value='$vo.spec_id|default=0'} -->
-                            <option selected value='{$spec.id}'>{$spec.spec_name}</option>
+                        <!-- {eq name="spec.id" value="$vo.spec_id|default=0"} -->
+                            <option selected value="{$spec.id}">{$spec.spec_name}</option>
                         <!-- {else} -->
-                            <option value='{$spec.id}'>{$spec.spec_name}</option>
+                            <option value="{$spec.id}">{$spec.spec_name}</option>
                         <!-- {/eq} -->
                     <!-- {/foreach} -->
                 </select>
