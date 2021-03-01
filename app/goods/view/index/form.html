@@ -122,8 +122,8 @@
                                 <!-- {if $key == 0} -->
                                     <div class="colorblock">
                                         <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#eee;padding: 7px!important;">
-                                            <span class="text-center">{$attrs.attr_name}</span>
-                                            <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>                    
+                                            <span class="text-center" lay-id="{$attrs.id}">{$attrs.attr_name}</span>
+                                            <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>
                                         </div>
                                         <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
                                             <div class="color-group-wrapper color-dropdown-wrapper colordrop" style="display: none;">
@@ -156,8 +156,8 @@
                                 <!-- {else} -->
                                 <div class="sizeblock">                
                                     <div class="goods-spec-attr goods-spec-box margin-0 relative" style="background:#eee;padding: 7px!important;">
-                                        <span class="text-center">{$attrs.attr_name}</span>
-                                        <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>                    
+                                        <span class="text-center" lay-id="{$attrs.id}">{$attrs.attr_name}</span>
+                                        <span class="margin-left-10 color-desc font-s10">{$attrs.attr_notice}</span>
                                     </div>
                                     <div class="goods-spec-value padding-10 margin-0 layui-bg-gray block relative">
                                         <div class="layui-tab layui-tab-card divsize" lay-filter="divsize">
@@ -271,8 +271,8 @@
                 var index = colorBlock.find(".colour").index(this);
                 colorBlock.find(".colordrop").show().css("top",index*45+45);
             }
-            $(this).attr("name","spec_value[]");
-            $(this).parents(".divcolor").find(".note").attr("name","spec_value_note[]");
+            $(this).attr("name","spec_name[]");
+            $(this).parents(".divcolor").find(".note").attr("name","spec_name_note[]");
             $(this).parents(".divcolor").find(".specimg").attr("name","spec_img[]");
             $(this).addClass("selected").parents(".divcolor").siblings().find(".colour").removeClass("selected");
             $(this).keyup(function(){
@@ -348,12 +348,15 @@
         // 尺码勾选
         form.on('checkbox(size)', function(data){
             if(this.checked){
+                var size_id  = $(".sizeblock .goods-spec-attr span").eq(0).attr("lay-id");
+                $(this).after('<input type="hidden" name="spec_id[]" value="'+size_id+'">');
                 $(this).siblings(".goods-spec-note").removeClass('layui-hide');
                 $(this).siblings(".goods-spec-note").attr("disabled",false);
 				IsmakeProducttable($("input[name='spec_size[]']:checked").index(this),5);
             } else {
                 $(this).siblings(".goods-spec-note").addClass('layui-hide');
                 $(this).siblings(".goods-spec-note").attr("disabled",true);
+                $(this).siblings("input[name='spec_id[]']").remove();                
 				var thisc = 0;
 				var tvalue = this.value;
 				$(this).parents("[data-item-size]").find("input[name='spec_size[]']").each(function(){
@@ -410,6 +413,8 @@
             var valid_count = GetCountColor()-1;
             var average = all_size/valid_count;
             var st_color = $(".colorblock .goods-spec-value .colour").eq(key).val();
+            var st_color_note = $(".colorblock .goods-spec-value .note").eq(key).val();
+            console.log(st_color_note);
             var tbodystr='';
             $("[data-item-size] input[name='spec_size[]']:checked").each(function(index){
                 var st_tr = index == 0 ? '<tr><td rowspan="'+ st_sizecount +'" class="layui-bg-gray text-center att_color">'+ st_color + '</td>' : '<tr>';
@@ -611,8 +616,9 @@
     function checkcolor()
     {
         var colorBlock = $(".colorblock .goods-spec-value");
+        var color_id = $(".colorblock .goods-spec-attr span").eq(0).attr("lay-id");
         colorBlock.find(".colordrop").hide();
-        colorBlock.find(".colour.selected").parent(".goods-spec-color").siblings(".goods-spec-del").html("<a>删除</a>").show();
+        colorBlock.find(".colour.selected").parent(".goods-spec-color").siblings(".goods-spec-del").html('<a>删除</a><input type="hidden" name="spec_id[]" value="'+color_id+'">').show();
         var max = colorBlock.find(".colour").length;
         for( var i=0;i<max;i++){
             if(colorBlock.find(".colour").eq(i).hasClass("selected")){

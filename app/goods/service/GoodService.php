@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-02-28 16:31:46
+// |LastEditTime : 2021-03-01 21:00:27
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -185,26 +185,49 @@ class GoodService extends Service
      * 多数组转换成SKU属性数组
      * @return array
      */
-    public function arrayToSkuValue(array $attr1, array $attr2, array $attr3, array $attr4) : array
+    public function arrayToSkuValue(array $s1, array $s2, array $s3, array $s4, array $s5, array $s6, array $s7, array $s8) : array
     {
-        $attr5 = array_merge($attr3, $attr1);
-        $attr6 = array_merge($attr4, $attr2);
-        foreach ($attr5 as $k => $v)
+        foreach ($s1 as $k =>$v)
         {
-            $attr7[] = ['attr_id'=> $v, 'attr_value' => $attr6[$k]];
+            $attr_color[] = [
+                'attr_value' => $v,
+                'attr_note' => $s3[$k],
+                'attr_img' => $s5[$k],
+            ];
         }
-        return $attr7;
+        foreach ($s2 as $k =>$v)
+        {
+            $attr_size[] = [
+                'attr_value' => $v,
+                'attr_note' => $s4[$k]
+            ];
+        }
+        $attr_value = array_merge($attr_color,$attr_size);
+        foreach($attr_value as $k => $v)
+        {
+            $attr_value[$k]['attr_id']= $s8[$k];
+        }
+        foreach($s7 as $k => $v) 
+        {
+            $attrs[] = ['attr_value' => $v, 'attr_id' => $s6[$k]];
+        }
+        return array_merge($attr_value,$attrs);
     }
 
     /**
      * 多数组转换成库存数组
      * @return array
      */
-    public function arrayToProcudtValue(array $attr1, array $attr2, array $attr3, array $attr4, array $attr5) : array
-    {
-        foreach($attr1 as $k => $v)
+    public function arrayToProcudtValue(array $arr1, array $arr2, array $arr3, array $arr4, array $arr5) : array
+    {        
+        foreach ($arr1 as $item1) {
+            foreach ($arr2 as $item2) {
+                $result[]  = $item1 . "_" . $item2;
+            }
+        }
+        foreach($result as $k => $v)
         {
-            $attr[] = ['goods_attr'=> $v, 'market_price' => $attr2[$k], 'shop_price' => $attr3[$k], 'stock_price' => $attr4[$k], 'goods_amount' => $attr5[$k]];
+            $attr[] = ['goods_attr'=> $v, 'shop_price' => $arr3[$k], 'stock_price' => $arr4[$k], 'goods_amount' => $arr5[$k]];
         }
         return $attr;
     }
