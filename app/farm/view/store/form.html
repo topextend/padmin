@@ -1,0 +1,40 @@
+<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item">
+            <span class="color-green font-w7 label-required-prev">所属平台</span>
+            <span class="color-desc margin-left-5">Shop Type</span>
+            <label class="layui-input-block">
+                <select name='shop_type' class='layui-select' lay-search>
+                    <!-- {foreach ['请选择店铺平台类型','拼多多','淘宝','京东'] as $key => $shops} -->
+                        <!-- {eq name='key' value='$vo.shop_type|default=0'} -->
+                            <option selected value='{$key}'>{$shops}</option>
+                        <!-- {else} -->
+                            <option value='{$key}'>{$shops}</option>
+                        <!-- {/eq} -->
+                    <!-- {/foreach} -->
+                </select>
+            </label>
+            <span class="help-block">必选，请选择所属平台类型。</span>
+        </div>
+        <div class="layui-row">
+            <label class="relative block">
+                <span class="color-green font-w7">店铺名称</span><span class="color-desc margin-left-5">Shop Name</span>
+                <input autofocus required name="shop_name" value="{$vo.shop_name|default=''}" placeholder="请输入店铺名称" class="layui-input">
+                <span class="color-desc">名称即店铺简称，中英文均支持。</span>
+            </label>
+        </div>
+        <div class="hr-line-dashed"></div>
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type='submit'>保存数据</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+        </div>
+    </div>
+</form>
+{block name='script'}
+<script>
+    require(['jquery.autocompleter'], function () {
+        layui.form.render();
+    });
+</script>
+{/block}
