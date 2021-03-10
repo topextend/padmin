@@ -4,13 +4,13 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-03-02 16:26:31
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-02 16:54:54
+// |LastEditTime : 2021-03-10 08:44:11
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
 // |Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\farm\controller\Shelves.php
+// |FilePath     : /www.padmin.com/app/farm/controller/Shelves.php
 // |----------------------------------------------------------------------
 // |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
@@ -42,11 +42,12 @@ class Shelves extends Controller
      */
     public function index()
     {
-        $this->title = "上架记录";
-        $query = $this->_query($this->table);
-        // $query->like('shop_name,shop_type,create_at')->equal('status');
+        $this->title     = "上架记录";
+        $this->store_id  = input('id',0);
+        $query = $this->_query($this->table)->alias('a')->field('a.id as id, a.goods_sn, a.goods_price, a.create_at, b.whouse_name')->join('goods_warehouse b','a.whouse_id = b.id');
+        $query->where(['a.store_id' => $this->store_id])->like('a.goods_sn#goods_sn, a.create_at#create_at');
         // 列表排序并显示
-        $query->order('create_at desc')->page();
+        $query->order('a.create_at desc')->page();
     }
     
     /**
@@ -58,7 +59,8 @@ class Shelves extends Controller
      */
     public function add()
     {
-        $this->title = '添加店铺';
+        $this->title = '添加记录';
+        $this->store_id  = input('store_id',0);
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
     }
@@ -72,7 +74,7 @@ class Shelves extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑店铺';
+        $this->title = '编辑记录';
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
     }

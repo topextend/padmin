@@ -270,6 +270,7 @@
             if($.trim($(this).val()).length == 0) {
                 var index = colorBlock.find(".colour").index(this);
                 colorBlock.find(".colordrop").show().css("top",index*45+45);
+                colorBlock.find(".colordrop").show().css("width",$(this).outerWidth()-2);
             }
             $(this).attr("name","spec_name[]");
             $(this).parents(".divcolor").find(".note").attr("name","spec_name_note[]");

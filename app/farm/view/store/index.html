@@ -24,6 +24,7 @@
                         <th class='text-center nowrap'>所属平台</th>
                         <th class="text-center">状态</th>
                         <th class="text-center">创建时间</th>
+                        <th class="text-center"></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -40,13 +41,34 @@
                             {$vo.shop_name|default=''}
                         </td>
                         <td class='text-center nowrap'>
-                            {if $vo.shop_type eq 1}<span class="layui-badge layui-bg-red">拼多多</span>{elseif $vo.shop_type eq 2}<span class="layui-badge layui-bg-blue">淘宝</span>{elseif $vo.shop_type eq 3}<span class="layui-badge layui-bg-orange">京东</span>{/if}
+                            {if $vo.shop_type eq 1}<span class="layui-badge layui-bg-red">拼多多</span>{elseif $vo.shop_type eq 2}<span class="layui-badge layui-bg-blue">淘宝</span>{elseif $vo.shop_type eq 3}<span class="layui-badge layui-bg-orange">阿里巴巴</span>{elseif $vo.shop_type eq 4}<span class="layui-badge layui-bg-orange">京东</span>{/if}
                         </td>
                         <td class='text-center nowrap'>
                             {eq name='vo.status' value='0'}<span class="layui-badge">已禁用</span>{else}<span class="layui-badge layui-bg-green">使用中</span>{/eq}<br>
                         </td>
                         <td class='text-center nowrap'>
                             日期：{$vo.create_at|format_datetime|str_replace=' ','<br><span class="color-desc">时间：',###|raw}</span>
+                        </td>
+                        <td class='text-center nowrap'>
+                            <!--{if auth("news_mark/index")}-->
+                                <button data-iframe='{:url("shelves/index")}?id={$vo.id}' data-width="900px" data-title="上架记录" class='layui-btn layui-btn-xs layui-btn-normal'>上架记录</button>
+                            <!--{/if}-->
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs" data-title="店铺商品" data-modal='{:url("edit")}?id={$vo.id}'>店铺商品</a>
+                            <!--{/if}-->
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs" data-title="销售记录" data-modal='{:url("edit")}?id={$vo.id}'>销售记录</a>
+                            <!--{/if}-->
+                            <div class="margin-top-5"></div>
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs" data-title="推广计划" data-modal='{:url("edit")}?id={$vo.id}'>推广计划</a>
+                            <!--{/if}-->
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs" data-title="放单计划" data-modal='{:url("edit")}?id={$vo.id}'>放单计划</a>
+                            <!--{/if}-->
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="数据报表" data-modal='{:url("edit")}?id={$vo.id}'>数据报表</a>
+                            <!--{/if}-->
                         </td>
                         <td class='text-left nowrap'>
                             <!--{if auth("edit")}-->
