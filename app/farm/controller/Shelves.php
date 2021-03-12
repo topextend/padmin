@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |Date         : 2021-03-02 16:26:31
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-10 08:44:11
+// |LastEditTime : 2021-03-12 14:09:26
 // |----------------------------------------------------------------------
 // |LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -44,7 +44,7 @@ class Shelves extends Controller
     {
         $this->title     = "上架记录";
         $this->store_id  = input('id',0);
-        $query = $this->_query($this->table)->alias('a')->field('a.id as id, a.goods_sn, a.goods_price, a.create_at, b.whouse_name')->join('goods_warehouse b','a.whouse_id = b.id');
+        $query = $this->_query($this->table)->alias('a')->field('a.id as id, a.goods_sn, a.distribution_price, a.create_at, b.whouse_name')->join('goods_warehouse b','a.whouse_id = b.id');
         $query->where(['a.store_id' => $this->store_id])->like('a.goods_sn#goods_sn, a.create_at#create_at');
         // 列表排序并显示
         $query->order('a.create_at desc')->page();

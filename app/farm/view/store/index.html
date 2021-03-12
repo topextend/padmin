@@ -24,7 +24,7 @@
                         <th class='text-center nowrap'>所属平台</th>
                         <th class="text-center">状态</th>
                         <th class="text-center">创建时间</th>
-                        <th class="text-center"></th>
+                        <th class="text-center">运营策划</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -59,6 +59,9 @@
                             <!--{if auth("edit")}-->
                                 <a class="layui-btn layui-btn-xs" data-title="销售记录" data-modal='{:url("edit")}?id={$vo.id}'>销售记录</a>
                             <!--{/if}-->
+                            <!--{if auth("news_mark/index")}-->
+                                <button data-iframe='{:url("shelves/index")}?id={$vo.id}' data-width="900px" data-title="活动报名" class='layui-btn layui-btn-xs layui-btn-normal'>活动报名</button>
+                            <!--{/if}-->
                             <div class="margin-top-5"></div>
                             <!--{if auth("edit")}-->
                                 <a class="layui-btn layui-btn-xs" data-title="推广计划" data-modal='{:url("edit")}?id={$vo.id}'>推广计划</a>
@@ -66,6 +69,9 @@
                             <!--{if auth("edit")}-->
                                 <a class="layui-btn layui-btn-xs" data-title="放单计划" data-modal='{:url("edit")}?id={$vo.id}'>放单计划</a>
                             <!--{/if}-->
+                            <!--{if auth("edit")}-->
+                                <a class="layui-btn layui-btn-xs layui-btn-warm" data-title="售后管理" data-modal='{:url("edit")}?id={$vo.id}'>售后管理</a>
+                                <!--{/if}-->
                             <!--{if auth("edit")}-->
                                 <a class="layui-btn layui-btn-xs layui-btn-danger" data-title="数据报表" data-modal='{:url("edit")}?id={$vo.id}'>数据报表</a>
                             <!--{/if}-->
