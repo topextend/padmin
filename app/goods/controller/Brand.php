@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-01-12 17:12:01
+// |@Date         : 2021-01-12 17:12:01
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-29 13:51:51
+// |@LastEditTime : 2021-03-13 13:23:18
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Class Brand
+// |@Description  : Class Brand
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\goods\controller\Brand.php
+// |@FilePath     : /www.padmin.com/app/goods/controller/Brand.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\goods\controller;
 

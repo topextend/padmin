@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-08 18:55:13
+// |@Date         : 2020-07-08 18:55:13
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 16:51:08
+// |@LastEditTime : 2021-03-13 13:25:33
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Config Controller Of Admin
+// |@Description  : Config Controller Of Admin
 // |----------------------------------------------------------------------
-// |FilePath     : \padmin\app\admin\controller\Config.php
+// |@FilePath     : /www.padmin.com/app/admin/controller/Config.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\admin\controller;
 

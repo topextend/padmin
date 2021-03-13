@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-01-12 17:11:48
+// |@Date         : 2021-01-12 17:11:48
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-03 21:14:31
+// |@LastEditTime : 2021-03-13 13:23:01
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Class Index
+// |@Description  : Class Index
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\goods\controller\Index.php
+// |@FilePath     : /www.padmin.com/app/goods/controller/Index.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\goods\controller;
 

@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-08-14 02:45:16
+// |@Date         : 2020-08-14 02:45:16
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 16:51:44
+// |@LastEditTime : 2021-03-13 13:37:37
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Modelu Class
+// |@Description  : Modelu Class
 // |----------------------------------------------------------------------
-// |FilePath     : \padmin\app\admin\controller\Module.php
+// |@FilePath     : /www.padmin.com/app/admin/controller/Module.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 
 namespace app\admin\controller;

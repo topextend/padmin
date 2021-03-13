@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-08 18:58:30
+// |@Date         : 2020-07-08 18:58:30
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 16:51:00
+// |@LastEditTime : 2021-03-13 13:25:22
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Auth Controller Of Admin
+// |@Description  : Auth Controller Of Admin
 // |----------------------------------------------------------------------
-// |FilePath     : \padmin\app\admin\controller\Auth.php
+// |@FilePath     : /www.padmin.com/app/admin/controller/Auth.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\admin\controller;
 

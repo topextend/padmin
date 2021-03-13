@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-01-12 21:43:19
+// |@Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-01 21:00:27
+// |@LastEditTime : 2021-03-13 13:22:02
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |@Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\goods\service\GoodService.php
+// |@FilePath     : /www.padmin.com/app/goods/service/GoodService.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\goods\service;
 

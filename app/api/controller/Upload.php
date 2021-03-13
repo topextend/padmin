@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-09 15:28:57
+// |@Date         : 2020-07-09 15:28:57
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-09 16:44:35
+// |@LastEditTime : 2021-03-13 13:25:06
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Upload Controller Of Api
+// |@Description  : Upload Controller Of Api
 // |----------------------------------------------------------------------
-// |FilePath     : \www.ladmin.com\app\api\controller\Upload.php
+// |@FilePath     : /www.padmin.com/app/api/controller/Upload.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\api\controller;
 

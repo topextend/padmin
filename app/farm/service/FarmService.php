@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-09-25 18:02:13
+// |@Date         : 2020-09-25 18:02:13
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-02 16:51:16
+// |@LastEditTime : 2021-03-13 13:23:34
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |@Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\farm\service\FarmService.php
+// |@FilePath     : /www.padmin.com/app/farm/service/FarmService.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\farm\service;
 

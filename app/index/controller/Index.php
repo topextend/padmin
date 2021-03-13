@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-08 16:50:35
+// |@Date         : 2020-07-08 16:50:35
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-30 21:59:12
+// |@LastEditTime : 2021-03-13 13:22:33
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Index of Index
+// |@Description  : Index of Index
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\index\controller\Index.php
+// |@FilePath     : /www.padmin.com/app/index/controller/Index.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\index\controller;
 

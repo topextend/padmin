@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-01-12 17:13:44
+// |@Date         : 2021-01-12 17:13:44
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-01-29 13:50:17
+// |@LastEditTime : 2021-03-13 13:21:50
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Class Warehouse
+// |@Description  : Class Warehouse
 // |----------------------------------------------------------------------
-// |FilePath     : \www.padmin.com\app\goods\controller\Warehouse.php
+// |@FilePath     : /www.padmin.com/app/goods/controller/Warehouse.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\goods\controller;
 

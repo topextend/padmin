@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-09 15:22:12
+// |@Date         : 2020-07-09 15:22:12
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-09 16:51:57
+// |@LastEditTime : 2021-03-13 13:24:27
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Plugs Controller Of Api
+// |@Description  : Plugs Controller Of Api
 // |----------------------------------------------------------------------
-// |FilePath     : \www.ladmin.com\app\api\controller\Plugs.php
+// |@FilePath     : /www.padmin.com/app/api/controller/Plugs.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\api\controller;
 

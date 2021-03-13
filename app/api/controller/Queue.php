@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-09 15:24:45
+// |@Date         : 2020-07-09 15:24:45
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-09 15:29:20
+// |@LastEditTime : 2021-03-13 13:24:49
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Queue Controller Of Api
+// |@Description  : Queue Controller Of Api
 // |----------------------------------------------------------------------
-// |FilePath     : \www.ladmin.com\app\api\controller\Queue.php
+// |@FilePath     : /www.padmin.com/app/api/controller/Queue.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\api\controller;
 

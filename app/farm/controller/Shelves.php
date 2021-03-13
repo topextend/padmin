@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2021-03-02 16:26:31
+// |@Date         : 2021-03-02 16:26:31
 // |----------------------------------------------------------------------
-// |LastEditTime : 2021-03-12 14:09:26
+// |@LastEditTime : 2021-03-13 13:23:48
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : 
+// |@Description  : 
 // |----------------------------------------------------------------------
-// |FilePath     : /www.padmin.com/app/farm/controller/Shelves.php
+// |@FilePath     : /www.padmin.com/app/farm/controller/Shelves.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2021 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\farm\controller;
 

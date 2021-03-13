@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-08 18:51:39
+// |@Date         : 2020-07-08 18:51:39
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-08-14 16:51:52
+// |@LastEditTime : 2021-03-13 13:37:45
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Oplog Controller Of Admin
+// |@Description  : Oplog Controller Of Admin
 // |----------------------------------------------------------------------
-// |FilePath     : \padmin\app\admin\controller\Oplog.php
+// |@FilePath     : /www.padmin.com/app/admin/controller/Oplog.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\admin\controller;
 

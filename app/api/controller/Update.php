@@ -1,18 +1,18 @@
 <?php
 // -----------------------------------------------------------------------
-// |Author       : Jarmin <edshop@qq.com>
+// |@Author       : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Date         : 2020-07-09 15:26:09
+// |@Date         : 2020-07-09 15:26:09
 // |----------------------------------------------------------------------
-// |LastEditTime : 2020-07-09 15:28:22
+// |@LastEditTime : 2021-03-13 13:24:58
 // |----------------------------------------------------------------------
-// |LastEditors  : Jarmin <edshop@qq.com>
+// |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
-// |Description  : Update Controller Of Api
+// |@Description  : Update Controller Of Api
 // |----------------------------------------------------------------------
-// |FilePath     : \www.ladmin.com\app\api\controller\Update.php
+// |@FilePath     : /www.padmin.com/app/api/controller/Update.php
 // |----------------------------------------------------------------------
-// |Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
+// |@Copyright (c) 2020 http://www.ladmin.cn   All rights reserved. 
 // -----------------------------------------------------------------------
 namespace app\api\controller;
 
