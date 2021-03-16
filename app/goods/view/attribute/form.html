@@ -1,105 +1,24 @@
-<form onsubmit="return false" data-auto="true" action="{:request()->url()}" method="post" class='layui-form layui-card' autocomplete="off">
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body padding-left-40">
-        <div class="layui-form-item">
-            <span class="color-green font-w7 label-required-prev">所属类型</span>
-            <span class="color-desc margin-left-5">Goods Type Name</span>
-            <label class="layui-input-block">
-                <select name='type_id' class='layui-select' lay-search>
-                    <option value="0">请选择类型</option>
-                    <!-- {foreach $goods_type as $type} -->
-                        <!-- {eq name='type.id' value='$vo.type_id|default=0'} -->
-                            <option selected value='{$type.id}'>{$type.type_name}</option>
-                        <!-- {else} -->
-                            <option value='{$type.id}'>{$type.type_name}</option>
-                        <!-- {/eq} -->
-                    <!-- {/foreach} -->
-                </select>
+        <label class="layui-form-item relative block">
+            <span class="color-green font-w7">属性名称</span>
+            <span class="color-desc margin-left-5">Attr Name</span>
+            <input class="layui-input" required placeholder="请输入属性名称" name="attr_name" value="{$vo.attr_name|default=''}"/>
+        </label>
+        <div class="layui-form-item relative block">
+            <span class="color-green font-w7">属性值</span>
+            <span class="color-desc margin-left-5">Attr Values</span>
+            <label class="relative block">
+                <textarea class="layui-textarea" placeholder="请输入属性值,每个属性值以','号隔开" name="attr_values">{$vo.attr_values|default=''}</textarea>
             </label>
-            <span class="help-block">必选，请选择所属类型。</span>
-        </div>
-        <div class="layui-form-item">
-            <span class="color-green font-w7 label-required-prev">属性名称</span>
-            <span class="color-desc margin-left-5">Goods Attr Name</span>
-            <label class="layui-input relative block label-required-null">
-                <input required placeholder="请输入属性名称" class="layui-input inline-block padding-0 border-0" style="background:none" value="{$vo.attr_name|default=''}" name="attr_name">
-            </label>
-            <span class="help-block">名称即属性简称，中英文均支持。</span>
-        </div>
-        <div class="layui-form-item">
-            <span class="color-green font-w7 label-required-prev">属性类型</span>
-            <span class="color-desc margin-left-5">Goods Attr Type</span>
-            <div class="layui-form-item">
-                {php}$vo['attr_type'] = $vo['attr_type'] ?? 1;{/php}
-                {foreach [1=>'单选',0=>'唯一'] as $k => $v}
-                {if isset($vo.attr_type) and $vo.attr_type eq $k}
-                <label class="think-radio"><input checked type="radio" name="attr_type" value="{$k}" lay-filter="radio-type" lay-ignore>{$v}</label>
-                {else}
-                <label class="think-radio"><input type="radio" name="attr_type" value="{$k}" lay-filter="radio-type" lay-ignore>{$v}</label>
-                {/if}{/foreach}
-            </div>
-            <span class="help-block">必选,选择属性类型，是单选或是唯一值。</span>
-        </div>
-        <div data-item-html class="layui-hide">
-            <div class="layui-form-item">
-                <span class="color-green font-w7 label-required-prev">规格模板</span>
-                <span class="color-desc margin-left-5">Goods Specs Template</span>
-                <label class="layui-input-block">
-                    <select name="attr_values" class="layui-select" lay-search>
-                        <option value="0">请选择模板</option>
-                        <!-- {foreach $goods_spec as $spec} -->
-                            <!-- {eq name="spec.spec_name" value="$vo.attr_values|default=''"} -->
-                                <option selected value="{$spec.spec_name}">{$spec.spec_name}</option>
-                            <!-- {else} -->
-                                <option value="{$spec.spec_name}">{$spec.spec_name}</option>
-                            <!-- {/eq} -->
-                        <!-- {/foreach} -->
-                    </select>
-                </label>
-            </div>
-            <label class="layui-form-item block relative">
-                <span class="color-green font-w7">属性介绍</span><span class="color-desc margin-left-5">Goods Attr Notice</span>
-                <textarea placeholder="请输入属性介绍" class="layui-textarea" name="attr_notice">{$vo.attr_notice|default=""}</textarea>
-            </label>
-        </div>
-        <div data-attr-html class="layui-hide">
-            <label class="layui-form-item block relative">
-                <span class="color-green font-w7">属性值</span><span class="color-desc margin-left-5">Goods Attr Values</span>
-                <textarea placeholder="请输入属性值" class="layui-textarea" name="attr_values">{$vo.attr_values|default=""}</textarea>
-                <span class="help-block">属性值,以英文逗号","隔开。</span>
-            </label>
-        </div>
-        <div id='attrhtml'></div>
-        <div class="hr-line-dashed"></div>
-        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
-        <div class="layui-form-item text-center">
-            <button class="layui-btn" type='submit'>保存数据</button>
-            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+            <span class="help-block">每个属性值以","号隔开</span>
         </div>
     </div>
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+    {notempty name='type_id'}<input type='hidden' value='{$type_id}' name='type_id'>{/notempty}
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
 </form>
-{block name='script'}
-<script>
-    /*! 表单初始化 */
-    window.form.render();
-    $("input[type='radio']:checked").each(function(){
-        if($(this).val() == 1) {
-            this.$html = $($('[data-attr-html]').html());
-            $("#attrhtml").html(this.$html);
-        } else {
-            this.$html = $($('[data-item-html]').html());
-            $("#attrhtml").html(this.$html)
-            window.form.render();
-        }
-    });
-    $("input[type='radio']").change(function(){
-        if ($("input[type='radio'][value='1']").prop("checked")){
-            this.$html = $($('[data-attr-html]').html());
-            $("#attrhtml").html(this.$html);
-        } else {
-            this.$html = $($('[data-item-html]').html());
-            $("#attrhtml").html(this.$html)
-            window.form.render();
-        }
-    });
-</script>
-{/block}

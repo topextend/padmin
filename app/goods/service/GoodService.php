@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |@Date         : 2021-01-12 21:43:19
 // |----------------------------------------------------------------------
-// |@LastEditTime : 2021-03-13 13:22:02
+// |@LastEditTime : 2021-03-16 16:41:14
 // |----------------------------------------------------------------------
 // |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -266,5 +266,14 @@ class GoodService extends Service
     {
         $attr = $this->app->db->name('GoodsProducts')->where(['goods_id' => $goods_id])->column('market_price,shop_price,stock_price,goods_amount');
         return json_encode($attr);
+    }
+
+    /**
+     * 通过数据库获取相应值
+     */
+    public function getValue(string $table, array $map, string $value) : string
+    {
+        $query = $this->app->db->name($table);
+        return $query->where($map)->value($value);
     }
 }

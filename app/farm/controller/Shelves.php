@@ -4,7 +4,7 @@
 // |----------------------------------------------------------------------
 // |@Date         : 2021-03-02 16:26:31
 // |----------------------------------------------------------------------
-// |@LastEditTime : 2021-03-13 13:23:48
+// |@LastEditTime : 2021-03-16 16:19:52
 // |----------------------------------------------------------------------
 // |@LastEditors  : Jarmin <edshop@qq.com>
 // |----------------------------------------------------------------------
@@ -59,8 +59,8 @@ class Shelves extends Controller
      */
     public function add()
     {
-        $this->title = '添加记录';
-        $this->store_id  = input('store_id',0);
+        $this->title     = '添加记录';
+        $this->store_id  = input('store_id', 0);
         $this->_applyFormToken();
         $this->_form($this->table, 'form');
     }
@@ -90,22 +90,8 @@ class Shelves extends Controller
     protected function _form_filter(&$vo)
     {
         if ($this->request->isGet()) {
-            $this->shops   = FarmService::instance()->getList('FarmStore', 'id, shop_type, shop_name');
             $this->whouses = FarmService::instance()->getList('GoodsWarehouse', 'id, whouse_name');
         }
-    }
-
-    /**
-     * 修改店铺状态
-     * @auth true
-     * @throws \think\db\exception\DbException
-     */
-    public function state()
-    {
-        $this->_save($this->table, $this->_vali([
-            'status.in:0,1'  => '状态值范围异常！',
-            'status.require' => '状态值不能为空！',
-        ]));
     }
 
     /**
